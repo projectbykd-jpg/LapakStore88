@@ -1,64 +1,451 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LapakStore88 - Akun Premium Terpercaya</title>
-<link rel="icon" href="assets/favicon.png">
-<link rel="stylesheet" href="style.css">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LapakStore88 - Akun Premium Terpercaya</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+        body {
+            background-color: #031327;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Scrollbar Mewah */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #02101f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ffd700;
+            border-radius: 4px;
+        }
+
+        /* Header / Navbar */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(2, 16, 31, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+            z-index: 1000;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 800;
+            color: #ffd700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 25px;
+            font-weight: 500;
+            transition: 0.3s;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        nav a:hover {
+            color: #ffd700;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 150px 20px 60px 20px;
+            text-align: center;
+            background: radial-gradient(circle at center, #0b2342 0%, #031327 100%);
+            position: relative;
+        }
+
+        .hero-logo {
+            max-width: 160px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.4));
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            font-weight: 800;
+            color: #ffd700;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .hero p {
+            font-size: 16px;
+            color: #b0c4de;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        /* Title Section */
+        .section-title {
+            text-align: center;
+            font-size: 28px;
+            color: #ffd700;
+            margin: 40px 0 20px 0;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: #ffd700;
+            margin: 10px auto 0 auto;
+            border-radius: 2px;
+        }
+
+        /* Grid Produk */
+        .grid-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: #0b2342;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: #ffd700;
+            box-shadow: 0 15px 30px rgba(255, 215, 0, 0.15);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 10px;
+        }
+
+        .prod-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .badge-type {
+            background: rgba(255, 215, 0, 0.15);
+            color: #ffd700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .price-list {
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #d1e2f3;
+            line-height: 1.6;
+        }
+
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px dashed rgba(255,255,255,0.05);
+        }
+
+        .price-item:last-child {
+            border-bottom: none;
+        }
+
+        .price-val {
+            color: #ffd700;
+            font-weight: 600;
+        }
+
+        .btn-order {
+            display: block;
+            text-align: center;
+            background: linear-gradient(135deg, #ffd700 0%, #cca300 100%);
+            color: #031327;
+            padding: 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .btn-order:hover {
+            background: linear-gradient(135deg, #ffffff 0%, #ffd700 100%);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Payment Section */
+        .payment-section {
+            text-align: center;
+            padding: 60px 20px;
+            background: #02101f;
+        }
+
+        .qris-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .qris-img {
+            max-width: 340px;
+            width: 100%;
+            border-radius: 15px;
+            border: 3px solid #ffd700;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            background: #010b16;
+            font-size: 13px;
+            color: #647b9c;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* Tombol WA Melayang */
+        .wa-float {
+            position: fixed;
+            right: 25px;
+            bottom: 25px;
+            background: #25d366;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            z-index: 999;
+            transition: 0.3s;
+        }
+
+        .wa-float:hover {
+            transform: scale(1.1);
+        }
+
+        .wa-float img {
+            width: 32px;
+            height: 32px;
+        }
+    </style>
 </head>
 <body>
-<header class="header">
-<div class="container">
-<div class="logo">LapakStore88</div>
-<nav>
-<a href="#home">Home</a>
-<a href="#produk">Produk</a>
-<a href="#payment">QRIS</a>
-<a href="#kontak">Kontak</a>
-</nav>
-</div>
-</header>
 
-<section id="home" class="hero">
-<video autoplay muted loop playsinline class="hero-video">
-<source src="assets/hero.mp4" type="video/mp4">
-</video>
-<div class="overlay"></div>
-<div class="hero-content">
-<img src="assets/logo.png" class="hero-logo">
-<h1>LapakStore88</h1>
-<p>Akun Premium Terpercaya • Fast Response • Garansi</p>
-<a class="btn" href="https://wa.me/6285180572575">Order WhatsApp</a>
-</div>
-</section>
+    <header>
+        <div class="nav-container">
+            <div class="logo-text">LapakStore88</div>
+            <nav>
+                <a href="#home">Home</a>
+                <a href="#produk">Produk</a>
+                <a href="#payment">QRIS</a>
+            </nav>
+        </div>
+    </header>
 
-<section id="produk" class="section">
-<h2>Produk Premium</h2>
-<div class="grid">
-<div class="card">Netflix</div>
-<div class="card">Spotify</div>
-<div class="card">YouTube Premium</div>
-<div class="card">Disney+</div>
-<div class="card">Canva</div>
-<div class="card">ChatGPT Plus</div>
-<div class="card">Grammarly</div>
-<div class="card">Zoom</div>
-</div>
-</section>
+    <section id="home" class="hero">
+        <img src="https://i.ibb.co/7Jtv7WJs/image.png" alt="LapakStore88 Logo" class="hero-logo">
+        <h1>LapakStore88</h1>
+        <p>Premium Account Store • Fast Response • Garansi Terjamin</p>
+    </section>
 
-<section id="payment" class="section">
-<h2>Pembayaran QRIS</h2>
-<img src="assets/qris.jpg" class="qris">
-</section>
+    <section id="produk">
+        <h2 class="section-title">Daftar Produk Premium</h2>
+        <div class="grid-container">
+            
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <span class="prod-name">Netflix</span>
+                        <span class="badge-type">Sharing/Private</span>
+                    </div>
+                    <div class="price-list">
+                        <div class="price-item"><span>1 Hari (Sharing 1P1U)</span><span class="price-val">Rp 5.000</span></div>
+                        <div class="price-item"><span>3 Hari (Sharing 1P1U)</span><span class="price-val">Rp 8.000</span></div>
+                        <div class="price-item"><span>1 Minggu (Sharing 1P1U)</span><span class="price-val">Rp 15.000</span></div>
+                        <div class="price-item"><span>1 Bulan (Sharing 1P1U)</span><span class="price-val">Rp 40.000</span></div>
+                        <div class="price-item"><span>1 Bulan (Sharing 1P2U)</span><span class="price-val">Rp 25.000</span></div>
+                        <div class="price-item"><span>1 Bulan Semi Private</span><span class="price-val">Rp 48.000</span></div>
+                        <div class="price-item"><span>1 Bulan Private (5 Dev)</span><span class="price-val">Rp 180.000</span></div>
+                    </div>
+                </div>
+                <a href="https://wa.me/6285180572575?text=Halo%20LapakStore88,%20saya%20mau%20order%20Netflix" class="btn-order" target="_blank">Beli Sekarang</a>
+            </div>
 
-<section id="kontak" class="section">
-<h2>Hubungi Kami</h2>
-<p>WhatsApp: 0851-8057-2575</p>
-</section>
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <span class="prod-name">YouTube Premium</span>
+                        <span class="badge-type">Famplan</span>
+                    </div>
+                    <div class="price-list">
+                        <div class="price-item"><span>1 Bulan (Via Invite)</span><span class="price-val">Rp 10.000</span></div>
+                    </div>
+                </div>
+                <a href="https://wa.me/6285180572575?text=Halo%20LapakStore88,%20saya%20mau%20order%20YouTube%20Premium" class="btn-order" target="_blank">Beli Sekarang</a>
+            </div>
 
-<a class="wa-float" href="https://wa.me/6285180572575">💬</a>
-<script src="script.js"></script>
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <span class="prod-name">Spotify</span>
+                        <span class="badge-type">Individual</span>
+                    </div>
+                    <div class="price-list">
+                        <div class="price-item"><span>1 Bulan (Akun Seller)</span><span class="price-val">Rp 28.000</span></div>
+                        <div class="price-item"><span>3 Bulan (Akun Seller)</span><span class="price-val">Rp 50.000</span></div>
+                    </div>
+                </div>
+                <a href="https://wa.me/6285180572575?text=Halo%20LapakStore88,%20saya%20mau%20order%20Spotify" class="btn-order" target="_blank">Beli Sekarang</a>
+            </div>
+
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <span class="prod-name">Disney+</span>
+                        <span class="badge-type">Sharing/Private</span>
+                    </div>
+                    <div class="price-list">
+                        <div class="price-item"><span>1 Bulan (Sharing 3U)</span><span class="price-val">Rp 30.000</span></div>
+                        <div class="price-item"><span>1 Bulan (Private)</span><span class="price-val">Rp 70.000</span></div>
+                    </div>
+                </div>
+                <a href="https://wa.me/6285180572575?text=Halo%20LapakStore88,%20saya%20mau%20order%20Disney%2B" class="btn-order" target="_blank">Beli Sekarang</a>
+            </div>
+
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <span class="prod-name">Vidio</span>
+                        <span class="badge-type">Platinum</span>
+                    </div>
+                    <div class="price-list">
+                        <div class="price-item"><span>1 Bln Private (Mobile)</span><span class="price-val">Rp 26.000</span></div>
+                        <div class="price-item"><span>1 Bln Sharing (Mobile)</span><span class="price-val">Rp 20.000</span></div>
+                        <div class="price-item"><span>1 Bln Private (All Dev)</span><span class="price-val">Rp 45.000</span></div>
+                        <div class="price-item"><span>1 Bln Sharing (All Dev)</span><span class="price-val">Rp 25.000</span></div>
+                        <div class="price-item"><span>1 Bln Private (TV Only)</span><span class="price-val">Rp 15.000</span></div>
+                    </div>
+                </div>
+                <a href="https://wa.me/6285180572575?text=Halo%20LapakStore88,%20saya%20mau%20order%20Vidio" class="btn-order" target="_blank">Beli Sekarang</a>
+            </div>
+
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <span class="prod-name">Canva Pro</span>
+                        <span class="badge-type">Member</span>
+                    </div>
+                    <div class="price-list">
+                        <div class="price-item"><span>1 Bulan</span><span class="price-val">Rp 5.000</span></div>
+                        <div class="price-item"><span>3 Bulan</span><span class="price-val">Rp 10.000</span></div>
+                        <div class="price-item"><span>1 Tahun (Garansi 6 bln)</span><span class="price-val">Rp 20.000</span></div>
+                        <div class="price-item"><span>Lifetime (No Garansi)</span><span class="price-val">Rp 10.000</span></div>
+                    </div>
+                </div>
+                <a href="https://wa.me/6285180572575?text=Halo%20LapakStore88,%20saya%20mau%20order%20Canva" class="btn-order" target="_blank">Beli Sekarang</a>
+            </div>
+
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <span class="prod-name">ChatGPT Plus</span>
+                        <span class="badge-type">Private</span>
+                    </div>
+                    <div class="price-list">
+                        <div class="price-item"><span>1 Bulan (Invite Email)</span><span class="price-val">Rp 20.000</span></div>
+                    </div>
+                </div>
+                <a href="https://wa.me/6285180572575?text=Halo%20LapakStore88,%20saya%20mau%20order%20ChatGPT%20Plus" class="btn-order" target="_blank">Beli Sekarang</a>
+            </div>
+
+            <div class="card">
+                <div>
+                    <div class="card-header">
+                        <span class="prod-name">Viu Premium</span>
+                        <span class="badge-type">Private</span>
+                    </div>
+                    <div class="price-list">
+                        <div class="price-item"><span>1 Bulan</span><span class="price-val">Rp 5.000</span></div>
+                        <div class="price-item"><span>3 Bulan</span><span class="price-val">Rp 10.000</span></div>
+                        <div class="price-item"><span>6 Bulan</span><span class="price-val">Rp 15.000</span></div>
+                    </div>
+                </div>
+                <a href="https://wa.me/6285180572575?text=Halo%20LapakStore88,%20saya%20mau%20order%20Viu" class="btn-order" target="_blank">Beli Sekarang</a>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="payment" class="payment-section">
+        <h2 class="section-title">Metode Pembayaran</h2>
+        <p style="color: #b0c4de; margin-bottom: 20px;">Silakan scan QRIS di bawah ini untuk melakukan pembayaran</p>
+        <div class="qris-container">
+            <img src="https://i.ibb.co/4wPGPjBr/image.png" alt="QRIS LapakStore88" class="qris-img">
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2026 LapakStore88. All Rights Reserved.</p>
+        <p style="margin-top: 5px;">WhatsApp Kontak: 0851-8057-2575</p>
+    </footer>
+
+    <a href="https://wa.me/6285180572575" class="wa-float" target="_blank">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+    </a>
+
 </body>
 </html>
