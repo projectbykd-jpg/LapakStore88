@@ -1,1 +1,1 @@
-console.log("LapakStore88 Loaded");
+console.log('LapakStore88 Ready');
