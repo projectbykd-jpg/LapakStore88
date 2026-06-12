@@ -1,5 +1,13 @@
-// Database lengkap paket produk LapakStore88 sesuai gambar list harga
-const productsData = [
+// ================= CONFIGURATION & CREDENTIALS =================
+// Akun Login Admin Lapak Kunci Konfigurasi (Bisa kamu ubah sendiri sesukamu)
+const ADMIN_USERNAME = "admin";
+const ADMIN_PASSWORD = "22Desember2002"; 
+
+// Nomor WhatsApp tujuan order toko kamu
+const whatsappNumber = "6285180572575";
+
+// ================= DATABASE UTAMA ALL 25 PREMIUM BRANDS =================
+const defaultProductsData = [
     {
         id: "netflix",
         name: "NETFLIX",
@@ -239,106 +247,294 @@ const productsData = [
     }
 ];
 
+// State global aplikasi web
+let productsData = [];
 let activeProduct = null;
-const whatsappNumber = "6285180572575";
+let isAdmin = false;
+let adminActiveProductId = null;
 
-// Fungsi render kartu produk ke dalam Grid Website
+// ================= INITIALIZATION & DATA LOADING =================
+function loadData() {
+    const savedData = localStorage.getItem("lapakStoreProducts");
+    if (savedData) {
+        productsData = JSON.parse(savedData);
+    } else {
+        productsData = defaultProductsData;
+        localStorage.setItem("lapakStoreProducts", JSON.stringify(productsData));
+    }
+    
+    // Sinkronisasi status login admin dari session sebelumnya
+    isAdmin = localStorage.getItem("lapakAdminLogin") === "true";
+    updateAdminUIElements();
+}
+
+// Render data produk ke dalam bentuk Card Grid di index.html
 function renderProducts() {
     const grid = document.getElementById("productGrid");
+    if (!grid) return;
     grid.innerHTML = "";
     
     productsData.forEach(product => {
         const card = document.createElement("div");
         card.className = "card";
-        card.onclick = () => openModal(product.id);
+        // Saat card diklik, otomatis membuka pop-up pilihan paket pembeli
+        card.onclick = () => openProductModal(product.id);
         
-        card.innerHTML = `
-            <div class="card-logo-placeholder ${product.class}">
-                ${product.name}
-            </div>
-        `;
+        // Label teks berwarna khusus brand toko kamu
+        const textLabel = document.createElement("div");
+        textLabel.className = product.class;
+        textLabel.innerText = product.name;
+        card.appendChild(textLabel);
+        
+        // Jika mode admin sedang login aktif, tampilkan tombol modifikasi data produk
+        if (isAdmin) {
+            const editBtn = document.createElement("button");
+            editBtn.className = "admin-edit-trigger";
+            editBtn.innerText = "🛠️ Edit Harga/Paket";
+            editBtn.onclick = (e) => {
+                e.stopPropagation(); // Mencegah event click card utama memicu modal customer
+                openAdminEditModal(product.id);
+            };
+            card.appendChild(editBtn);
+        }
+        
         grid.appendChild(card);
     });
 }
 
-// Fungsi membuka modal detail paket produk
-function openModal(productId) {
+// Menyesuaikan tampilan navigasi & topbar berdasarkan status login
+function updateAdminUIElements() {
+    const adminBar = document.getElementById("adminBadgePanel");
+    const loginNavBtn = document.getElementById("loginNavBtn");
+    
+    if (!loginNavBtn) return;
+    
+    if (isAdmin) {
+        if (adminBar) adminBar.style.display = "flex";
+        loginNavBtn.innerText = "Admin Aktif";
+        loginNavBtn.style.background = "#ff9800";
+        loginNavBtn.style.color = "#000";
+        loginNavBtn.setAttribute("onclick", "logoutAdmin()");
+    } else {
+        if (adminBar) adminBar.style.display = "none";
+        loginNavBtn.innerText = "Login";
+        loginNavBtn.style.background = "transparent";
+        loginNavBtn.style.color = "#ffd700";
+        loginNavBtn.setAttribute("onclick", "openLoginModal()");
+    }
+}
+
+// ================= AUTHENTICATION SYSTEM (ADMIN) =================
+function openLoginModal() {
+    const modal = document.getElementById("loginModal");
+    if (modal) modal.classList.add("active");
+}
+
+function closeLoginModal() {
+    const modal = document.getElementById("loginModal");
+    if (modal) modal.classList.remove("active");
+    
+    const errText = document.getElementById("loginError");
+    if (errText) errText.style.display = "none";
+    
+    const userInput = document.getElementById("usernameInput");
+    const passInput = document.getElementById("passwordInput");
+    if (userInput) userInput.value = "";
+    if (passInput) passInput.value = "";
+}
+
+function processLogin() {
+    const user = document.getElementById("usernameInput")?.value;
+    const pass = document.getElementById("passwordInput")?.value;
+    
+    if (user === ADMIN_USERNAME && pass === ADMIN_PASSWORD) {
+        isAdmin = true;
+        localStorage.setItem("lapakAdminLogin", "true");
+        updateAdminUIElements();
+        renderProducts();
+        closeLoginModal();
+        alert("Selamat Datang, Admin LapakStore88! Mode Edit Aktif.");
+    } else {
+        const errText = document.getElementById("loginError");
+        if (errText) errText.style.display = "block";
+    }
+}
+
+function logoutAdmin() {
+    isAdmin = false;
+    localStorage.setItem("lapakAdminLogin", "false");
+    updateAdminUIElements();
+    renderProducts();
+    alert("Keluar dari Mode Admin. Sekarang kembali ke Mode Customer.");
+}
+
+// ================= CUSTOMER SHOPPING MODAL =================
+function openProductModal(productId) {
     const product = productsData.find(p => p.id === productId);
     if (!product) return;
     
     activeProduct = product;
-    document.getElementById("modalProductName").innerText = product.name;
+    
+    const nameHeader = document.getElementById("modalProductName");
+    if (nameHeader) nameHeader.innerText = product.name;
     
     const container = document.getElementById("packetOptionsContainer");
+    if (!container) return;
     container.innerHTML = "";
     
     product.packets.forEach((packet, index) => {
         const row = document.createElement("label");
-        row.className = "packet-row";
+        // Beri class 'selected' otomatis pada baris paket urutan pertama
+        row.className = `packet-row ${index === 0 ? 'selected' : ''}`;
         
-        // Format Rupiah Tampilan
-        const formattedPrice = "Rp " + packet.price.toLocaleString("id-ID");
+        const formattedPrice = "Rp " + Number(packet.price).toLocaleString("id-ID");
         
         row.innerHTML = `
             <div class="packet-left">
-                <input type="radio" name="packetSelect" value="${index}" ${index === 0 ? 'checked' : ''} onchange="updateTotalPrice(${packet.price})">
-                <span class="packet-name">${packet.type} - ${packet.desc}</span>
+                <input type="radio" name="packetSelect" value="${index}" ${index === 0 ? 'checked' : ''} 
+                    onchange="changeSelectedPacketRow(this, ${packet.price})">
+                <span>${packet.type} - ${packet.desc}</span>
             </div>
             <div class="packet-price">${formattedPrice}</div>
         `;
         container.appendChild(row);
     });
     
-    // Set total harga awal berdasarkan paket pertama
-    updateTotalPrice(product.packets[0].price);
+    // Pasang harga default awal paket ke display total belanja
+    if (product.packets.length > 0) {
+        updateTotalPrice(product.packets[0].price);
+    } else {
+        updateTotalPrice(0);
+    }
     
-    document.getElementById("productModal").classList.add("active");
+    const modal = document.getElementById("productModal");
+    if (modal) modal.classList.add("active");
+}
+
+// Fungsi interaktif memperbarui visual border baris paket & angka total harga
+function changeSelectedPacketRow(radioElement, price) {
+    // Bersihkan semua highlight border baris lama
+    document.querySelectorAll(".packet-row").forEach(el => el.classList.remove("selected"));
+    
+    // Tambahkan highlight border emas ke baris yang di-klik pembeli
+    const parentLabel = radioElement.closest(".packet-row");
+    if (parentLabel) parentLabel.classList.add("selected");
+    
+    updateTotalPrice(price);
 }
 
 function updateTotalPrice(price) {
-    document.getElementById("totalPrice").innerText = "Rp " + price.toLocaleString("id-ID");
+    const totalPriceEl = document.getElementById("totalPrice");
+    if (totalPriceEl) {
+        totalPriceEl.innerText = "Rp " + Number(price).toLocaleString("id-ID");
+    }
 }
 
 function closeModal() {
-    document.getElementById("productModal").classList.remove("active");
-}
-
-// Menutup modal secara otomatis jika area luar modal diklik
-window.onclick = function(event) {
     const modal = document.getElementById("productModal");
-    if (event.target === modal) {
-        closeModal();
-    }
+    if (modal) modal.classList.remove("active");
 }
 
-// Fungsi Utama: Mengirim pesanan langsung terformat rapi menuju WhatsApp target
+// Mengirimkan rincian pembelian pembeli secara langsung ke WhatsApp kamu
 function sendWhatsAppOrder() {
     if (!activeProduct) return;
-    
     const selectedRadio = document.querySelector('input[name="packetSelect"]:checked');
-    if (!selectedRadio) {
-        alert("Silakan pilih varian paket terlebih dahulu!");
-        return;
-    }
+    if (!selectedRadio) return;
     
-    const packetIndex = selectedRadio.value;
-    const selectedPacket = activeProduct.packets[packetIndex];
+    const index = selectedRadio.value;
+    const packet = activeProduct.packets[index];
+    const formattedPrice = "Rp " + Number(packet.price).toLocaleString("id-ID");
     
-    const formattedPrice = "Rp " + selectedPacket.price.toLocaleString("id-ID");
-    
-    // Pembuatan string template pesan teks otomatis sesuai format yang Anda minta
-    const textMessage = `Min Order Akun ${activeProduct.name} Tipe ${selectedPacket.type} - ${selectedPacket.desc} - ${formattedPrice}`;
-    
-    // Encode komponen URL agar kompatibel aman dengan API WhatsApp link resmi
-    const encodedText = encodeURIComponent(textMessage);
-    const waUrl = `https://wa.me/${whatsappNumber}?text=${encodedText}`;
-    
-    // Buka chat tab/aplikasi WhatsApp langsung
-    window.open(waUrl, '_blank');
+    // Format pesan otomatis toko premium kamu
+    const textMessage = `Halo LapakStore88, saya ingin membeli paket premium ini:\n\n` +
+                        `• *Produk:* Akun ${activeProduct.name}\n` +
+                        `• *Tipe Paket:* ${packet.type}\n` +
+                        `• *Durasi:* ${packet.desc}\n` +
+                        `• *Total Harga:* ${formattedPrice}\n\n` +
+                        `Mohon instruksi pembayaran QRIS selanjutnya ya min, terima kasih!`;
+                        
+    window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(textMessage)}`, '_blank');
+    closeModal();
 }
 
-// Menjalankan inisialisasi render begitu halaman selesai dimuat seluruhnya
-document.addEventListener("DOMContentLoaded", () => {
+// ================= BACKOFFICE CONTROL PANEL (ADMIN ONLY) =================
+function openAdminEditModal(productId) {
+    const product = productsData.find(p => p.id === productId);
+    if (!product) return;
+    
+    adminActiveProductId = productId;
+    
+    const targetTitle = document.getElementById("adminTargetProductName");
+    if (targetTitle) targetTitle.innerText = `Produk: ${product.name}`;
+    
+    const container = document.getElementById("adminPacketsEditorContainer");
+    if (!container) return;
+    container.innerHTML = "";
+    
+    product.packets.forEach((packet, index) => {
+        const div = document.createElement("div");
+        div.className = "admin-edit-row";
+        div.innerHTML = `
+            <div style="margin-bottom:5px; font-weight:bold; color:#ffd700;">Paket Varian #${index + 1}</div>
+            
+            <label style="font-size:11px; color:#a0aec0; display:block; margin-top:5px;">Nama Tipe Paket</label>
+            <input type="text" class="form-control admin-input-type" value="${packet.type}" style="margin-bottom:8px;">
+            
+            <label style="font-size:11px; color:#a0aec0; display:block;">Durasi</label>
+            <input type="text" class="form-control admin-input-desc" value="${packet.desc}" style="margin-bottom:8px;">
+            
+            <label style="font-size:11px; color:#a0aec0; display:block;">Harga (Hanya Angka, Tanpa Rp atau Titik)</label>
+            <input type="number" class="form-control admin-input-price" value="${packet.price}">
+        `;
+        container.appendChild(div);
+    });
+    
+    const modal = document.getElementById("adminEditModal");
+    if (modal) modal.classList.add("active");
+}
+
+function saveAdminChanges() {
+    const product = productsData.find(p => p.id === adminActiveProductId);
+    if (!product) return;
+    
+    const types = document.querySelectorAll(".admin-input-type");
+    const descs = document.querySelectorAll(".admin-input-desc");
+    const prices = document.querySelectorAll(".admin-input-price");
+    
+    // Kosongkan paket lama dan tumpuk dengan input data baru dari modal admin
+    product.packets = [];
+    types.forEach((element, index) => {
+        product.packets.push({
+            type: types[index].value.trim(),
+            desc: descs[index].value.trim(),
+            price: Number(prices[index].value) || 0
+        });
+    });
+    
+    // Kunci data baru ke dalam localStorage browser lokal agar permanen
+    localStorage.setItem("lapakStoreProducts", JSON.stringify(productsData));
     renderProducts();
-    console.log('LapakStore88 Premium Panel Loaded successfully.');
+    closeAdminModal();
+    alert(`Berhasil! Struktur paket harga baru untuk ${product.name} telah disimpan.`);
+}
+
+function closeAdminModal() {
+    const modal = document.getElementById("adminEditModal");
+    if (modal) modal.classList.remove("active");
+}
+
+// Global window handler: Menutup modal pop-up secara otomatis saat area hitam di-klik luar kotak box
+window.onclick = function(e) {
+    if (e.target.classList.contains("modal-overlay")) {
+        closeModal();
+        closeLoginModal();
+        closeAdminModal();
+    }
+};
+
+// Inisialisasi Lifecycle Aplikasi saat DOM Selesai di-load browser
+document.addEventListener("DOMContentLoaded", () => {
+    loadData();
+    renderProducts();
+    console.log("LapakStore88 Core Script Engine Ready!");
 });
