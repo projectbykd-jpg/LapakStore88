@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LapakStore88 - Akun Premium Terpercaya</title>
-    <link rel="icon" href="https://i.ibb.co/7Jtv7WJs/image.png" type="image/png">
+    <link rel="icon" href="assets/favicon.png">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -16,62 +16,125 @@
             <nav>
                 <a href="#home">Home</a>
                 <a href="#produk">Produk</a>
-                <a href="#payment">QRIS</a>
+                <a href="#info-lapak">Pembayaran & Kontak</a>
+                <button id="loginNavBtn" onclick="openLoginModal()">Login</button>
             </nav>
         </div>
     </header>
 
+    <div id="adminBadgePanel" class="admin-badge-bar" style="display: none;">
+        <span>🔐 Mode Administrator Aktif</span>
+        <button onclick="logoutAdmin()">Keluar Mode Admin</button>
+    </div>
+
     <section id="home" class="hero">
+        <video autoplay muted loop playsinline class="hero-video">
+            <source src="https://files.fm/u/era4cd858m" type="video/mp4">
+        </video>
         <div class="overlay"></div>
         <div class="hero-content">
-            <img src="https://i.ibb.co/7Jtv7WJs/image.png" class="hero-logo" alt="Logo LapakStore88">
+            <img src="https://i.ibb.co/7Jtv7WJs/image.png" class="hero-logo" alt="LapakStore88" onerror="this.style.display='none'">
             <h1>LapakStore88</h1>
-            <p>Akun Premium Terpercaya • Fast Response • Garansi</p>
-            <a class="btn" href="#produk">Lihat Produk</a>
+            <p>Akun Premium Terpercaya • Fast Response • Garansi Penuh</p>
+            <a class="btn" href="#produk">Lihat Katalog Produk</a>
         </div>
     </section>
 
     <section id="produk" class="section">
-        <h2 class="section-title">Produk Premium</h2>
-        <p class="section-subtitle">Klik pada logo produk untuk melihat detail paket dan melakukan pemesanan</p>
-        
-        <div class="grid" id="productGrid">
+        <h2>Katalog Produk Premium</h2>
+        <p style="color: #a0aec0; margin-bottom: 30px;">Klik pada nama brand untuk melihat pilihan paket harga & order langsung</p>
+        <div id="productGrid" class="grid">
             </div>
     </section>
 
-    <div class="modal-overlay" id="productModal">
-        <div class="modal-box">
-            <button class="close-modal" onclick="closeModal()">&times;</button>
-            <div class="modal-header">
-                <h3 id="modalProductName">Nama Produk</h3>
-                <span class="modal-badge">Pilih Paket</span>
+    <hr class="separator">
+
+    <section id="info-lapak" class="section compact-section">
+        <div class="compact-container">
+            
+            <div class="compact-box">
+                <h3>QRIS Pembayaran Resmi</h3>
+                <p>Silakan scan kode QRIS di bawah ini untuk melakukan transaksi aman otomatis.</p>
+                <div class="qris-wrapper">
+                    <img src="https://i.ibb.co/4wPGPjBr/image.png" class="qris-img" alt="QRIS LapakStore88">
+                </div>
             </div>
-            <div class="modal-body">
-                <form id="packetForm">
-                    <div class="packet-options" id="packetOptionsContainer">
+
+            <div class="compact-box balancing-box">
+                <h3>Hubungi Admin Toko</h3>
+                <p>Punya pertanyaan atau butuh klaim garansi kilat? Hubungi kami melalui saluran di bawah:</p>
+                
+                <div class="contact-list">
+                    <a href="https://wa.me/6285180572575" target="_blank" class="contact-item wa-item">
+                        <span class="icon">💬</span>
+                        <div class="contact-text">
+                            <strong>WhatsApp CS Utama</strong>
+                            <span>+62 851-8057-2575 (Fast Response)</span>
                         </div>
-                </form>
+                    </a>
+                    
+                    <div class="contact-item jam-item">
+                        <span class="icon">⏰</span>
+                        <div class="contact-text">
+                            <strong>Jam Operasional Toko</strong>
+                            <span>Setiap Hari (09.00 - 23.00 WIB)</span>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+        </div>
+    </section>
+
+    <div id="productModal" class="modal-overlay">
+        <div class="modal-box">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h3 id="modalProductName">Nama Brand</h3>
+            <div id="packetOptionsContainer" class="packet-options-container">
+                </div>
             <div class="modal-footer">
-                <div class="total-display">Total: <span id="totalPrice">Rp 0</span></div>
-                <button type="button" class="btn-order-now" onclick="sendWhatsAppOrder()">Order Now</button>
+                <div class="total-section">
+                    <span>Total Harga:</span>
+                    <strong id="totalPrice">Rp 0</strong>
+                </div>
+                <button class="btn-buy" onclick="sendWhatsAppOrder()">Beli via WhatsApp 🚀</button>
             </div>
         </div>
     </div>
 
-    <section id="payment" class="section payment-bg">
-        <h2 class="section-title">Pembayaran QRIS</h2>
-        <div class="qris-wrapper">
-            <img src="https://i.ibb.co/4wPGPjBr/image.png" class="qris" alt="QRIS LapakStore88">
+    <div id="loginModal" class="modal-overlay">
+        <div class="modal-box small-modal">
+            <span class="close-btn" onclick="closeLoginModal()">&times;</span>
+            <h3>Login Admin Lapak</h3>
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="usernameInput" class="form-control" placeholder="Masukkan username admin">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="passwordInput" class="form-control" placeholder="Masukkan password admin">
+            </div>
+            <p id="loginError" class="error-msg" style="display: none;">❌ Username atau Password salah!</p>
+            <button class="btn-admin-submit" onclick="processLogin()">Masuk Sistem</button>
         </div>
-    </section>
+    </div>
+
+    <div id="adminEditModal" class="modal-overlay">
+        <div class="modal-box admin-modal">
+            <span class="close-btn" onclick="closeAdminModal()">&times;</span>
+            <h3 id="adminTargetProductName">Edit Paket Produk</h3>
+            <div id="adminPacketsEditorContainer" class="admin-editor-scroll">
+                </div>
+            <div style="margin-top: 15px; text-align: right;">
+                <button class="btn-cancel" onclick="closeAdminModal()">Batal</button>
+                <button class="btn-save" onclick="saveAdminChanges()">Simpan Perubahan Permanen</button>
+            </div>
+        </div>
+    </div>
 
     <footer class="footer">
         <p>&copy; 2026 LapakStore88. All Rights Reserved.</p>
-        <p>WhatsApp: 0851-8057-2575</p>
     </footer>
-
-    <a class="wa-float" href="https://wa.me/6285180572575" target="_blank">💬</a>
 
     <script src="script.js"></script>
 </body>
