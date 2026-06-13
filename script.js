@@ -1,7 +1,7 @@
 // ================= CONFIGURATION & CREDENTIALS =================
 // Akun Login Admin Lapak Kunci Konfigurasi (Bisa kamu ubah sendiri sesukamu)
 const ADMIN_USERNAME = "admin";
-const ADMIN_PASSWORD = "22Desember2002"; 
+const ADMIN_PASSWORD = "password88"; 
 
 // Nomor WhatsApp tujuan order toko kamu
 const whatsappNumber = "6285180572575";
@@ -269,30 +269,68 @@ function loadData() {
 }
 
 // Render data produk ke dalam bentuk Card Grid di index.html
+// Render data produk ke dalam bentuk Card Grid di index.html
 function renderProducts() {
     const grid = document.getElementById("productGrid");
     if (!grid) return;
     grid.innerHTML = "";
     
+    // Kumpulan link logo resmi resolusi tinggi yang pas untuk kotak tokomu
+    const logoMap = {
+        'netflix': 'https://img.icons8.com/color/512/netflix--v1.png',
+        'viu': 'https://i.ibb.co/4Z12Ycjm/image.png',
+        'wetv': 'https://i.ibb.co/wFbZ2f16/image.png',
+        'vidio': 'https://i.ibb.co/xSBTxckS/image.png',
+        'youtube': 'https://img.icons8.com/color/512/youtube-play.png',
+        'iqiyi': 'https://i.ibb.co/nqs2CyXY/image.png',
+        'capcut': 'https://i.ibb.co/wZC6s8TL/image.png',
+        'youku': 'https://i.ibb.co/tMTYm90y/image.png',
+        'meitu': 'https://i.ibb.co/G4nYGcfk/image.png',
+        'disney': 'https://i.ibb.co/PZzrW7Zd/image.png',
+        'prime': 'https://img.icons8.com/color/512/amazon-prime-video.png',
+        'hbo': 'https://i.ibb.co/0VZpBWrv/image.png',
+        'apple': 'https://img.icons8.com/color/512/apple-music.png',
+        'picsart': 'https://img.icons8.com/color/512/picsart.png',
+        'loklok': 'https://i.ibb.co/KzW9RJP6/image.png', 
+        'microsoft': 'https://i.ibb.co/bgxh2JFr/image.png',
+        'alight': 'https://i.ibb.co/bjmpFwbc/image.png',
+        'spotify': 'https://img.icons8.com/color/512/spotify--v1.png',
+        'bstation': 'https://img.icons8.com/fluency/512/bilibili.png',
+        'canva': 'https://img.icons8.com/color/512/canva.png',
+        'grammarly': 'https://img.icons8.com/color/512/grammarly.png',
+        'zoom': 'https://img.icons8.com/color/512/zoom.png',
+        'chatgpt': 'https://img.icons8.com/fluent/512/chatgpt.png',
+        'getcontact': 'https://i.ibb.co/XZjRttvR/image.png',
+        'scribd': 'https://i.ibb.co/231Ygg29/image.png'
+    };
+    
     productsData.forEach(product => {
         const card = document.createElement("div");
         card.className = "card";
-        // Saat card diklik, otomatis membuka pop-up pilihan paket pembeli
+        
+        // Memperbaiki fungsi klik pembeli agar kembali aktif normal
         card.onclick = () => openProductModal(product.id);
         
-        // Label teks berwarna khusus brand toko kamu
-        const textLabel = document.createElement("div");
-        textLabel.className = product.class;
-        textLabel.innerText = product.name;
-        card.appendChild(textLabel);
+        // Ambil logo berdasarkan product.id database utama kamu
+        const prodKey = product.id.toLowerCase();
+        const logoUrl = logoMap[prodKey] || 'https://img.icons8.com/fluency/512/box.png';
         
-        // Jika mode admin sedang login aktif, tampilkan tombol modifikasi data produk
+        // Modifikasi HTML internal card agar memuat bungkus logo & teks nama produk
+        card.innerHTML = `
+            <div class="card-logo-wrapper" style="width: 100%; height: 70px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px;">
+                <img src="${logoUrl}" alt="${product.name}" style="max-width: 65px; max-height: 65px; object-fit: contain;">
+            </div>
+            <div class="${product.class}" style="font-weight: bold; text-align: center;">${product.name}</div>
+        `;
+        
+        // Jika mode admin aktif, sisipkan tombol edit paket di bawahnya
         if (isAdmin) {
             const editBtn = document.createElement("button");
             editBtn.className = "admin-edit-trigger";
             editBtn.innerText = "🛠️ Edit Harga/Paket";
+            editBtn.style.marginTop = "10px";
             editBtn.onclick = (e) => {
-                e.stopPropagation(); // Mencegah event click card utama memicu modal customer
+                e.stopPropagation(); 
                 openAdminEditModal(product.id);
             };
             card.appendChild(editBtn);
