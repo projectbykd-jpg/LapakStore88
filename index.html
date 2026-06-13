@@ -49,7 +49,6 @@
             <p>Akun Premium Terpercaya • Fast Response • Garansi Penuh</p>
             <a class="btn" href="#produk">Lihat Katalog Produk</a>
 
-            <!-- ================= SYSTEM LIVE VISITOR COUNTER FIREBASE ================= -->
             <div style="display: flex; justify-content: center; align-items: center; gap: 18px; margin: 22px auto 0 auto; background: rgba(15, 19, 34, 0.75); border: 1px solid #ffd700; padding: 8px 18px; border-radius: 50px; width: fit-content; box-shadow: 0 4px 15px rgba(0,0,0,0.4); backdrop-filter: blur(5px);">
                 <div style="display: flex; align-items: center; gap: 6px; color: #4cdf66; font-size: 13px; font-weight: 600; letter-spacing: 0.3px;">
                     <span style="position: relative; display: flex; height: 8px; width: 8px; margin-right: 4px;">
@@ -71,8 +70,7 @@
                     }
                 }
             </style>
-            <!-- ====================================================================== -->
-        </div>
+            </div>
     </section>
 
     <section id="produk" class="section">
@@ -80,8 +78,7 @@
         <p style="color: #a0aec0; margin-bottom: 30px;">Klik pada nama brand untuk melihat pilihan paket harga & order langsung</p>
 
         <div id="productGrid" class="grid">
-            <!-- Data produk akan di-render otomatis oleh script.js -->
-        </div>
+            </div>
     </section>
 
     <section id="novel-section" class="section" style="background: #0f1322; border-top: 1px solid #1e2538;">
@@ -184,26 +181,20 @@
         <p>&copy; 2026 LapakStore88. All Rights Reserved.</p>
     </footer>
 
-    <!-- ENGINE DATABASE FIREBASE UNTUK LIVE TRAFFIC REAL-TIME -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, onValue, push, onDisconnect, set, runTransaction } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // FIX: API Key sudah diperbaiki menggunakan huruf kapital 'X' (asli sesuai Firebase Console)
         const firebaseConfig = {
-  apiKey: "AIzaSyB6DJyeGbd3mdsYB5QXlo9eLTRxExgUCNc",
-  authDomain: "lapakstore88-f6d56.firebaseapp.com",
-  // 🌟 TAMBAHKAN BARIS DI BAWAH INI SECARA PRESISI:
-  databaseURL: "https://lapakstore88-f6d56-default-rtdb.firebaseio.com",
-  projectId: "lapakstore88-f6d56",
-  storageBucket: "lapakstore88-f6d56.firebasestorage.app",
-  messagingSenderId: "367270199782",
-  appId: "1:367270199782:web:5c1042b7bf98981d4c1627",
-  measurementId: "G-LXK7TQ227Q"
-};
-
-// Pastikan inisialisasi berjalan setelah config di atas lengkap
-// initializeApp(firebaseConfig);
+            apiKey: "AIzaSyB6DJyeGbd3mdsYB5QXlo9eLTRxExgUCNc",
+            authDomain: "lapakstore88-f6d56.firebaseapp.com",
+            databaseURL: "https://lapakstore88-f6d56-default-rtdb.firebaseio.com",
+            projectId: "lapakstore88-f6d56",
+            storageBucket: "lapakstore88-f6d56.firebasestorage.app",
+            messagingSenderId: "367270199782",
+            appId: "1:367270199782:web:5c1042b7bf98981d4c1627",
+            measurementId: "G-LXK7TQ227Q"
+        };
 
         // Konek ke firebase database
         const app = initializeApp(firebaseConfig);
@@ -216,7 +207,6 @@
         // Menghitung status online/offline visitor secara aktual
         onValue(connectedRef, (snapshot) => {
             if (snapshot.val() === true) {
-                // Gunakan push untuk membuat referensi unik untuk SETIAP tab/browser yang dibuka
                 const newLiveRef = push(onlineUsersRef);
                 set(newLiveRef, true);
 
@@ -249,7 +239,6 @@
         });
     </script>
 
-    <!-- File Script bawaan sistem jualan lapakmu -->
     <script src="script.js"></script>
 </body>
 
