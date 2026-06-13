@@ -51,16 +51,14 @@ const defaultProductsData = [
             { type: "TV ONLY PLAN PRIVATE", desc: "1 Bulan", price: 15000 }
         ]
     }
-    // ... Sisa data default sengaja diringkas agar hemat tempat, 
-    // karena data asli akan ditarik online dari Google Sheets kamu.
 ];
 
-// State global aplikasi web (Ditambahkan variabel penampung novel)
+// State global aplikasi web
 let productsData = [];
-let novelsData = []; // <--- Wadah baru untuk menampung data novel
+let novelsData = []; 
 let activeProduct = null;
-let activeNovel = null; // <--- Menyimpan novel yang sedang dibaca
-let currentChapterIndex = 0;  // <--- TAMBAHKAN BARIS INI
+let activeNovel = null; 
+let currentChapterIndex = 0;  // Mencatat bab yang sedang dibaca saat ini
 let isAdmin = false;
 let adminActiveProductId = null;
 
@@ -77,20 +75,18 @@ function loadData() {
     const novelGrid = document.getElementById("novelGrid");
     if (novelGrid) novelGrid.innerHTML = "<div style='color:#ffd700; text-align:center; width:100%; padding:20px;'>Memuat koleksi novel gratis...</div>";
 
-    // Mengambil objek gabungan dari Apps Script baru
+    // Mengambil objek gabungan dari Apps Script
     fetch(SPREADSHEET_URL)
         .then(response => response.json())
         .then(data => {
-            // Memisahkan data produk premium dan data novel
             productsData = data.products || [];
             novelsData = data.novels || [];
             
             renderProducts();
-            renderNovels(); // <--- Jalankan fungsi render khusus novel
+            renderNovels(); 
         })
         .catch(error => {
             console.error("Gagal memuat data dari Google Sheets:", error);
-            // Backup jika offline/error
             productsData = defaultProductsData;
             novelsData = [];
             renderProducts();
@@ -162,10 +158,10 @@ function renderProducts() {
     });
 }
 
-// ================= NEW FEATURE: RENDER NOVELS SYSTEM =================
+// ================= RENDER NOVELS SYSTEM =================
 function renderNovels() {
     const grid = document.getElementById("novelGrid");
-    if (!grid) return; // Lewati jika elemen HTML novelGrid belum kamu buat di index.html
+    if (!grid) return; 
     grid.innerHTML = "";
 
     if (novelsData.length === 0) {
@@ -223,11 +219,10 @@ function openNovelModal(novelId) {
 }
 
 // Fungsi untuk membuka konten teks isi bab cerita secara utuh
-// Fungsi untuk membuka konten teks isi bab cerita secara utuh
 function readChapter(index) {
     if (!activeNovel || !activeNovel.chapters[index]) return;
     
-    // Catat indeks bab yang sedang dibaca saat ini
+    // Catat indeks bab yang sedang aktif
     currentChapterIndex = index;
     const chapter = activeNovel.chapters[index];
     
@@ -237,24 +232,24 @@ function readChapter(index) {
         return;
     }
     
-    // Masukkan judul dan isi teks novel
+    // Masukkan judul dan teks cerita dengan konversi line break
     document.getElementById("readingTitle").innerText = chapter.bab;
     document.getElementById("readingBody").innerHTML = chapter.isi.replace(/\n/g, "<br>");
     
-    // Atur scroll otomatis kembali ke atas saat ganti bab
+    // Reset posisi gulir bacaan otomatis ke atas
     document.getElementById("readingBody").scrollTop = 0;
 
-    // Atur visibilitas tombol Previous dan Next
+    // Atur sistem visibilitas tombol Navigasi Bab (Prev & Next)
     const prevBtn = document.getElementById("btnPrevChapter");
     const nextBtn = document.getElementById("btnNextChapter");
 
-    // Jika bab pertama, sembunyikan tombol 'Sebelumnya'
+    // Jika ini bab pembuka pertama, batasi tombol Previous
     if (prevBtn) {
         prevBtn.style.opacity = index === 0 ? "0.3" : "1";
         prevBtn.style.pointerEvents = index === 0 ? "none" : "auto";
     }
     
-    // Jika bab terakhir, sembunyikan atau ubah tombol 'Selanjutnya'
+    // Jika sudah mencapai bab puncak terakhir, kunci tombol Next
     if (nextBtn) {
         if (index === activeNovel.chapters.length - 1) {
             nextBtn.innerText = "Bab Tamat 🎉";
@@ -267,17 +262,25 @@ function readChapter(index) {
         }
     }
     
+    // Tampilkan lembaran modal membaca dengan pasti
+    bacaBox.style.display = "block";
     bacaBox.classList.add("active");
 }
 
-// FUNGSI BARU: Untuk pindah bab secara otomatis (Next/Prev) tanpa tutup modal
+// Fungsi lompat bab instan (Maju / Mundur halaman)
 function navigateChapter(direction) {
     const targetIndex = currentChapterIndex + direction;
     
-    // Validasi apakah bab target tersedia di dalam array data novel
+    // Jalankan jika lembaran bab berikutnya valid tersedia
     if (activeNovel && activeNovel.chapters[targetIndex]) {
         readChapter(targetIndex);
     }
+}
+
+// Fungsi menutup modal list bab novel
+function closeNovelModal() {
+    const modal = document.getElementById("novelModal");
+    if (modal) modal.classList.remove("active");
 }
 
 // ================= AUTHENTICATION SYSTEM (ADMIN) =================
@@ -492,7 +495,14 @@ window.onclick = function(e) {
         closeModal();
         closeLoginModal();
         closeAdminModal();
-        closeNovelModal(); // <--- Ikut menutup modal novel jika area luar di-klik
+        closeNovelModal(); 
+        
+        // Menutup penel bacaan novel jika area luar modal di-klik
+        const bacaBox = document.getElementById("novelReadingContainer");
+        if (bacaBox) {
+            bacaBox.classList.remove("active");
+            bacaBox.style.display = "none";
+        }
     }
 };
 
