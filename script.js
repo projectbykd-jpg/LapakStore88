@@ -59,7 +59,8 @@ const defaultProductsData = [
 let productsData = [];
 let novelsData = []; // <--- Wadah baru untuk menampung data novel
 let activeProduct = null;
-let activeNovel = null;   // <--- Menyimpan novel yang sedang dibaca
+let activeNovel = null; // <--- Menyimpan novel yang sedang dibaca
+let currentChapterIndex = 0;  // <--- TAMBAHKAN BARIS INI
 let isAdmin = false;
 let adminActiveProductId = null;
 
