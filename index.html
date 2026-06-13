@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
     <header class="header">
@@ -16,10 +18,10 @@
                 <img src="https://i.ibb.co/7Jtv7WJs/image.png" class="nav-logo" alt="Logo">
                 <div class="logo">LapakStore88</div>
             </div>
-            
+
             <input type="checkbox" id="menu-bar">
             <label for="menu-bar" class="menu-icon">☰</label>
-            
+
             <nav class="navbar">
                 <a href="#home">Home</a>
                 <a href="#produk">Produk</a>
@@ -46,13 +48,37 @@
             <h1>LapakStore88</h1>
             <p>Akun Premium Terpercaya • Fast Response • Garansi Penuh</p>
             <a class="btn" href="#produk">Lihat Katalog Produk</a>
+
+            <div style="display: flex; justify-content: center; align-items: center; gap: 18px; margin: 22px auto 0 auto; background: rgba(15, 19, 34, 0.75); border: 1px solid #ffd700; padding: 8px 18px; border-radius: 50px; width: fit-content; box-shadow: 0 4px 15px rgba(0,0,0,0.4); backdrop-filter: blur(5px);">
+                <div style="display: flex; align-items: center; gap: 6px; color: #4cdf66; font-size: 13px; font-weight: 600; letter-spacing: 0.3px;">
+                    <span style="position: relative; display: flex; height: 8px; width: 8px; margin-right: 4px;">
+                        <span style="animation: livePing 1.2s cubic-bezier(0, 0, 0.2, 1) infinite; position: absolute; inline-size: 100%; block-size: 100%; border-radius: 50%; background-color: #22c55e; opacity: 0.8;"></span>
+                        <span style="position: relative; border-radius: 50%; height: 8px; width: 8px; background-color: #22c55e;"></span>
+                    </span>
+                    👁️ <span id="liveVisitors" style="font-weight: 800; color: #fff;">8</span> Live
+                </div>
+                <div style="width: 1px; height: 14px; background: rgba(255, 215, 0, 0.3);"></div>
+                <div style="display: flex; align-items: center; gap: 6px; color: #ffd700; font-size: 13px; font-weight: 600; letter-spacing: 0.3px;">
+                    👤 Total: <span id="totalTraffic" style="font-weight: 800; color: #fff;">1,240</span> Pengunjung
+                </div>
+            </div>
+            <style>
+                @keyframes livePing {
+
+                    75%,
+                    100% {
+                        transform: scale(2.2);
+                        opacity: 0;
+                    }
+                }
+            </style>
         </div>
     </section>
 
     <section id="produk" class="section">
         <h2>Katalog Produk Premium</h2>
         <p style="color: #a0aec0; margin-bottom: 30px;">Klik pada nama brand untuk melihat pilihan paket harga & order langsung</p>
-        
+
         <div id="productGrid" class="grid">
             <div class="card" onclick="openProductModal('Netflix')">
                 <div class="card-logo-wrapper">
@@ -122,8 +148,7 @@
     <section id="novel-section" class="section" style="background: #0f1322; border-top: 1px solid #1e2538;">
         <h2 style="color: #ffd700; text-align: center;">📚 KOLEKSI NOVEL GRATIS</h2>
         <p style="color: #a0aec0; text-align: center; margin-bottom: 30px;">Baca ribuan cerita menarik sepuasnya secara gratis untuk menemani harimu!</p>
-        <div id="novelGrid" class="grid">
-            </div>
+        <div id="novelGrid" class="grid"></div>
     </section>
 
     <hr class="separator">
@@ -180,22 +205,19 @@
         <div class="modal-box">
             <span class="close-btn" onclick="closeNovelModal()">&times;</span>
             <h3 id="modalNovelTitle" style="color: #ffd700; text-align: center; margin-bottom: 15px;">Judul Novel</h3>
-            <div id="novelChaptersContainer" class="packet-options-container" style="max-height: 280px; overflow-y: auto;">
-                </div>
+            <div id="novelChaptersContainer" class="packet-options-container" style="max-height: 280px; overflow-y: auto;"></div>
         </div>
     </div>
 
-    <!-- MODAL POP-UP LAYAR MEMBACA TEKS NOVEL (DENGAN NAVIGASI NEXT/PREV) -->
     <div id="novelReadingContainer" class="modal-overlay" style="z-index: 99999; display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; overflow: auto;">
         <div class="modal-box" style="max-width: 650px; width: 92%; margin: 30px auto; position: relative; z-index: 100001;">
-            
+
             <span class="close-btn" onclick="document.getElementById('novelReadingContainer').classList.remove('active'); document.getElementById('novelReadingContainer').style.display='none';" style="position: absolute; right: 20px; top: 15px; font-size: 28px; cursor: pointer; color: #fff; z-index: 100005;">&times;</span>
-            
+
             <h3 id="readingTitle" style="color: #ffd700; text-align: center; margin-bottom: 15px; font-size: 1.3rem; padding-right: 30px;">Bab Cerita</h3>
-            
-            <div id="readingBody" style="max-height: 380px; overflow-y: auto; text-align: justify; color: #e2e8f0; line-height: 1.8; padding: 15px; background: #0c101b; border: 1px solid #1e2538; border-radius: 8px; font-size: 1.05rem; position: relative; z-index: 100002;">
-                </div>
-            
+
+            <div id="readingBody" style="max-height: 380px; overflow-y: auto; text-align: justify; color: #e2e8f0; line-height: 1.8; padding: 15px; background: #0c101b; border: 1px solid #1e2538; border-radius: 8px; font-size: 1.05rem; position: relative; z-index: 100002;"></div>
+
             <div style="display: block; text-align: center; margin-top: 20px; position: relative; z-index: 100003;">
                 <button id="btnPrevChapter" class="btn-buy" onclick="navigateChapter(-1)" style="background: #4a5568; margin: 5px; width: 45%; padding: 10px 15px; font-size: 14px; display: inline-block; box-sizing: border-box;">⬅️ Bab Sebelumnya</button>
                 <button id="btnNextChapter" class="btn-buy" onclick="navigateChapter(1)" style="background: #3182ce; margin: 5px; width: 45%; padding: 10px 15px; font-size: 14px; display: inline-block; box-sizing: border-box;">Bab Selanjutnya ➡️</button>
@@ -230,4 +252,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>
