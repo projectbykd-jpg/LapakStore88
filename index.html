@@ -185,14 +185,24 @@
         </div>
     </div>
 
+    <!-- MODAL POP-UP LAYAR MEMBACA TEKS NOVEL (DENGAN NAVIGASI NEXT/PREV) -->
     <div id="novelReadingContainer" class="modal-overlay" style="z-index: 10000;">
         <div class="modal-box" style="max-width: 650px; width: 92%;">
             <span class="close-btn" onclick="document.getElementById('novelReadingContainer').classList.remove('active')">&times;</span>
             <h3 id="readingTitle" style="color: #ffd700; text-align: center; margin-bottom: 15px; font-size: 1.3rem;">Bab Cerita</h3>
+            
             <div id="readingBody" style="max-height: 380px; overflow-y: auto; text-align: justify; color: #e2e8f0; line-height: 1.8; padding: 15px; background: #0c101b; border: 1px solid #1e2538; border-radius: 8px; font-size: 1.05rem;">
-                </div>
+                <!-- Isi lembaran teks novel di-inject di sini oleh script.js -->
+            </div>
+            
+            <!-- Tombol Navigasi Antar Bab -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; gap: 10px;">
+                <button id="btnPrevChapter" class="btn-buy" onclick="navigateChapter(-1)" style="background: #4a5568; margin: 0; width: 48%; padding: 8px 15px; font-size: 14px;">⬅️ Bab Sebelumnnya</button>
+                <button id="btnNextChapter" class="btn-buy" onclick="navigateChapter(1)" style="background: #3182ce; margin: 0; width: 48%; padding: 8px 15px; font-size: 14px;">Bab Selanjutnya ➡️</button>
+            </div>
+
             <div style="text-align: center; margin-top: 15px;">
-                <button class="btn-buy" onclick="document.getElementById('novelReadingContainer').classList.remove('active')" style="background: #ff4500; width: auto; padding: 10px 25px;">Selesai Membaca ❌</button>
+                <button class="btn-buy" onclick="document.getElementById('novelReadingContainer').classList.remove('active')" style="background: #ff4500; width: auto; padding: 6px 20px; font-size: 13px;">Selesai Membaca ❌</button>
             </div>
         </div>
     </div>
