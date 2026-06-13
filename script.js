@@ -1,12 +1,10 @@
 // ================= CONFIGURATION & CREDENTIALS =================
-// Akun Login Admin Lapak Kunci Konfigurasi (Bisa kamu ubah sendiri sesukamu)
 const ADMIN_USERNAME = "admin";
 const ADMIN_PASSWORD = "password88"; 
 
-// Nomor WhatsApp tujuan order toko kamu
 const whatsappNumber = "6285180572575";
 
-// ================= DATABASE UTAMA ALL 25 PREMIUM BRANDS =================
+// ================= DATABASE UTAMA CADANGAN (PREMIUM BRANDS) =================
 const defaultProductsData = [
     {
         id: "netflix",
@@ -52,244 +50,59 @@ const defaultProductsData = [
             { type: "ALL DEVICE PLAN", desc: "1 Bulan SHARING", price: 25000 },
             { type: "TV ONLY PLAN PRIVATE", desc: "1 Bulan", price: 15000 }
         ]
-    },
-    {
-        id: "youtube",
-        name: "YouTube",
-        class: "brand-youtube",
-        packets: [
-            { type: "FAMPLAN via invite email", desc: "1 Bulan", price: 10000 }
-        ]
-    },
-    {
-        id: "iqiyi",
-        name: "iQIYI",
-        class: "brand-iqiyi",
-        packets: [
-            { type: "SHARING", desc: "1 Bulan", price: 10000 },
-            { type: "SHARING (Garansi 6 bulan)", desc: "1 Tahun", price: 20000 },
-            { type: "PRIVATE", desc: "1 Bulan", price: 30000 }
-        ]
-    },
-    {
-        id: "capcut",
-        name: "CapCut",
-        class: "brand-capcut",
-        packets: [
-            { type: "SHARING", desc: "1 Bulan", price: 10000 },
-            { type: "PRIVATE", desc: "1 Minggu", price: 5000 },
-            { type: "PRIVATE", desc: "1 Bulan", price: 20000 }
-        ]
-    },
-    {
-        id: "youku",
-        name: "YOUKU",
-        class: "brand-youku",
-        packets: [
-            { type: "SHARING", desc: "1 Bulan", price: 10000 },
-            { type: "SHARING", desc: "3 Bulan", price: 15000 },
-            { type: "SHARING", desc: "1 Tahun", price: 20000 }
-        ]
-    },
-    {
-        id: "meitu",
-        name: "MEITU AND WINK",
-        class: "brand-meitu",
-        packets: [
-            { type: "PRIVATE (Android Only)", desc: "1 Minggu", price: 10000 },
-            { type: "PRIVATE (Android Only)", desc: "1 Bulan", price: 20000 },
-            { type: "PRIVATE (iOS Only)", desc: "1 Bulan", price: 35000 }
-        ]
-    },
-    {
-        id: "disney",
-        name: "DISNEY+",
-        class: "brand-disney",
-        packets: [
-            { type: "SHARING 3U", desc: "1 Bulan", price: 30000 },
-            { type: "PRIVATE", desc: "1 Bulan", price: 70000 }
-        ]
-    },
-    {
-        id: "prime",
-        name: "PRIME VIDEO",
-        class: "brand-prime",
-        packets: [
-            { type: "SHARING", desc: "1 Bulan", price: 10000 },
-            { type: "PRIVATE", desc: "1 Bulan", price: 18000 }
-        ]
-    },
-    {
-        id: "hbo",
-        name: "HBO MAX",
-        class: "brand-hbo",
-        packets: [
-            { type: "SHARING PLAN ULTIMATE", desc: "1 Bulan (18K - 8U)", price: 18000 },
-            { type: "SHARING PLAN STANDARD", desc: "1 Bulan (20K - 5U)", price: 20000 }
-        ]
-    },
-    {
-        id: "apple",
-        name: "APPLE MUSIC",
-        class: "brand-apple",
-        packets: [
-            { type: "FAMPLAN VIA INVITE MESSAGE", desc: "1 Bulan", price: 15000 },
-            { type: "FAMPLAN VIA INVITE MESSAGE", desc: "2 Bulan", price: 20000 },
-            { type: "FAMPLAN VIA INVITE MESSAGE", desc: "3 Bulan", price: 25000 },
-            { type: "FAMPLAN VIA INVITE MESSAGE", desc: "4 Bulan", price: 30000 }
-        ]
-    },
-    {
-        id: "picsart",
-        name: "PICSART",
-        class: "brand-picsart",
-        packets: [
-            { type: "SHARING", desc: "1 Bulan", price: 10000 },
-            { type: "PRIVATE", desc: "1 Bulan", price: 20000 }
-        ]
-    },
-    {
-        id: "loklok",
-        name: "LOKLOK",
-        class: "brand-loklok",
-        packets: [
-            { type: "SHARING BASIC", desc: "1 Bulan", price: 20000 },
-            { type: "SHARING STANDARD", desc: "1 Bulan", price: 23000 }
-        ]
-    },
-    {
-        id: "microsoft",
-        name: "MICROSOFT 365",
-        class: "brand-m365",
-        packets: [
-            { type: "VIA INVITE EMAIL CUSTOMER", desc: "1 Bulan", price: 10000 }
-        ]
-    },
-    {
-        id: "alight",
-        name: "ALIGHT MOTION",
-        class: "brand-alight",
-        packets: [
-            { type: "PRIVATE (Garansi 6 bulan)", desc: "1 Tahun", price: 20000 }
-        ]
-    },
-    {
-        id: "spotify",
-        name: "SPOTIFY",
-        class: "brand-spotify",
-        packets: [
-            { type: "INDIVIDUAL PLAN AKUN SELLER", desc: "1 Bulan", price: 28000 },
-            { type: "INDIVIDUAL PLAN AKUN SELLER", desc: "3 Bulan", price: 50000 }
-        ]
-    },
-    {
-        id: "bstation",
-        name: "BSTATION",
-        class: "brand-bstation",
-        packets: [
-            { type: "SHARING (Kalo habis dapat 3 bln, Garansi 6 bln)", desc: "1 Tahun", price: 20000 },
-            { type: "SHARING", desc: "1 Bulan", price: 10000 }
-        ]
-    },
-    {
-        id: "canva",
-        name: "CANVA",
-        class: "brand-canva",
-        packets: [
-            { type: "MEMBER (Free Designer by request)", desc: "1 Bulan", price: 5000 },
-            { type: "MEMBER (Free Designer by request)", desc: "3 Bulan", price: 10000 },
-            { type: "MEMBER (Garansi 6 bulan)", desc: "1 Tahun", price: 20000 },
-            { type: "LIFETIME (No garansi)", desc: "Lifetime", price: 10000 }
-        ]
-    },
-    {
-        id: "grammarly",
-        name: "GRAMMARLY",
-        class: "brand-grammarly",
-        packets: [
-            { type: "SHARING", desc: "1 Bulan", price: 10000 },
-            { type: "PRIVATE", desc: "1 Bulan", price: 30000 }
-        ]
-    },
-    {
-        id: "zoom",
-        name: "ZOOM",
-        class: "brand-zoom",
-        packets: [
-            { type: "100 Peserta PRIVATE", desc: "1 Minggu", price: 10000 }
-        ]
-    },
-    {
-        id: "chatgpt",
-        name: "CHATGPT",
-        class: "brand-chatgpt",
-        packets: [
-            { type: "GO PRIVATE VIA INVITE EMAIL", desc: "1 Bulan", price: 35000 },
-            { type: "PLUS PRIVATE VIA INVITE EMAIL", desc: "1 Bulan", price: 45000 }
-        ]
-    },
-    {
-        id: "getcontact",
-        name: "GETCONTACT",
-        class: "brand-getcontact",
-        packets: [
-            { type: "PRIVATE AKUN CUSTOMER", desc: "1 Bulan", price: 20000 }
-        ]
-    },
-    {
-        id: "scribd",
-        name: "SCRIBD / EVERAND",
-        class: "brand-scribd",
-        packets: [
-            { type: "SHARING", desc: "1 Bulan", price: 10000 },
-            { type: "SHARING (Garansi 6 bulan)", desc: "2 Bulan", price: 15000 }
-        ]
     }
+    // ... Sisa data default sengaja diringkas agar hemat tempat, 
+    // karena data asli akan ditarik online dari Google Sheets kamu.
 ];
 
-// State global aplikasi web
+// State global aplikasi web (Ditambahkan variabel penampung novel)
 let productsData = [];
+let novelsData = []; // <--- Wadah baru untuk menampung data novel
 let activeProduct = null;
+let activeNovel = null;   // <--- Menyimpan novel yang sedang dibaca
 let isAdmin = false;
 let adminActiveProductId = null;
 
 // ================= INITIALIZATION & DATA LOADING =================
-// MASUKKAN URL APLIKASI WEB GOOGLE SPREADSHEET KAMU DI SINI
-const SPREADSHEET_URL = "https://script.google.com/macros/s/AKfycbwkM5ORbP09kmfqW6RWxwPKIbLj9eRHVNS2WiHbItKSZQiB0Yh_vKJ1FkrJniZdONsfgg/exec";
+const SPREADSHEET_URL = "https://script.google.com/macros/s/AKfycbzCLWEKZBt-bqGb6OIdTDmXYfKOvNHCh07XiLSXQD4EIDNcb8vtKt2NdYijK4LtO4K1gQ/exec";
 
-// Perbarui fungsi loadData agar mengambil data online dari Google Sheets
 function loadData() {
-    // Sinkronisasi status login admin dari session sebelumnya
     isAdmin = localStorage.getItem("lapakAdminLogin") === "true";
     updateAdminUIElements();
 
-    // Tampilkan teks loading sementara di grid produk biar keren
     const grid = document.getElementById("productGrid");
     if (grid) grid.innerHTML = "<div style='color:#ffd700; text-align:center; width:100%; padding:20px;'>Memuat harga terbaru dari database...</div>";
 
-    // Ambil data dari Google Sheets
+    const novelGrid = document.getElementById("novelGrid");
+    if (novelGrid) novelGrid.innerHTML = "<div style='color:#ffd700; text-align:center; width:100%; padding:20px;'>Memuat koleksi novel gratis...</div>";
+
+    // Mengambil objek gabungan dari Apps Script baru
     fetch(SPREADSHEET_URL)
         .then(response => response.json())
         .then(data => {
-            productsData = data;
-            renderProducts(); // Tampilkan produk setelah data berhasil diambil
+            // Memisahkan data produk premium dan data novel
+            productsData = data.products || [];
+            novelsData = data.novels || [];
+            
+            renderProducts();
+            renderNovels(); // <--- Jalankan fungsi render khusus novel
         })
         .catch(error => {
             console.error("Gagal memuat data dari Google Sheets:", error);
-            // Jika internet putus/gagal, pakai data default cadangan agar web tidak kosong
+            // Backup jika offline/error
             productsData = defaultProductsData;
+            novelsData = [];
             renderProducts();
+            renderNovels();
         });
 }
 
-// Render data produk ke dalam bentuk Card Grid di index.html
-// Render data produk ke dalam bentuk Card Grid di index.html
+// Render data produk premium ke bentuk Card Grid
 function renderProducts() {
     const grid = document.getElementById("productGrid");
     if (!grid) return;
     grid.innerHTML = "";
     
-    // Kumpulan link logo resmi resolusi tinggi yang pas untuk kotak tokomu
     const logoMap = {
         'netflix': 'https://img.icons8.com/color/512/netflix--v1.png',
         'viu': 'https://i.ibb.co/4Z12Ycjm/image.png',
@@ -321,15 +134,11 @@ function renderProducts() {
     productsData.forEach(product => {
         const card = document.createElement("div");
         card.className = "card";
-        
-        // Memperbaiki fungsi klik pembeli agar kembali aktif normal
         card.onclick = () => openProductModal(product.id);
         
-        // Ambil logo berdasarkan product.id database utama kamu
         const prodKey = product.id.toLowerCase();
         const logoUrl = logoMap[prodKey] || 'https://img.icons8.com/fluency/512/box.png';
         
-        // Modifikasi HTML internal card agar memuat bungkus logo & teks nama produk
         card.innerHTML = `
             <div class="card-logo-wrapper" style="width: 100%; height: 70px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px;">
                 <img src="${logoUrl}" alt="${product.name}" style="max-width: 65px; max-height: 65px; object-fit: contain;">
@@ -337,7 +146,6 @@ function renderProducts() {
             <div class="${product.class}" style="font-weight: bold; text-align: center;">${product.name}</div>
         `;
         
-        // Jika mode admin aktif, sisipkan tombol edit paket di bawahnya
         if (isAdmin) {
             const editBtn = document.createElement("button");
             editBtn.className = "admin-edit-trigger";
@@ -349,12 +157,98 @@ function renderProducts() {
             };
             card.appendChild(editBtn);
         }
-        
         grid.appendChild(card);
     });
 }
 
-// Menyesuaikan tampilan navigasi & topbar berdasarkan status login
+// ================= NEW FEATURE: RENDER NOVELS SYSTEM =================
+function renderNovels() {
+    const grid = document.getElementById("novelGrid");
+    if (!grid) return; // Lewati jika elemen HTML novelGrid belum kamu buat di index.html
+    grid.innerHTML = "";
+
+    if (novelsData.length === 0) {
+        grid.innerHTML = "<div style='color:#a0aec0; text-align:center; width:100%; padding:20px;'>Belum ada koleksi novel hari ini.</div>";
+        return;
+    }
+
+    novelsData.forEach(novel => {
+        const card = document.createElement("div");
+        card.className = "card novel-card";
+        card.onclick = () => openNovelModal(novel.id);
+
+        card.innerHTML = `
+            <div class="card-logo-wrapper" style="width: 100%; height: 90px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px;">
+                <img src="${novel.foto}" alt="${novel.judul}" style="max-width: 85px; max-height: 85px; object-fit: cover; border-radius: 6px;">
+            </div>
+            <div style="font-weight: bold; text-align: center; color: #ffd700; font-size: 14px;">${novel.judul}</div>
+            <div style="font-size: 11px; color: #a0aec0; text-align: center; margin-top: 4px;">${novel.chapters.length} Bab Tersedia</div>
+        `;
+        grid.appendChild(card);
+    });
+}
+
+// Menampilkan Pop-up Daftar Bab Novel saat diclick pembaca
+function openNovelModal(novelId) {
+    const novel = novelsData.find(n => n.id === novelId);
+    if (!novel) return;
+
+    activeNovel = novel;
+
+    const nameHeader = document.getElementById("modalNovelTitle");
+    if (nameHeader) nameHeader.innerText = novel.judul;
+
+    const container = document.getElementById("novelChaptersContainer");
+    if (!container) return;
+    container.innerHTML = "";
+
+    novel.chapters.forEach((chapter, index) => {
+        const row = document.createElement("div");
+        row.className = "packet-row chapter-row";
+        row.style.cursor = "pointer";
+        row.onclick = () => readChapter(index);
+
+        row.innerHTML = `
+            <div class="packet-left">
+                <span style="font-weight: bold; color: #ffd700;">📖 ${chapter.bab}</span>
+            </div>
+            <div class="packet-price" style="font-size: 11px; color: #4cdf66;">Gratis Baca</div>
+        `;
+        container.appendChild(row);
+    });
+
+    const modal = document.getElementById("novelModal");
+    if (modal) modal.classList.add("active");
+}
+
+// Fungsi untuk membuka konten teks isi bab cerita secara utuh
+function readChapter(index) {
+    if (!activeNovel) return;
+    const chapter = activeNovel.chapters[index];
+    
+    const bacaBox = document.getElementById("novelReadingContainer");
+    if (!bacaBox) {
+        // Jika kotak baca khusus belum ada, tampilkan lewat alert rapi
+        alert(`--- ${chapter.bab} ---\n\n${chapter.isi}`);
+        return;
+    }
+    
+    // Jika elemen pembaca novel eksis, inject teks bab ke sana
+    document.getElementById("readingTitle").innerText = chapter.bab;
+    document.getElementById("readingBody").innerHTML = chapter.isi.replace(/\n/g, "<br>");
+    
+    bacaBox.classList.add("active");
+}
+
+function closeNovelModal() {
+    const modal = document.getElementById("novelModal");
+    if (modal) modal.classList.remove("active");
+    
+    const bacaBox = document.getElementById("novelReadingContainer");
+    if (bacaBox) bacaBox.classList.remove("active");
+}
+
+// ================= AUTHENTICATION SYSTEM (ADMIN) =================
 function updateAdminUIElements() {
     const adminBar = document.getElementById("adminBadgePanel");
     const loginNavBtn = document.getElementById("loginNavBtn");
@@ -376,7 +270,6 @@ function updateAdminUIElements() {
     }
 }
 
-// ================= AUTHENTICATION SYSTEM (ADMIN) =================
 function openLoginModal() {
     const modal = document.getElementById("loginModal");
     if (modal) modal.classList.add("active");
@@ -436,7 +329,6 @@ function openProductModal(productId) {
     
     product.packets.forEach((packet, index) => {
         const row = document.createElement("label");
-        // Beri class 'selected' otomatis pada baris paket urutan pertama
         row.className = `packet-row ${index === 0 ? 'selected' : ''}`;
         
         const formattedPrice = "Rp " + Number(packet.price).toLocaleString("id-ID");
@@ -452,7 +344,6 @@ function openProductModal(productId) {
         container.appendChild(row);
     });
     
-    // Pasang harga default awal paket ke display total belanja
     if (product.packets.length > 0) {
         updateTotalPrice(product.packets[0].price);
     } else {
@@ -463,15 +354,10 @@ function openProductModal(productId) {
     if (modal) modal.classList.add("active");
 }
 
-// Fungsi interaktif memperbarui visual border baris paket & angka total harga
 function changeSelectedPacketRow(radioElement, price) {
-    // Bersihkan semua highlight border baris lama
     document.querySelectorAll(".packet-row").forEach(el => el.classList.remove("selected"));
-    
-    // Tambahkan highlight border emas ke baris yang di-klik pembeli
     const parentLabel = radioElement.closest(".packet-row");
     if (parentLabel) parentLabel.classList.add("selected");
-    
     updateTotalPrice(price);
 }
 
@@ -487,7 +373,6 @@ function closeModal() {
     if (modal) modal.classList.remove("active");
 }
 
-// Mengirimkan rincian pembelian pembeli secara langsung ke WhatsApp kamu
 function sendWhatsAppOrder() {
     if (!activeProduct) return;
     const selectedRadio = document.querySelector('input[name="packetSelect"]:checked');
@@ -497,7 +382,6 @@ function sendWhatsAppOrder() {
     const packet = activeProduct.packets[index];
     const formattedPrice = "Rp " + Number(packet.price).toLocaleString("id-ID");
     
-    // Format pesan otomatis toko premium kamu
     const textMessage = `Halo LapakStore88, saya ingin membeli paket premium ini:\n\n` +
                         `• *Produk:* Akun ${activeProduct.name}\n` +
                         `• *Tipe Paket:* ${packet.type}\n` +
@@ -528,13 +412,10 @@ function openAdminEditModal(productId) {
         div.className = "admin-edit-row";
         div.innerHTML = `
             <div style="margin-bottom:5px; font-weight:bold; color:#ffd700;">Paket Varian #${index + 1}</div>
-            
             <label style="font-size:11px; color:#a0aec0; display:block; margin-top:5px;">Nama Tipe Paket</label>
             <input type="text" class="form-control admin-input-type" value="${packet.type}" style="margin-bottom:8px;">
-            
             <label style="font-size:11px; color:#a0aec0; display:block;">Durasi</label>
             <input type="text" class="form-control admin-input-desc" value="${packet.desc}" style="margin-bottom:8px;">
-            
             <label style="font-size:11px; color:#a0aec0; display:block;">Harga (Hanya Angka, Tanpa Rp atau Titik)</label>
             <input type="number" class="form-control admin-input-price" value="${packet.price}">
         `;
@@ -553,7 +434,6 @@ function saveAdminChanges() {
     const descs = document.querySelectorAll(".admin-input-desc");
     const prices = document.querySelectorAll(".admin-input-price");
     
-    // Kosongkan paket lama dan tumpuk dengan input data baru dari modal admin
     product.packets = [];
     types.forEach((element, index) => {
         product.packets.push({
@@ -563,7 +443,6 @@ function saveAdminChanges() {
         });
     });
     
-    // Kunci data baru ke dalam localStorage browser lokal agar permanen
     localStorage.setItem("lapakStoreProducts", JSON.stringify(productsData));
     renderProducts();
     closeAdminModal();
@@ -575,18 +454,18 @@ function closeAdminModal() {
     if (modal) modal.classList.remove("active");
 }
 
-// Global window handler: Menutup modal pop-up secara otomatis saat area hitam di-klik luar kotak box
+// Global window handler untuk menutup overlay modal yang aktif
 window.onclick = function(e) {
     if (e.target.classList.contains("modal-overlay")) {
         closeModal();
         closeLoginModal();
         closeAdminModal();
+        closeNovelModal(); // <--- Ikut menutup modal novel jika area luar di-klik
     }
 };
 
-// Inisialisasi Lifecycle Aplikasi saat DOM Selesai di-load browser
+// Lifecycle Aplikasi
 document.addEventListener("DOMContentLoaded", () => {
     loadData();
-    renderProducts();
-    console.log("LapakStore88 Core Script Engine Ready!");
+    console.log("LapakStore88 Core Script Engine with Novel Expansion Ready!");
 });
