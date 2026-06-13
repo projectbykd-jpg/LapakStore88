@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LapakStore88 - Akun Premium Terpercaya</title>
+    <title>LapakStore88 - Akun Premium & Novel Gratis</title>
     <link rel="icon" type="image/png" href="https://i.ibb.co/7Jtv7WJs/image.png">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -23,14 +23,11 @@
             <nav class="navbar">
                 <a href="#home">Home</a>
                 <a href="#produk">Produk</a>
+                <a href="#novel-section">Novel Gratis</a>
                 <a href="#info-lapak">Pembayaran & Kontak</a>
                 <button id="loginNavBtn" onclick="openLoginModal()">Login</button>
             </nav>
         </div>
-        <h2 style="color: #ffd700; text-align: center; margin-top: 40px;">📚 KOLEKSI NOVEL GRATIS</h2>
-<div id="novelGrid" class="grid-container">
-    <!-- Grid novel gratisan akan otomatis terisi oleh script.js yang baru -->
-</div>
     </header>
 
     <div id="adminBadgePanel" class="admin-badge-bar" style="display: none;">
@@ -57,7 +54,6 @@
         <p style="color: #a0aec0; margin-bottom: 30px;">Klik pada nama brand untuk melihat pilihan paket harga & order langsung</p>
         
         <div id="productGrid" class="grid">
-            <!-- NETFLIX -->
             <div class="card" onclick="openProductModal('Netflix')">
                 <div class="card-logo-wrapper">
                     <img src="https://img.icons8.com/color/512/netflix--v1.png" alt="Netflix">
@@ -65,7 +61,6 @@
                 <span>NETFLIX</span>
             </div>
 
-            <!-- VIU -->
             <div class="card" onclick="openProductModal('Viu')">
                 <div class="card-logo-wrapper">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Viu_logo.svg" alt="Viu" class="contain-img">
@@ -73,7 +68,6 @@
                 <span>VIU</span>
             </div>
 
-            <!-- WETV -->
             <div class="card" onclick="openProductModal('WeTV')">
                 <div class="card-logo-wrapper">
                     <img src="https://img.icons8.com/color/512/tencent-video.png" alt="WeTV">
@@ -81,7 +75,6 @@
                 <span>WeTV</span>
             </div>
 
-            <!-- VIDIO -->
             <div class="card" onclick="openProductModal('Vidio')">
                 <div class="card-logo-wrapper">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/c/c5/Vidio_Logo.svg" alt="Vidio" class="contain-img">
@@ -89,7 +82,6 @@
                 <span>VIDIO</span>
             </div>
 
-            <!-- YOUTUBE -->
             <div class="card" onclick="openProductModal('YouTube Premium')">
                 <div class="card-logo-wrapper">
                     <img src="https://img.icons8.com/color/512/youtube-play.png" alt="YouTube">
@@ -97,7 +89,6 @@
                 <span>YOUTUBE</span>
             </div>
 
-            <!-- IQIYI -->
             <div class="card" onclick="openProductModal('iQIYI')">
                 <div class="card-logo-wrapper">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/IQIYI_logo.svg" alt="iQIYI" class="contain-img">
@@ -105,7 +96,6 @@
                 <span>iQIYI</span>
             </div>
 
-            <!-- CAPCUT -->
             <div class="card" onclick="openProductModal('CapCut Pro')">
                 <div class="card-logo-wrapper">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/a/a0/CapCut_logo.svg" alt="CapCut" class="contain-img">
@@ -113,7 +103,6 @@
                 <span>CAPCUT</span>
             </div>
 
-            <!-- DISNEY+ -->
             <div class="card" onclick="openProductModal('Disney+')">
                 <div class="card-logo-wrapper">
                     <img src="https://img.icons8.com/color/512/disney-plus.png" alt="Disney+">
@@ -121,7 +110,6 @@
                 <span>DISNEY+</span>
             </div>
 
-            <!-- PRIME VIDEO -->
             <div class="card" onclick="openProductModal('Prime Video')">
                 <div class="card-logo-wrapper">
                     <img src="https://img.icons8.com/color/512/amazon-prime-video.png" alt="Prime Video">
@@ -129,6 +117,14 @@
                 <span>PRIME VIDEO</span>
             </div>
         </div>
+    </section>
+
+    <section id="novel-section" class="section" style="background: #0f1322; border-top: 1px solid #1e2538;">
+        <h2 style="color: #ffd700; text-align: center;">📚 KOLEKSI NOVEL GRATIS</h2>
+        <p style="color: #a0aec0; text-align: center; margin-bottom: 30px;">Baca ribuan cerita menarik sepuasnya secara gratis untuk menemani harimu!</p>
+        <div id="novelGrid" class="grid">
+            </div>
+    </section>
 
     <hr class="separator">
 
@@ -176,6 +172,27 @@
                     <strong id="totalPrice">Rp 0</strong>
                 </div>
                 <button class="btn-buy" onclick="sendWhatsAppOrder()">Beli via WhatsApp 🚀</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="novelModal" class="modal-overlay">
+        <div class="modal-box">
+            <span class="close-btn" onclick="closeNovelModal()">&times;</span>
+            <h3 id="modalNovelTitle" style="color: #ffd700; text-align: center; margin-bottom: 15px;">Judul Novel</h3>
+            <div id="novelChaptersContainer" class="packet-options-container" style="max-height: 280px; overflow-y: auto;">
+                </div>
+        </div>
+    </div>
+
+    <div id="novelReadingContainer" class="modal-overlay" style="z-index: 10000;">
+        <div class="modal-box" style="max-width: 650px; width: 92%;">
+            <span class="close-btn" onclick="document.getElementById('novelReadingContainer').classList.remove('active')">&times;</span>
+            <h3 id="readingTitle" style="color: #ffd700; text-align: center; margin-bottom: 15px; font-size: 1.3rem;">Bab Cerita</h3>
+            <div id="readingBody" style="max-height: 380px; overflow-y: auto; text-align: justify; color: #e2e8f0; line-height: 1.8; padding: 15px; background: #0c101b; border: 1px solid #1e2538; border-radius: 8px; font-size: 1.05rem;">
+                </div>
+            <div style="text-align: center; margin-top: 15px;">
+                <button class="btn-buy" onclick="document.getElementById('novelReadingContainer').classList.remove('active')" style="background: #ff4500; width: auto; padding: 10px 25px;">Selesai Membaca ❌</button>
             </div>
         </div>
     </div>
