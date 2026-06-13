@@ -254,18 +254,32 @@ let isAdmin = false;
 let adminActiveProductId = null;
 
 // ================= INITIALIZATION & DATA LOADING =================
+// MASUKKAN URL APLIKASI WEB GOOGLE SPREADSHEET KAMU DI SINI
+const SPREADSHEET_URL = "https://script.google.com/macros/s/AKfycbwkM5ORbP09kmfqW6RWxwPKIbLj9eRHVNS2WiHbItKSZQiB0Yh_vKJ1FkrJniZdONsfgg/exec";
+
+// Perbarui fungsi loadData agar mengambil data online dari Google Sheets
 function loadData() {
-    const savedData = localStorage.getItem("lapakStoreProducts");
-    if (savedData) {
-        productsData = JSON.parse(savedData);
-    } else {
-        productsData = defaultProductsData;
-        localStorage.setItem("lapakStoreProducts", JSON.stringify(productsData));
-    }
-    
     // Sinkronisasi status login admin dari session sebelumnya
     isAdmin = localStorage.getItem("lapakAdminLogin") === "true";
     updateAdminUIElements();
+
+    // Tampilkan teks loading sementara di grid produk biar keren
+    const grid = document.getElementById("productGrid");
+    if (grid) grid.innerHTML = "<div style='color:#ffd700; text-align:center; width:100%; padding:20px;'>Memuat harga terbaru dari database...</div>";
+
+    // Ambil data dari Google Sheets
+    fetch(SPREADSHEET_URL)
+        .then(response => response.json())
+        .then(data => {
+            productsData = data;
+            renderProducts(); // Tampilkan produk setelah data berhasil diambil
+        })
+        .catch(error => {
+            console.error("Gagal memuat data dari Google Sheets:", error);
+            // Jika internet putus/gagal, pakai data default cadangan agar web tidak kosong
+            productsData = defaultProductsData;
+            renderProducts();
+        });
 }
 
 // Render data produk ke dalam bentuk Card Grid di index.html
