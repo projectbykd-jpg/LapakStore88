@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LapakStore88 - Akun Premium Terpercaya</title>
-    <link rel="icon" href="assets/favicon.png">
+    <link rel="icon" type="image/png" href="https://i.ibb.co/7Jtv7WJs/image.png">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 </head>
@@ -13,17 +13,18 @@
     <header class="header">
         <div class="container">
             <div class="logo-area">
-                <img src="image_85cc88.png" class="nav-logo" alt="Logo">
-                <span class="logo-text">LapakStore88</span>
+                <img src="https://i.ibb.co/7Jtv7WJs/image.png" class="nav-logo" alt="Logo">
+                <div class="logo">LapakStore88</div>
             </div>
             
-            <button class="menu-toggle" id="menuToggle" onclick="toggleMobileMenu()">☰</button>
-
-            <nav id="navMenu">
-                <a href="#home" onclick="toggleMobileMenu()">Home</a>
-                <a href="#produk" onclick="toggleMobileMenu()">Produk</a>
-                <a href="#info-lapak" onclick="toggleMobileMenu()">QRIS & Kontak</a>
-                <button id="loginNavBtn" onclick="openLoginModal(); toggleMobileMenu();">Login</button>
+            <input type="checkbox" id="menu-bar">
+            <label for="menu-bar" class="menu-icon">☰</label>
+            
+            <nav class="navbar">
+                <a href="#home">Home</a>
+                <a href="#produk">Produk</a>
+                <a href="#info-lapak">Pembayaran & Kontak</a>
+                <button id="loginNavBtn" onclick="openLoginModal()">Login</button>
             </nav>
         </div>
     </header>
@@ -35,11 +36,12 @@
 
     <section id="home" class="hero">
         <video autoplay muted loop playsinline class="hero-video">
+            <source src="assets/hero.mp4" type="video/mp4">
             <source src="https://files.fm/u/era4cd858m" type="video/mp4">
         </video>
         <div class="overlay"></div>
         <div class="hero-content">
-            <img src="https://i.ibb.co/7Jtv7WJs/image.png" class="hero-logo" alt="LapakStore88" onerror="this.style.display='none'">
+            <img src="https://i.ibb.co/7Jtv7WJs/image.png" class="hero-logo" alt="LapakStore88">
             <h1>LapakStore88</h1>
             <p>Akun Premium Terpercaya • Fast Response • Garansi Penuh</p>
             <a class="btn" href="#produk">Lihat Katalog Produk</a>
@@ -49,15 +51,85 @@
     <section id="produk" class="section">
         <h2>Katalog Produk Premium</h2>
         <p style="color: #a0aec0; margin-bottom: 30px;">Klik pada nama brand untuk melihat pilihan paket harga & order langsung</p>
+        
         <div id="productGrid" class="grid">
+            <!-- NETFLIX -->
+            <div class="card" onclick="openProductModal('Netflix')">
+                <div class="card-logo-wrapper">
+                    <img src="https://img.icons8.com/color/512/netflix--v1.png" alt="Netflix">
+                </div>
+                <span>NETFLIX</span>
             </div>
-    </section>
+
+            <!-- VIU -->
+            <div class="card" onclick="openProductModal('Viu')">
+                <div class="card-logo-wrapper">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Viu_logo.svg" alt="Viu" class="contain-img">
+                </div>
+                <span>VIU</span>
+            </div>
+
+            <!-- WETV -->
+            <div class="card" onclick="openProductModal('WeTV')">
+                <div class="card-logo-wrapper">
+                    <img src="https://img.icons8.com/color/512/tencent-video.png" alt="WeTV">
+                </div>
+                <span>WeTV</span>
+            </div>
+
+            <!-- VIDIO -->
+            <div class="card" onclick="openProductModal('Vidio')">
+                <div class="card-logo-wrapper">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c5/Vidio_Logo.svg" alt="Vidio" class="contain-img">
+                </div>
+                <span>VIDIO</span>
+            </div>
+
+            <!-- YOUTUBE -->
+            <div class="card" onclick="openProductModal('YouTube Premium')">
+                <div class="card-logo-wrapper">
+                    <img src="https://img.icons8.com/color/512/youtube-play.png" alt="YouTube">
+                </div>
+                <span>YOUTUBE</span>
+            </div>
+
+            <!-- IQIYI -->
+            <div class="card" onclick="openProductModal('iQIYI')">
+                <div class="card-logo-wrapper">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/IQIYI_logo.svg" alt="iQIYI" class="contain-img">
+                </div>
+                <span>iQIYI</span>
+            </div>
+
+            <!-- CAPCUT -->
+            <div class="card" onclick="openProductModal('CapCut Pro')">
+                <div class="card-logo-wrapper">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a0/CapCut_logo.svg" alt="CapCut" class="contain-img">
+                </div>
+                <span>CAPCUT</span>
+            </div>
+
+            <!-- DISNEY+ -->
+            <div class="card" onclick="openProductModal('Disney+')">
+                <div class="card-logo-wrapper">
+                    <img src="https://img.icons8.com/color/512/disney-plus.png" alt="Disney+">
+                </div>
+                <span>DISNEY+</span>
+            </div>
+
+            <!-- PRIME VIDEO -->
+            <div class="card" onclick="openProductModal('Prime Video')">
+                <div class="card-logo-wrapper">
+                    <img src="https://img.icons8.com/color/512/amazon-prime-video.png" alt="Prime Video">
+                </div>
+                <span>PRIME VIDEO</span>
+            </div>
+        </div>
 
     <hr class="separator">
 
     <section id="info-lapak" class="section compact-section">
         <div class="compact-container">
-            
             <div class="compact-box">
                 <h3>QRIS Pembayaran Resmi</h3>
                 <p>Silakan scan kode QRIS di bawah ini untuk melakukan transaksi aman otomatis.</p>
@@ -69,7 +141,6 @@
             <div class="compact-box balancing-box">
                 <h3>Hubungi Admin Toko</h3>
                 <p>Punya pertanyaan atau butuh klaim garansi kilat? Hubungi kami melalui saluran di bawah:</p>
-                
                 <div class="contact-list">
                     <a href="https://wa.me/6285180572575" target="_blank" class="contact-item wa-item">
                         <span class="icon">💬</span>
@@ -78,7 +149,6 @@
                             <span>+62 851-8057-2575 (Fast Response)</span>
                         </div>
                     </a>
-                    
                     <div class="contact-item jam-item">
                         <span class="icon">⏰</span>
                         <div class="contact-text">
@@ -88,7 +158,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
 
@@ -96,8 +165,7 @@
         <div class="modal-box">
             <span class="close-btn" onclick="closeModal()">&times;</span>
             <h3 id="modalProductName">Nama Brand</h3>
-            <div id="packetOptionsContainer" class="packet-options-container">
-                </div>
+            <div id="packetOptionsContainer" class="packet-options-container"></div>
             <div class="modal-footer">
                 <div class="total-section">
                     <span>Total Harga:</span>
@@ -122,19 +190,6 @@
             </div>
             <p id="loginError" class="error-msg" style="display: none;">❌ Username atau Password salah!</p>
             <button class="btn-admin-submit" onclick="processLogin()">Masuk Sistem</button>
-        </div>
-    </div>
-
-    <div id="adminEditModal" class="modal-overlay">
-        <div class="modal-box admin-modal">
-            <span class="close-btn" onclick="closeAdminModal()">&times;</span>
-            <h3 id="adminTargetProductName">Edit Paket Produk</h3>
-            <div id="adminPacketsEditorContainer" class="admin-editor-scroll">
-                </div>
-            <div style="margin-top: 15px; text-align: right;">
-                <button class="btn-cancel" onclick="closeAdminModal()">Batal</button>
-                <button class="btn-save" onclick="saveAdminChanges()">Simpan Perubahan Permanen</button>
-            </div>
         </div>
     </div>
 
