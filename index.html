@@ -186,23 +186,23 @@
     </div>
 
     <!-- MODAL POP-UP LAYAR MEMBACA TEKS NOVEL (DENGAN NAVIGASI NEXT/PREV) -->
-    <div id="novelReadingContainer" class="modal-overlay" style="z-index: 10000;">
-        <div class="modal-box" style="max-width: 650px; width: 92%;">
-            <span class="close-btn" onclick="document.getElementById('novelReadingContainer').classList.remove('active')">&times;</span>
-            <h3 id="readingTitle" style="color: #ffd700; text-align: center; margin-bottom: 15px; font-size: 1.3rem;">Bab Cerita</h3>
+    <div id="novelReadingContainer" class="modal-overlay" style="z-index: 99999; display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; overflow: auto;">
+        <div class="modal-box" style="max-width: 650px; width: 92%; margin: 30px auto; position: relative; z-index: 100001;">
             
-            <div id="readingBody" style="max-height: 380px; overflow-y: auto; text-align: justify; color: #e2e8f0; line-height: 1.8; padding: 15px; background: #0c101b; border: 1px solid #1e2538; border-radius: 8px; font-size: 1.05rem;">
-                <!-- Isi lembaran teks novel di-inject di sini oleh script.js -->
-            </div>
+            <span class="close-btn" onclick="document.getElementById('novelReadingContainer').classList.remove('active'); document.getElementById('novelReadingContainer').style.display='none';" style="position: absolute; right: 20px; top: 15px; font-size: 28px; cursor: pointer; color: #fff; z-index: 100005;">&times;</span>
             
-            <!-- Tombol Navigasi Antar Bab -->
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; gap: 10px;">
-                <button id="btnPrevChapter" class="btn-buy" onclick="navigateChapter(-1)" style="background: #4a5568; margin: 0; width: 48%; padding: 8px 15px; font-size: 14px;">⬅️ Bab Sebelumnnya</button>
-                <button id="btnNextChapter" class="btn-buy" onclick="navigateChapter(1)" style="background: #3182ce; margin: 0; width: 48%; padding: 8px 15px; font-size: 14px;">Bab Selanjutnya ➡️</button>
+            <h3 id="readingTitle" style="color: #ffd700; text-align: center; margin-bottom: 15px; font-size: 1.3rem; padding-right: 30px;">Bab Cerita</h3>
+            
+            <div id="readingBody" style="max-height: 380px; overflow-y: auto; text-align: justify; color: #e2e8f0; line-height: 1.8; padding: 15px; background: #0c101b; border: 1px solid #1e2538; border-radius: 8px; font-size: 1.05rem; position: relative; z-index: 100002;">
+                </div>
+            
+            <div style="display: block; text-align: center; margin-top: 20px; position: relative; z-index: 100003;">
+                <button id="btnPrevChapter" class="btn-buy" onclick="navigateChapter(-1)" style="background: #4a5568; margin: 5px; width: 45%; padding: 10px 15px; font-size: 14px; display: inline-block; box-sizing: border-box;">⬅️ Bab Sebelumnya</button>
+                <button id="btnNextChapter" class="btn-buy" onclick="navigateChapter(1)" style="background: #3182ce; margin: 5px; width: 45%; padding: 10px 15px; font-size: 14px; display: inline-block; box-sizing: border-box;">Bab Selanjutnya ➡️</button>
             </div>
 
-            <div style="text-align: center; margin-top: 15px;">
-                <button class="btn-buy" onclick="document.getElementById('novelReadingContainer').classList.remove('active')" style="background: #ff4500; width: auto; padding: 6px 20px; font-size: 13px;">Selesai Membaca ❌</button>
+            <div style="text-align: center; margin-top: 15px; position: relative; z-index: 100004;">
+                <button class="btn-buy" onclick="document.getElementById('novelReadingContainer').classList.remove('active'); document.getElementById('novelReadingContainer').style.display='none';" style="background: #ff4500; width: auto; padding: 8px 25px; font-size: 14px; display: inline-block; cursor: pointer;">Selesai Membaca ❌</button>
             </div>
         </div>
     </div>
