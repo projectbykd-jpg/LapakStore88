@@ -216,7 +216,6 @@ const defaultProductsData = [
         name: "ZOOM",
         class: "brand-zoom",
         packets: [
-            { type: "100 Peserta PRIVATE", desc: "1 Bulan", price: 10000 },
             { type: "100 Peserta PRIVATE", desc: "1 Minggu", price: 10000 }
         ]
     },
@@ -225,7 +224,8 @@ const defaultProductsData = [
         name: "CHATGPT",
         class: "brand-chatgpt",
         packets: [
-            { type: "PLUS PRIVATE VIA INVITE EMAIL", desc: "1 Bulan", price: 20000 }
+            { type: "GO PRIVATE VIA INVITE EMAIL", desc: "1 Bulan", price: 35000 },
+            { type: "PLUS PRIVATE VIA INVITE EMAIL", desc: "1 Bulan", price: 45000 }
         ]
     },
     {
