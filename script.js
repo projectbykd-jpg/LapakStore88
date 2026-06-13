@@ -223,30 +223,61 @@ function openNovelModal(novelId) {
 }
 
 // Fungsi untuk membuka konten teks isi bab cerita secara utuh
+// Fungsi untuk membuka konten teks isi bab cerita secara utuh
 function readChapter(index) {
-    if (!activeNovel) return;
+    if (!activeNovel || !activeNovel.chapters[index]) return;
+    
+    // Catat indeks bab yang sedang dibaca saat ini
+    currentChapterIndex = index;
     const chapter = activeNovel.chapters[index];
     
     const bacaBox = document.getElementById("novelReadingContainer");
     if (!bacaBox) {
-        // Jika kotak baca khusus belum ada, tampilkan lewat alert rapi
         alert(`--- ${chapter.bab} ---\n\n${chapter.isi}`);
         return;
     }
     
-    // Jika elemen pembaca novel eksis, inject teks bab ke sana
+    // Masukkan judul dan isi teks novel
     document.getElementById("readingTitle").innerText = chapter.bab;
     document.getElementById("readingBody").innerHTML = chapter.isi.replace(/\n/g, "<br>");
+    
+    // Atur scroll otomatis kembali ke atas saat ganti bab
+    document.getElementById("readingBody").scrollTop = 0;
+
+    // Atur visibilitas tombol Previous dan Next
+    const prevBtn = document.getElementById("btnPrevChapter");
+    const nextBtn = document.getElementById("btnNextChapter");
+
+    // Jika bab pertama, sembunyikan tombol 'Sebelumnya'
+    if (prevBtn) {
+        prevBtn.style.opacity = index === 0 ? "0.3" : "1";
+        prevBtn.style.pointerEvents = index === 0 ? "none" : "auto";
+    }
+    
+    // Jika bab terakhir, sembunyikan atau ubah tombol 'Selanjutnya'
+    if (nextBtn) {
+        if (index === activeNovel.chapters.length - 1) {
+            nextBtn.innerText = "Bab Tamat 🎉";
+            nextBtn.style.opacity = "0.5";
+            nextBtn.style.pointerEvents = "none";
+        } else {
+            nextBtn.innerText = "Bab Selanjutnya ➡️";
+            nextBtn.style.opacity = "1";
+            nextBtn.style.pointerEvents = "auto";
+        }
+    }
     
     bacaBox.classList.add("active");
 }
 
-function closeNovelModal() {
-    const modal = document.getElementById("novelModal");
-    if (modal) modal.classList.remove("active");
+// FUNGSI BARU: Untuk pindah bab secara otomatis (Next/Prev) tanpa tutup modal
+function navigateChapter(direction) {
+    const targetIndex = currentChapterIndex + direction;
     
-    const bacaBox = document.getElementById("novelReadingContainer");
-    if (bacaBox) bacaBox.classList.remove("active");
+    // Validasi apakah bab target tersedia di dalam array data novel
+    if (activeNovel && activeNovel.chapters[targetIndex]) {
+        readChapter(targetIndex);
+    }
 }
 
 // ================= AUTHENTICATION SYSTEM (ADMIN) =================
