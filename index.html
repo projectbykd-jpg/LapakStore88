@@ -80,68 +80,7 @@
         <p style="color: #a0aec0; margin-bottom: 30px;">Klik pada nama brand untuk melihat pilihan paket harga & order langsung</p>
 
         <div id="productGrid" class="grid">
-            <div class="card" onclick="openProductModal('Netflix')">
-                <div class="card-logo-wrapper">
-                    <img src="https://img.icons8.com/color/512/netflix--v1.png" alt="Netflix">
-                </div>
-                <span>NETFLIX</span>
-            </div>
-
-            <div class="card" onclick="openProductModal('Viu')">
-                <div class="card-logo-wrapper">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Viu_logo.svg" alt="Viu" class="contain-img">
-                </div>
-                <span>VIU</span>
-            </div>
-
-            <div class="card" onclick="openProductModal('WeTV')">
-                <div class="card-logo-wrapper">
-                    <img src="https://img.icons8.com/color/512/tencent-video.png" alt="WeTV">
-                </div>
-                <span>WeTV</span>
-            </div>
-
-            <div class="card" onclick="openProductModal('Vidio')">
-                <div class="card-logo-wrapper">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c5/Vidio_Logo.svg" alt="Vidio" class="contain-img">
-                </div>
-                <span>VIDIO</span>
-            </div>
-
-            <div class="card" onclick="openProductModal('YouTube Premium')">
-                <div class="card-logo-wrapper">
-                    <img src="https://img.icons8.com/color/512/youtube-play.png" alt="YouTube">
-                </div>
-                <span>YOUTUBE</span>
-            </div>
-
-            <div class="card" onclick="openProductModal('iQIYI')">
-                <div class="card-logo-wrapper">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/IQIYI_logo.svg" alt="iQIYI" class="contain-img">
-                </div>
-                <span>iQIYI</span>
-            </div>
-
-            <div class="card" onclick="openProductModal('CapCut Pro')">
-                <div class="card-logo-wrapper">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a0/CapCut_logo.svg" alt="CapCut" class="contain-img">
-                </div>
-                <span>CAPCUT</span>
-            </div>
-
-            <div class="card" onclick="openProductModal('Disney+')">
-                <div class="card-logo-wrapper">
-                    <img src="https://img.icons8.com/color/512/disney-plus.png" alt="Disney+">
-                </div>
-                <span>DISNEY+</span>
-            </div>
-
-            <div class="card" onclick="openProductModal('Prime Video')">
-                <div class="card-logo-wrapper">
-                    <img src="https://img.icons8.com/color/512/amazon-prime-video.png" alt="Prime Video">
-                </div>
-                <span>PRIME VIDEO</span>
-            </div>
+            <!-- Data produk akan di-render otomatis oleh script.js -->
         </div>
     </section>
 
@@ -211,18 +150,13 @@
 
     <div id="novelReadingContainer" class="modal-overlay" style="z-index: 99999; display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; overflow: auto;">
         <div class="modal-box" style="max-width: 650px; width: 92%; margin: 30px auto; position: relative; z-index: 100001;">
-
             <span class="close-btn" onclick="document.getElementById('novelReadingContainer').classList.remove('active'); document.getElementById('novelReadingContainer').style.display='none';" style="position: absolute; right: 20px; top: 15px; font-size: 28px; cursor: pointer; color: #fff; z-index: 100005;">&times;</span>
-
             <h3 id="readingTitle" style="color: #ffd700; text-align: center; margin-bottom: 15px; font-size: 1.3rem; padding-right: 30px;">Bab Cerita</h3>
-
             <div id="readingBody" style="max-height: 380px; overflow-y: auto; text-align: justify; color: #e2e8f0; line-height: 1.8; padding: 15px; background: #0c101b; border: 1px solid #1e2538; border-radius: 8px; font-size: 1.05rem; position: relative; z-index: 100002;"></div>
-
             <div style="display: block; text-align: center; margin-top: 20px; position: relative; z-index: 100003;">
                 <button id="btnPrevChapter" class="btn-buy" onclick="navigateChapter(-1)" style="background: #4a5568; margin: 5px; width: 45%; padding: 10px 15px; font-size: 14px; display: inline-block; box-sizing: border-box;">⬅️ Bab Sebelumnya</button>
                 <button id="btnNextChapter" class="btn-buy" onclick="navigateChapter(1)" style="background: #3182ce; margin: 5px; width: 45%; padding: 10px 15px; font-size: 14px; display: inline-block; box-sizing: border-box;">Bab Selanjutnya ➡️</button>
             </div>
-
             <div style="text-align: center; margin-top: 15px; position: relative; z-index: 100004;">
                 <button class="btn-buy" onclick="document.getElementById('novelReadingContainer').classList.remove('active'); document.getElementById('novelReadingContainer').style.display='none';" style="background: #ff4500; width: auto; padding: 8px 25px; font-size: 14px; display: inline-block; cursor: pointer;">Selesai Membaca ❌</button>
             </div>
@@ -255,9 +189,9 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, onValue, push, onDisconnect, set, runTransaction } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // Konfigurasi Project LapakStore88 asli milik bosku
+        // FIX: API Key sudah diperbaiki menggunakan huruf kapital 'X' (asli sesuai Firebase Console)
         const firebaseConfig = {
-            apiKey: "AIzaSyB6DJyeGbd3mdsYB5QxLo9eLtRxExgUCNc",
+            apiKey: "AIzaSyB6DJyeGbd3mdsYB5QXlo9eLTRxExgUCNc",
             authDomain: "lapakstore88-f6d56.firebaseapp.com",
             databaseURL: "https://lapakstore88-f6d56-default-rtdb.firebaseio.com",
             projectId: "lapakstore88-f6d56",
@@ -278,13 +212,14 @@
         // Menghitung status online/offline visitor secara aktual
         onValue(connectedRef, (snapshot) => {
             if (snapshot.val() === true) {
+                // Gunakan push untuk membuat referensi unik untuk SETIAP tab/browser yang dibuka
                 const newLiveRef = push(onlineUsersRef);
                 set(newLiveRef, true);
 
-                // Otomatis hapus ID visitor saat browser/tab ditutup oleh pengunjung
+                // Otomatis hapus saat browser/tab ditutup
                 onDisconnect(newLiveRef).remove();
 
-                // Hitung total traffic unik per sesi browser agar tidak spamming angka total
+                // Hitung total traffic unik per sesi browser
                 if (!sessionStorage.getItem('isCounted')) {
                     runTransaction(totalTrafficRef, (currentValue) => {
                         return (currentValue || 0) + 1;
@@ -294,16 +229,16 @@
             }
         });
 
-        // Menampilkan angka Live yang aktif saat ini ke layar HTML bosku
+        // Menampilkan angka Live yang aktif saat ini ke layar HTML
         onValue(onlineUsersRef, (snapshot) => {
-            let totalLive = 1;
+            let totalLive = 0;
             if (snapshot.exists()) {
                 totalLive = Object.keys(snapshot.val()).length;
             }
-            document.getElementById('liveVisitors').innerText = totalLive;
+            document.getElementById('liveVisitors').innerText = totalLive > 0 ? totalLive : 1;
         });
 
-        // Menampilkan total data pengunjung sepanjang masa ke layar HTML bosku
+        // Menampilkan total data pengunjung sepanjang masa ke layar HTML
         onValue(totalTrafficRef, (snapshot) => {
             const totalAllTime = snapshot.val() || 0;
             document.getElementById('totalTraffic').innerText = totalAllTime.toLocaleString('id-ID');
