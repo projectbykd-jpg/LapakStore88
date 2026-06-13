@@ -49,29 +49,29 @@
             <p>Akun Premium Terpercaya • Fast Response • Garansi Penuh</p>
             <a class="btn" href="#produk">Lihat Katalog Produk</a>
 
+            <!-- ================= SYSTEM LIVE VISITOR COUNTER FIREBASE ================= -->
             <div style="display: flex; justify-content: center; align-items: center; gap: 18px; margin: 22px auto 0 auto; background: rgba(15, 19, 34, 0.75); border: 1px solid #ffd700; padding: 8px 18px; border-radius: 50px; width: fit-content; box-shadow: 0 4px 15px rgba(0,0,0,0.4); backdrop-filter: blur(5px);">
                 <div style="display: flex; align-items: center; gap: 6px; color: #4cdf66; font-size: 13px; font-weight: 600; letter-spacing: 0.3px;">
                     <span style="position: relative; display: flex; height: 8px; width: 8px; margin-right: 4px;">
                         <span style="animation: livePing 1.2s cubic-bezier(0, 0, 0.2, 1) infinite; position: absolute; inline-size: 100%; block-size: 100%; border-radius: 50%; background-color: #22c55e; opacity: 0.8;"></span>
                         <span style="position: relative; border-radius: 50%; height: 8px; width: 8px; background-color: #22c55e;"></span>
                     </span>
-                    👁️ <span id="liveVisitors" style="font-weight: 800; color: #fff;">8</span> Live
+                    👁️ <span id="liveVisitors" style="font-weight: 800; color: #fff;">1</span> Live
                 </div>
                 <div style="width: 1px; height: 14px; background: rgba(255, 215, 0, 0.3);"></div>
                 <div style="display: flex; align-items: center; gap: 6px; color: #ffd700; font-size: 13px; font-weight: 600; letter-spacing: 0.3px;">
-                    👤 Total: <span id="totalTraffic" style="font-weight: 800; color: #fff;">1,240</span> Pengunjung
+                    👤 Total: <span id="totalTraffic" style="font-weight: 800; color: #fff;">Loading...</span> Pengunjung
                 </div>
             </div>
             <style>
                 @keyframes livePing {
-
-                    75%,
-                    100% {
+                    75%, 100% {
                         transform: scale(2.2);
                         opacity: 0;
                     }
                 }
             </style>
+            <!-- ====================================================================== -->
         </div>
     </section>
 
@@ -250,6 +250,67 @@
         <p>&copy; 2026 LapakStore88. All Rights Reserved.</p>
     </footer>
 
+    <!-- ENGINE DATABASE FIREBASE UNTUK LIVE TRAFFIC REAL-TIME -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, onValue, push, onDisconnect, set, runTransaction } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        // Konfigurasi Project LapakStore88 asli milik bosku
+        const firebaseConfig = {
+            apiKey: "AIzaSyB6DJyeGbd3mdsYB5QxLo9eLtRxExgUCNc",
+            authDomain: "lapakstore88-f6d56.firebaseapp.com",
+            databaseURL: "https://lapakstore88-f6d56-default-rtdb.firebaseio.com",
+            projectId: "lapakstore88-f6d56",
+            storageBucket: "lapakstore88-f6d56.firebasestorage.app",
+            messagingSenderId: "367270199782",
+            appId: "1:367270199782:web:5c1042b7bf98981d4c1627",
+            measurementId: "G-LXK7TQ227Q"
+        };
+
+        // Konek ke firebase database
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        const onlineUsersRef = ref(database, 'traffic/online_present');
+        const totalTrafficRef = ref(database, 'traffic/total_counter');
+        const connectedRef = ref(database, '.info/connected');
+
+        // Menghitung status online/offline visitor secara aktual
+        onValue(connectedRef, (snapshot) => {
+            if (snapshot.val() === true) {
+                const newLiveRef = push(onlineUsersRef);
+                set(newLiveRef, true);
+
+                // Otomatis hapus ID visitor saat browser/tab ditutup oleh pengunjung
+                onDisconnect(newLiveRef).remove();
+
+                // Hitung total traffic unik per sesi browser agar tidak spamming angka total
+                if (!sessionStorage.getItem('isCounted')) {
+                    runTransaction(totalTrafficRef, (currentValue) => {
+                        return (currentValue || 0) + 1;
+                    });
+                    sessionStorage.setItem('isCounted', 'true');
+                }
+            }
+        });
+
+        // Menampilkan angka Live yang aktif saat ini ke layar HTML bosku
+        onValue(onlineUsersRef, (snapshot) => {
+            let totalLive = 1;
+            if (snapshot.exists()) {
+                totalLive = Object.keys(snapshot.val()).length;
+            }
+            document.getElementById('liveVisitors').innerText = totalLive;
+        });
+
+        // Menampilkan total data pengunjung sepanjang masa ke layar HTML bosku
+        onValue(totalTrafficRef, (snapshot) => {
+            const totalAllTime = snapshot.val() || 0;
+            document.getElementById('totalTraffic').innerText = totalAllTime.toLocaleString('id-ID');
+        });
+    </script>
+
+    <!-- File Script bawaan sistem jualan lapakmu -->
     <script src="script.js"></script>
 </body>
 
