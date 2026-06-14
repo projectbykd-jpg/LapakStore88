@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koleksi Novel Gratis - LapakStore88</title>
+    <link rel="icon" type="image/png" href="https://i.ibb.co/7Jtv7WJs/image.png">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="container">
+            <div class="logo-area">
+                <img src="https://i.ibb.co/7Jtv7WJs/image.png" class="nav-logo" alt="Logo LapakStore88">
+                <div class="logo">LapakStore88</div>
+            </div>
+
+            <input type="checkbox" id="menu-bar">
+            <label for="menu-bar" class="menu-icon">☰</label>
+
+            <nav class="navbar">
+                <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+                <a href="produk.html"><i class="fa-solid fa-gem"></i> Produk</a>
+                <a href="novel.html" class="active"><i class="fa-solid fa-book-open"></i> Novel Gratis</a>
+                <a href="kontak.html"><i class="fa-solid fa-wallet"></i> Pembayaran</a>
+                <button id="loginNavBtn" onclick="openLoginModal()"><i class="fa-solid fa-user-lock"></i> Login</button>
+            </nav>
+        </div>
+    </header>
+
+    <div id="adminBadgePanel" class="admin-badge-bar" style="display: none;">
+        <span><i class="fa-solid fa-shield-halved"></i> Mode Administrator Aktif</span>
+        <button onclick="logoutAdmin()">Keluar Mode Admin</button>
+    </div>
+
+    <section id="novel-section" class="novel-catalog-section">
+        <div class="catalog-header animate-fade-in">
+            <span class="catalog-badge"><i class="fa-solid fa-fire-flame-curved animate-pulse"></i> Trending Hub</span>
+            <h2 class="glow-text">Koleksi Novel Gratis</h2>
+            <div class="title-divider"></div>
+            <p class="catalog-subtitle">Pilih buku favoritmu dan selami ribuan kisah fantasi, romansa, dan petualangan seru sepuasnya tanpa biaya berlangganan!</p>
+        </div>
+
+        <div class="container">
+            <div id="novelGrid" class="grid-novels-layout"></div>
+        </div>
+    </section>
+
+    <div id="novelModal" class="modal-overlay">
+        <div class="modal-box novel-chapters-box">
+            <span class="close-btn" onclick="closeNovelModal()">&times;</span>
+            <div class="modal-top-accent novel-accent">
+                <i class="fa-solid fa-book"></i>
+            </div>
+            <h3 id="modalNovelTitle">Judul Novel</h3>
+            <p class="modal-instruction-text"><i class="fa-solid fa-list-ul"></i> Pilih daftar bab yang ingin kamu baca:</p>
+            
+            <div id="novelChaptersContainer" class="packet-options-container novel-scroll-box"></div>
+        </div>
+    </div>
+
+    <div id="novelReadingContainer" class="reader-overlay" style="display: none;">
+        <div class="reading-progress-container">
+            <div id="readingProgressBar" class="reading-progress-bar"></div>
+        </div>
+
+        <div class="reader-box animate-fade-in">
+            <div class="reader-control-panel">
+                <div class="control-left">
+                    <span class="reader-brand-name"><i class="fa-solid fa-feather-pointed"></i> LapakHub</span>
+                </div>
+                <div class="control-right">
+                    <button class="control-btn" onclick="adjustNovelFontSize(-1)" title="Perkecil Huruf"><i class="fa-solid fa-minus"></i> A</button>
+                    <button class="control-btn" onclick="adjustNovelFontSize(1)" title="Perbesar Huruf">A <i class="fa-solid fa-plus"></i></button>
+                    <button class="control-btn close-reader-btn" onclick="closeNovelReaderElement()" title="Selesai Membaca"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+            </div>
+
+            <h3 id="readingTitle">Bab Cerita</h3>
+            <div class="reader-divider"></div>
+
+            <div id="readingBody"></div>
+
+            <div class="reader-navigation-footer">
+                <button id="btnPrevChapter" class="btn-reader-nav prev" onclick="navigateChapter(-1)">
+                    <i class="fa-solid fa-arrow-left-long"></i> Bab Sebelumnya
+                </button>
+                <button id="btnNextChapter" class="btn-reader-nav next" onclick="navigateChapter(1)">
+                    Bab Selanjutnya <i class="fa-solid fa-arrow-right-long"></i>
+                </button>
+            </div>
+            
+            <div class="reader-exit-zone">
+                <button class="btn-reader-exit" onclick="closeNovelReaderElement()">
+                    <i class="fa-solid fa-circle-check"></i> Selesai Membaca & Kembali
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="loginModal" class="modal-overlay">
+        <div class="modal-box small-modal">
+            <span class="close-btn" onclick="closeLoginModal()">&times;</span>
+            <div class="modal-header-icon">
+                <i class="fa-solid fa-user-gear"></i>
+            </div>
+            <h3>Login Admin Lapak</h3>
+            <div class="form-group">
+                <label><i class="fa-solid fa-circle-user"></i> Username</label>
+                <input type="text" id="usernameInput" class="form-control" placeholder="Masukkan username admin">
+            </div>
+            <div class="form-group">
+                <label><i class="fa-solid fa-key"></i> Password</label>
+                <input type="password" id="passwordInput" class="form-control" placeholder="Masukkan password admin">
+            </div>
+            <p id="loginError" class="error-msg" style="display: none;">❌ Username atau Password salah!</p>
+            <button class="btn-admin-submit" onclick="processLogin()">Masuk Sistem</button>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 <span>LapakStore88</span>. All Rights Reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
