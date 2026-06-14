@@ -222,14 +222,16 @@
 
        // ================= TWEAK FAKE VIEW (SOSIAL PROOF) =================
         
-        let currentFakeTotal = 8430; // Angka dasar awal standar
-        let isFirstLoad = true;      // Kunci pengaman agar Firebase hanya dibaca sekali di awal
+        // Dikurung di local scope module agar TIDAK memblokir script.js luar
+        let localFakeTotal = 8430; 
+        let isFirebaseLoaded = false;
 
-        // 1. Fungsi Manipulasi Live View (Menggabungkan user asli Firebase + bonus)
+        // 1. Manipulasi Live View (Berdasarkan data online Firebase + bonus)
         function updateFakeLiveView(realLiveCount) {
             const fakeBonus = Math.floor(Math.random() * (28 - 12 + 1)) + 12; 
             const finalFakeLive = realLiveCount + fakeBonus;
-            document.getElementById('liveVisitors').innerText = finalFakeLive;
+            const liveEl = document.getElementById('liveVisitors');
+            if (liveEl) liveEl.innerText = finalFakeLive;
         }
 
         onValue(onlineUsersRef, (snapshot) => {
@@ -240,43 +242,47 @@
             updateFakeLiveView(totalLive);
         });
 
-        // 2. LOGIKA UTAMA: Fluktuasi Live & Otomatis Nambah ke Total Pengunjung
+        // 2. Efek Naik Turun Live & Otomatis Nambah ke Total Pengunjung (Setiap 5 Detik)
         setInterval(() => {
-            let currentLive = parseInt(document.getElementById('liveVisitors').innerText) || 15;
+            const liveEl = document.getElementById('liveVisitors');
+            const trafficEl = document.getElementById('totalTraffic');
+            if (!liveEl || !trafficEl) return;
+
+            let currentLive = parseInt(liveEl.innerText) || 15;
             
-            // Buat angka live naik turun secara acak (-1, 0, atau 1)
+            // Acak perubahan untuk Live view (-1, 0, atau 1)
             const change = [ -1, 0, 1 ][Math.floor(Math.random() * 3)];
             let newLive = currentLive + change;
             
-            // Batasi live biar tidak drop atau terlalu berlebihan
             if (newLive < 10) newLive = 12; 
             if (newLive > 35) newLive = 28;
-            document.getElementById('liveVisitors').innerText = newLive;
+            liveEl.innerText = newLive;
 
-            // --- REKUES UTAMAMU DI SINI ---
-            // Setiap 5 detik (saat live fluktuasi naik/turun), tambahkan bonus ke total pengunjung
-            // Kita beri angka acak (1 sampai 2) biar pergerakannya halus dan masuk akal
+            // --- LOGIKA UTAMA SINKRONISASI ---
+            // Setiap 5 detik, tambahkan bonus pengunjung (1 s/d 2) ke total counter secara lokal
             const trafficBonus = Math.floor(Math.random() * 2) + 1; 
-            currentFakeTotal = currentFakeTotal + trafficBonus;
+            localFakeTotal = localFakeTotal + trafficBonus;
             
-            // Cetak total traffic terbaru ke layar browser
-            document.getElementById('totalTraffic').innerText = currentFakeTotal.toLocaleString('id-ID');
+            // Tampilkan angka kumulatif terbaru ke layar browser
+            trafficEl.innerText = localFakeTotal.toLocaleString('id-ID');
         }, 5000);
 
-        // 3. Ambil data asli database di AWAL SAJA untuk mencegah angka lompat/reset balik ke kecil
+        // 3. Ambil Data Pengunjung Asli dari Firebase Hanya Sekali Saat Start
         onValue(totalTrafficRef, (snapshot) => {
-            if (isFirstLoad) {
+            if (!isFirebaseLoaded) {
                 const totalAllTime = snapshot.val() || 0;
                 const baseFakeTraffic = 8430; 
                 
-                // Set angka gabungan di awal (8430 + data asli server)
-                currentFakeTotal = baseFakeTraffic + totalAllTime;
+                // Rumus gabungan pertama kali load
+                localFakeTotal = baseFakeTraffic + totalAllTime;
                 
-                // Tampilkan langsung di layar
-                document.getElementById('totalTraffic').innerText = currentFakeTotal.toLocaleString('id-ID');
+                const trafficEl = document.getElementById('totalTraffic');
+                if (trafficEl) {
+                    trafficEl.innerText = localFakeTotal.toLocaleString('id-ID');
+                }
                 
-                // KUNCI AKTIF: Setelah load pertama berhasil, Firebase dilarang mereset variabel ini lagi!
-                isFirstLoad = false; 
+                // Kunci gerbang: Firebase tidak diizinkan meriset angka ini lagi
+                isFirebaseLoaded = true; 
             }
         });
 
