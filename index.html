@@ -55,11 +55,11 @@
                         <span style="animation: livePing 1.2s cubic-bezier(0, 0, 0.2, 1) infinite; position: absolute; inline-size: 100%; block-size: 100%; border-radius: 50%; background-color: #22c55e; opacity: 0.8;"></span>
                         <span style="position: relative; border-radius: 50%; height: 8px; width: 8px; background-color: #22c55e;"></span>
                     </span>
-                    👁️ <span id="liveVisitors" style="font-weight: 800; color: #fff;">1</span> Live
+                    👁️ <span id="liveVisitors" style="font-weight: 800; color: #fff;">12</span> Live
                 </div>
                 <div style="width: 1px; height: 14px; background: rgba(255, 215, 0, 0.3);"></div>
                 <div style="display: flex; align-items: center; gap: 6px; color: #ffd700; font-size: 13px; font-weight: 600; letter-spacing: 0.3px;">
-                    👤 Total: <span id="totalTraffic" style="font-weight: 800; color: #fff;">Loading...</span> Pengunjung
+                    👤 Total: <span id="totalTraffic" style="font-weight: 800; color: #fff;">8.430</span> Pengunjung
                 </div>
             </div>
             <style>
@@ -70,15 +70,14 @@
                     }
                 }
             </style>
-            </div>
+        </div>
     </section>
 
     <section id="produk" class="section">
         <h2>Katalog Produk Premium</h2>
         <p style="color: #a0aec0; margin-bottom: 30px;">Klik pada nama brand untuk melihat pilihan paket harga & order langsung</p>
 
-        <div id="productGrid" class="grid">
-            </div>
+        <div id="productGrid" class="grid"></div>
     </section>
 
     <section id="novel-section" class="section" style="background: #0f1322; border-top: 1px solid #1e2538;">
@@ -196,7 +195,6 @@
             measurementId: "G-LXK7TQ227Q"
         };
 
-        // Konek ke firebase database
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
 
@@ -204,7 +202,6 @@
         const totalTrafficRef = ref(database, 'traffic/total_counter');
         const connectedRef = ref(database, '.info/connected');
 
-        // Menghitung status online/offline visitor secara aktual
         onValue(connectedRef, (snapshot) => {
             if (snapshot.val() === true) {
                 const newLiveRef = push(onlineUsersRef);
@@ -220,13 +217,12 @@
             }
         });
 
-// ================= TWEAK FAKE VIEW (SOSIAL PROOF) =================
+        // ================= SYSTEM MANIPULASI SOSIAL PROOF SINKRON =================
         
-        // Dikurung dengan aman di lingkup lokal modul agar tidak memblokir script.js luar
         let localFakeTotal = 8430; 
         let isFirebaseLoaded = false;
 
-        // 1. Logika Live View (User asli Firebase + Bonus manipulasi acak)
+        // 1. Sinkronisasi Angka Live View dari Server Firebase + Rumus Acak
         function updateFakeLiveView(realLiveCount) {
             const fakeBonus = Math.floor(Math.random() * (28 - 12 + 1)) + 12; 
             const finalFakeLive = realLiveCount + fakeBonus;
@@ -242,7 +238,7 @@
             updateFakeLiveView(totalLive);
         });
 
-        // 2. LOGIKA UTAMA: Naik-Turun Live & Otomatis Update Total Pengunjung Berkelanjutan
+        // 2. Loop Interval: Naik/Turun Live Sekaligus Menambah Akumulasi Total Pengunjung
         setInterval(() => {
             const liveEl = document.getElementById('liveVisitors');
             const trafficEl = document.getElementById('totalTraffic');
@@ -250,43 +246,40 @@
 
             let currentLive = parseInt(liveEl.innerText) || 15;
             
-            // Mengacak naik turun angka live view (-1, 0, atau 1)
+            // Variasi fluktuasi acak untuk angka Live
             const change = [ -1, 0, 1 ][Math.floor(Math.random() * 3)];
             let newLive = currentLive + change;
             
-            // Batasan rasional angka live
             if (newLive < 10) newLive = 12; 
             if (newLive > 35) newLive = 28;
             liveEl.innerText = newLive;
 
-            // --- SETIAP LIVE BERUBAH -> TAMBAH ANGKA TOTAL ---
-            // Tambahkan bonus acak halus (1 sampai 2 angka) ke total pengunjung saat ini
+            // Proses pembaruan total traffic yang berjalan terus-menerus
             const trafficBonus = Math.floor(Math.random() * 2) + 1; 
             localFakeTotal = localFakeTotal + trafficBonus;
             
-            // Render ke layar menggunakan format ribuan Indonesia asli (menggunakan titik ".")
+            // Output ke layar browser
             trafficEl.innerText = localFakeTotal.toLocaleString('id-ID');
         }, 5000);
 
-        // 3. Ambil data database Firebase asli HANYA SEKALI di awal untuk bonus real-time
+        // 3. Tarik data riwayat traffic asli Firebase di awal load pertama saja
         onValue(totalTrafficRef, (snapshot) => {
             if (!isFirebaseLoaded) {
                 const totalAllTime = snapshot.val() || 0;
                 const baseFakeTraffic = 8430; 
                 
-                // Gabungkan angka dasar 8430 dengan hitungan asli database
                 localFakeTotal = baseFakeTraffic + totalAllTime;
                 
                 const trafficEl = document.getElementById('totalTraffic');
                 if (trafficEl) {
                     trafficEl.innerText = localFakeTotal.toLocaleString('id-ID');
                 }
-                
-                // Kunci gerbang pengaman agar browser tidak mereset variabel ini lagi
-                isFirebaseLoaded = true; 
+                isFirebaseLoaded = true; // Kunci pengaman aktif
             }
         });
-</script>
+    </script>
+    
+    <script src="script.js"></script>
 </body>
 
 </html>
