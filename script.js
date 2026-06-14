@@ -57,37 +57,30 @@ function loadData() {
 // Render data produk premium ke bentuk Card Grid (UPDATED: Mendukung Gambar & Kategori Dinamis)
 function renderProducts() {
     const grid = document.getElementById("productGrid");
-    if (!grid) return; // PENGAMAN: Berhenti jika tidak berada di produk.html
+    if (!grid) return;
     grid.innerHTML = "";
     
-    // Peta cadangan (Hanya dipakai jika di Google Sheets kolom gambar kosong/tidak diset)
-    const logoMap = {
-        'netflix': 'https://img.icons8.com/color/512/netflix--v1.png',
-        'viu': 'https://i.ibb.co/4Z12Ycjm/image.png',
-        'wetv': 'https://i.ibb.co/wFbZ2f16/image.png',
-        'vidio': 'https://i.ibb.co/xSBTxckS/image.png',
-        'youtube': 'https://img.icons8.com/color/512/youtube-play.png',
-        'iqiyi': 'https://i.ibb.co/nqs2CyXY/image.png',
-        'capcut': 'https://i.ibb.co/wZC6s8TL/image.png',
-        'youku': 'https://i.ibb.co/tMTYm90y/image.png',
-        'meitu': 'https://i.ibb.co/G4nYGcfk/image.png',
-        'disney': 'https://i.ibb.co/PZzrW7Zd/image.png',
-        'prime': 'https://img.icons8.com/color/512/amazon-prime-video.png',
-        'hbo': 'https://i.ibb.co/0VZpBWrv/image.png',
-        'apple': 'https://img.icons8.com/color/512/apple-music.png',
-        'picsart': 'https://img.icons8.com/color/512/picsart.png',
-        'loklok': 'https://i.ibb.co/KzW9RJP6/image.png', 
-        'microsoft': 'https://i.ibb.co/bgxh2JFr/image.png',
-        'alight': 'https://i.ibb.co/bjmpFwbc/image.png',
-        'spotify': 'https://img.icons8.com/color/512/spotify--v1.png',
-        'bstation': 'https://img.icons8.com/fluency/512/bilibili.png',
-        'canva': 'https://img.icons8.com/color/512/canva.png',
-        'grammarly': 'https://img.icons8.com/color/512/grammarly.png',
-        'zoom': 'https://img.icons8.com/color/512/zoom.png',
-        'chatgpt': 'https://img.icons8.com/fluent/512/chatgpt.png',
-        'getcontact': 'https://i.ibb.co/XZjRttvR/image.png',
-        'scribd': 'https://i.ibb.co/231Ygg29/image.png'
-    };
+    productsData.forEach(product => {
+        const card = document.createElement("div");
+        card.className = "card";
+        
+        // Mengambil data dari Google Sheets (kolom 'image' atau 'gambar')
+        // Pastikan header di Google Sheet Anda sesuai dengan kunci ini
+        const logoUrl = product.image || product.gambar || 'https://img.icons8.com/fluency/512/box.png';
+        
+        card.onclick = () => openProductModal(product.id);
+        
+        card.innerHTML = `
+            <div class="card-logo-wrapper">
+                <img src="${logoUrl}" alt="${product.name}" class="product-image-sheet" onerror="this.src='https://img.icons8.com/fluency/512/box.png'">
+            </div>
+            <h3 class="product-name" style="text-align: center;">${product.name}</h3>
+        `;
+        
+        // ... (sisanya tetap sama untuk logika admin)
+        grid.appendChild(card);
+    });
+}
     
     productsData.forEach(product => {
         const card = document.createElement("div");
