@@ -222,13 +222,11 @@
 
        // ================= TWEAK FAKE VIEW (SOSIAL PROOF) =================
         
-        // 1. Inisialisasi Angka Dasar Utama & Kunci Firebase
-        let currentFakeTotal = 8430; 
-        let isFirebaseTotalLoaded = false; // Pengunci agar Firebase tidak menimpa interval lokal
+        let currentFakeTotal = 8430; // Angka dasar awal standar
+        let isFirstLoad = true;      // Kunci pengaman agar Firebase hanya dibaca sekali di awal
 
-        // 2. Manipulasi Live View (Berdasarkan data online Firebase + bonus)
+        // 1. Fungsi Manipulasi Live View (Menggabungkan user asli Firebase + bonus)
         function updateFakeLiveView(realLiveCount) {
-            // Ditambah bonus angka acak antara 12 sampai 28 dari visitor asli
             const fakeBonus = Math.floor(Math.random() * (28 - 12 + 1)) + 12; 
             const finalFakeLive = realLiveCount + fakeBonus;
             document.getElementById('liveVisitors').innerText = finalFakeLive;
@@ -242,45 +240,43 @@
             updateFakeLiveView(totalLive);
         });
 
-        // 3. Efek Naik Turun Live & Akumulasi Otomatis ke Total Pengunjung (Setiap 5 Detik)
+        // 2. LOGIKA UTAMA: Fluktuasi Live & Otomatis Nambah ke Total Pengunjung
         setInterval(() => {
-            // Ambil angka live saat ini di layar
             let currentLive = parseInt(document.getElementById('liveVisitors').innerText) || 15;
             
-            // Acak perubahan untuk Live view (-1, 0, atau 1)
+            // Buat angka live naik turun secara acak (-1, 0, atau 1)
             const change = [ -1, 0, 1 ][Math.floor(Math.random() * 3)];
             let newLive = currentLive + change;
             
-            // Batasi biar angka live tetap stabil di kisaran logis
-            if(newLive < 10) newLive = 12; 
-            if(newLive > 35) newLive = 28;
+            // Batasi live biar tidak drop atau terlalu berlebihan
+            if (newLive < 10) newLive = 12; 
+            if (newLive > 35) newLive = 28;
             document.getElementById('liveVisitors').innerText = newLive;
 
-            // --- LOGIKA UTAMA SINKRONISASI ---
-            // Setiap 5 detik saat live bergerak, tambahkan bonus pengunjung (1 s/d 2) secara permanen
+            // --- REKUES UTAMAMU DI SINI ---
+            // Setiap 5 detik (saat live fluktuasi naik/turun), tambahkan bonus ke total pengunjung
+            // Kita beri angka acak (1 sampai 2) biar pergerakannya halus dan masuk akal
             const trafficBonus = Math.floor(Math.random() * 2) + 1; 
             currentFakeTotal = currentFakeTotal + trafficBonus;
             
-            // Update tampilan total pengunjung di layar tanpa takut ter-reset
+            // Cetak total traffic terbaru ke layar browser
             document.getElementById('totalTraffic').innerText = currentFakeTotal.toLocaleString('id-ID');
         }, 5000);
 
-
-        // 4. Sinkronisasi Data Awal Firebase (Hanya Diizinkan Sekali Saat Pertama Load)
+        // 3. Ambil data asli database di AWAL SAJA untuk mencegah angka lompat/reset balik ke kecil
         onValue(totalTrafficRef, (snapshot) => {
-            // Jika status pengunci masih false, izinkan mengambil angka dasar real dari database kamu
-            if (!isFirebaseTotalLoaded) {
+            if (isFirstLoad) {
                 const totalAllTime = snapshot.val() || 0;
                 const baseFakeTraffic = 8430; 
                 
-                // Rumus kalkulasi awal: Angka dasar + Hitungan real server
+                // Set angka gabungan di awal (8430 + data asli server)
                 currentFakeTotal = baseFakeTraffic + totalAllTime;
                 
-                // Tampilkan ke layar
+                // Tampilkan langsung di layar
                 document.getElementById('totalTraffic').innerText = currentFakeTotal.toLocaleString('id-ID');
                 
-                // AKTIFKAN KUNCI: Firebase diputus jalurnya agar tidak bisa merusak data interval di atas
-                isFirebaseTotalLoaded = true; 
+                // KUNCI AKTIF: Setelah load pertama berhasil, Firebase dilarang mereset variabel ini lagi!
+                isFirstLoad = false; 
             }
         });
 
