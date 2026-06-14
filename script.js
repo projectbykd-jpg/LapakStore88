@@ -69,13 +69,6 @@ function loadData() {
     isAdmin = localStorage.getItem("lapakAdminLogin") === "true";
     updateAdminUIElements();
 
-    if (document.getElementById('totalTraffic')) {
-        document.getElementById('totalTraffic').innerText = "8.430"; 
-    }
-    if (document.getElementById('liveVisitors')) {
-        document.getElementById('liveVisitors').innerText = "12"; 
-    }
-
     const grid = document.getElementById("productGrid");
     if (grid) grid.innerHTML = "<div style='color:#ffd700; text-align:center; width:100%; padding:20px;'>Memuat harga terbaru dari database...</div>";
 
