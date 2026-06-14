@@ -192,6 +192,8 @@ h1 {
     font-size: 28px;
     margin-bottom: 8px;
 }
+
+/* Grid Katalog Utama (Membungkus halaman utama & halaman katalog) */
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -209,7 +211,7 @@ h1 {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 12px; /* Jarak pas antara logo dan tulisan */
+    gap: 12px;
 }
 .card:hover {
     transform: translateY(-5px);
@@ -234,7 +236,6 @@ h1 {
     height: 100%;
     object-fit: cover;
 }
-/* Khusus logo berbentuk teks panjang (Viu, Vidio, CapCut, iQIYI) */
 .card-logo-wrapper img.contain-img {
     object-fit: contain; 
 }
@@ -510,4 +511,1016 @@ h1 {
     .compact-box {
         width: 100%;
     }
+}
+
+/* ==========================================================================
+   TAMBAHAN OTOMATIS: SISTEM MODAL & KARTU NOVEL (LAPAKSTORE88)
+   ========================================================================== */
+.novel-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.novel-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(255, 215, 0, 0.2);
+}
+.novel-card img {
+    border: 1px solid #4a5568;
+    transition: transform 0.2s;
+}
+.novel-card:hover img {
+    transform: scale(1.05);
+}
+
+#novelReadingContainer {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #111c24;
+    z-index: 1100;
+    overflow-y: auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+#novelReadingContainer.active {
+    display: block !important;
+}
+
+.reading-content-wrapper {
+    max-width: 700px;
+    margin: 40px auto;
+    background: #1a2632;
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid #2d3748;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+#readingTitle {
+    color: #ffd700;
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: bold;
+    border-bottom: 2px solid #2d3748;
+    padding-bottom: 15px;
+}
+#readingBody {
+    color: #e2e8f0;
+    font-size: 16px;
+    line-height: 1.8;
+    text-align: justify;
+    margin-bottom: 30px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.reading-navigation-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    border-top: 1px solid #2d3748;
+    padding-top: 20px;
+}
+.btn-nav-novel {
+    flex: 1;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s, opacity 0.2s;
+    text-align: center;
+}
+.btn-nav-novel.prev {
+    background: #4a5568;
+    color: #fff;
+}
+.btn-nav-novel.prev:hover {
+    background: #718096;
+}
+.btn-nav-novel.close {
+    background: #e53e3e;
+    color: #fff;
+    max-width: 120px;
+}
+.btn-nav-novel.close:hover {
+    background: #fc8181;
+}
+.btn-nav-novel.next {
+    background: #4cdf66;
+    color: #000;
+}
+.btn-nav-novel.next:hover {
+    background: #68d391;
+}
+
+.chapter-row {
+    transition: background 0.2s;
+    border-bottom: 1px solid #2d3748;
+    padding: 12px 15px !important;
+}
+.chapter-row:hover {
+    background: rgba(255, 215, 0, 0.1) !important;
+}
+
+/* ==========================================================================
+   INTERFASE KUSTOM MODERN UNTUK INDEX LANDING PAGE
+   ========================================================================== */
+.glow-text {
+    font-size: 3.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #fff 30%, #ffd700 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0px 4px 20px rgba(255, 215, 0, 0.15);
+    letter-spacing: -1px;
+    margin-top: 10px;
+}
+.hero-subtitle {
+    font-size: 1.1rem;
+    color: #a0aec0;
+    font-weight: 400;
+    margin-top: -5px;
+    letter-spacing: 1px;
+}
+.hero-tags {
+    font-size: 0.95rem;
+    color: #ffd700;
+    margin: 15px 0 25px 0;
+    opacity: 0.9;
+}
+
+.hero-action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: #fff !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.18) !important;
+    box-shadow: 0 5px 15px rgba(255,255,255,0.1);
+}
+
+.live-counter-widget {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    margin: 30px auto 0 auto;
+    background: rgba(11, 15, 28, 0.65);
+    border: 1px solid rgba(255, 215, 0, 0.25);
+    padding: 10px 22px;
+    border-radius: 50px;
+    width: fit-content;
+    box-sizing: border-box;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+.counter-divider {
+    width: 1px;
+    height: 16px;
+    background: rgba(255, 215, 0, 0.2);
+}
+.counter-text {
+    font-size: 13px;
+    font-weight: 500;
+    color: #cbd5e1;
+    letter-spacing: 0.3px;
+}
+.counter-text strong {
+    color: #fff;
+    font-weight: 700;
+}
+
+.live-pulse {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.pulse-dot {
+    position: relative;
+    display: inline-block;
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    background-color: #4cdf66;
+}
+.pulse-dot::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    border-radius: 50%;
+    background-color: #4cdf66;
+    animation: livePing 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes livePing {
+    75%, 100% {
+        transform: scale(2.5);
+        opacity: 0;
+    }
+}
+
+.features-section {
+    background: #090d16;
+    padding: 60px 20px;
+}
+.container-features {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+.feature-card {
+    background: #111625;
+    border: 1px solid #1e2640;
+    padding: 30px 25px;
+    border-radius: 12px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+.feature-card:hover {
+    transform: translateY(-5px);
+    border-color: #ffd700;
+    box-shadow: 0 10px 20px rgba(255, 215, 0, 0.05);
+}
+.feature-icon {
+    font-size: 2rem;
+    color: #ffd700;
+    margin-bottom: 15px;
+}
+.feature-card h3 {
+    color: #fff;
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+.feature-card p {
+    color: #8492a6;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.modal-header-icon {
+    font-size: 3rem;
+    color: #ffd700;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* ==========================================================================
+   INTERFASE KUSTOM KATALOG PRODUK PREMIUM (LAPAKSTORE88)
+   ========================================================================== */
+.catalog-section {
+    margin-top: 100px;
+    padding: 40px 20px 80px 20px;
+    background: #090d16;
+}
+.catalog-header {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 50px auto;
+}
+.catalog-badge {
+    background: rgba(255, 215, 0, 0.1);
+    color: #ffd700;
+    padding: 6px 14px;
+    border-radius: 30px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    display: inline-block;
+    margin-bottom: 12px;
+}
+.title-divider {
+    width: 60px;
+    height: 3px;
+    background: #ffd700;
+    margin: 15px auto;
+    border-radius: 10px;
+}
+.catalog-subtitle {
+    color: #8492a6;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* AKSI PERBAIKAN: Set sistem grid aktif untuk layout produk premium */
+.grid-products-layout {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)) !important;
+    gap: 20px !important;
+    padding: 10px 0 !important;
+}
+
+/* Maksa semua item di dalamnya agar pas dengan ukuran grid box */
+.grid-products-layout > div {
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+/* Optimasi responsif khusus HP untuk Halaman Produk Premium */
+@media (max-width: 480px) {
+    .grid-products-layout {
+        grid-template-columns: repeat(2, 1fr) !important; /* Otomatis 2 kolom sejajar di layar HP */
+        gap: 12px !important;
+    }
+}
+
+.modal-top-accent {
+    width: 60px;
+    height: 60px;
+    background: rgba(76, 223, 102, 0.1);
+    color: #4cdf66;
+    font-size: 1.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin: -10px auto 15px auto;
+    border: 1px solid rgba(76, 223, 102, 0.2);
+}
+.modal-top-accent.admin-accent {
+    background: rgba(255, 152, 0, 0.1);
+    color: #ff9800;
+    border-color: rgba(255, 152, 0, 0.2);
+}
+.modal-instruction-text {
+    color: #a0aec0;
+    font-size: 13px;
+    text-align: center;
+    margin-top: -10px;
+    margin-bottom: 20px;
+}
+
+.packet-options-container {
+    background: #111c26;
+    border-radius: 10px;
+    border: 1px solid #1e2d3d;
+    padding: 5px;
+    margin-bottom: 25px;
+}
+.admin-scroll-box {
+    max-height: 280px;
+    overflow-y: auto;
+    padding: 15px !important;
+}
+
+.modal-footer-premium {
+    border-top: 1px solid #1e2d3d;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.total-price-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.total-price-block .label {
+    color: #a0aec0;
+    font-size: 14px;
+}
+.total-price-block .price-amount {
+    color: #ffd700;
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.btn-checkout-wa {
+    width: 100%;
+    background: #4cdf66;
+    color: #000;
+    border: none;
+    padding: 14px 20px;
+    font-weight: 700;
+    font-size: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.2s ease;
+}
+.btn-checkout-wa:hover {
+    background: #68d391;
+    box-shadow: 0 5px 15px rgba(76, 223, 102, 0.3);
+    transform: translateY(-2px);
+}
+
+.btn-admin-save {
+    width: 100%;
+    background: #ff9800;
+    color: #000;
+    border: none;
+    padding: 14px 20px;
+    font-weight: 700;
+    font-size: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.2s ease;
+}
+.btn-admin-save:hover {
+    background: #ffa726;
+    box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3);
+    transform: translateY(-2px);
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+.animate-bounce {
+    animation: bounce 1s infinite;
+}
+
+/* ==========================================================================
+   FIXING TOTAL: MEMAKSA KATALOG PRODUK BERJEJER KE SAMPING
+   ========================================================================== */
+
+#productGrid {
+    display: grid !important;
+    /* Membuat kolom otomatis ke samping, minimal lebar kartu 160px */
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)) !important;
+    gap: 20px !important;
+    padding: 30px 0 !important;
+    width: 100% !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    box-sizing: border-box !important;
+}
+
+/* Memastikan setiap kartu produk ukurannya pas dan tidak melar full-screen */
+#productGrid .card {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important; /* Mengikuti lebar kolom grid di atas (160px) */
+    box-sizing: border-box !important;
+}
+
+/* Tampilan Responsif Khusus HP / Layar Kecil */
+@media (max-width: 600px) {
+    #productGrid {
+        /* Di HP otomatis langsung membagi layar jadi 2 kolom sama rata ke samping */
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px !important;
+        padding: 15px !important;
+    }
+}
+
+/* ==========================================================================
+   STYLE TAMBAHAN HERO INDEX SPLIT LAYOUT (PENGISI RUANG KOSONG)
+   ========================================================================== */
+
+.hero {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    min-height: 90vh;
+    padding: 100px 20px 60px 20px;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-split-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    z-index: 5;
+    gap: 50px;
+}
+
+.hero-left-content {
+    flex: 1;
+    text-align: left; /* Teks rapi rata kiri untuk estetik premium */
+}
+
+.hero-brand-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.hero-logo {
+    max-width: 65px;
+    height: auto;
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.4));
+}
+
+.hero-left-content .hero-subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #e2e8f0;
+}
+
+.hero-left-content .hero-action-buttons {
+    justify-content: flex-start;
+}
+
+.hero-left-content .live-counter-widget {
+    margin: 30px 0 0 0;
+    align-self: flex-start;
+    display: inline-flex;
+}
+
+/* Sisi Kanan: Tata Letak Grid Floating Showcase */
+.hero-right-showcase {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.floating-showcase-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+    width: 100%;
+    max-width: 420px;
+}
+
+.showcase-item {
+    background: linear-gradient(145deg, rgba(11, 35, 66, 0.8), rgba(7, 25, 48, 0.8));
+    border: 1px solid rgba(255, 215, 0, 0.25);
+    border-radius: 20px;
+    padding: 25px 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+}
+
+.showcase-item img {
+    max-width: 60px;
+    height: 60px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.showcase-item p {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 0.5px;
+}
+
+/* Animasi Floating Halus Berbeda Ritme */
+.item-1 { animation: floatAnim 4s ease-in-out infinite; }
+.item-2 { animation: floatAnim 4.6s ease-in-out infinite 0.5s; }
+.item-3 { animation: floatAnim 4.3s ease-in-out infinite 1s; }
+.item-4 { animation: floatAnim 5s ease-in-out infinite 0.3s; }
+
+@keyframes floatAnim {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); border-color: rgba(255, 215, 0, 0.5); box-shadow: 0 20px 40px rgba(255, 215, 0, 0.1); }
+}
+
+/* MEDIA QUERY: Otomatis Menyesuaikan Mode HP agar Tetap Cantik Vertikal */
+@media (max-width: 900px) {
+    .hero-split-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 40px;
+    }
+    .hero-left-content {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .hero-brand-wrapper {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .hero-left-content .hero-action-buttons {
+        justify-content: center;
+    }
+    .hero-left-content .live-counter-widget {
+        align-self: center;
+    }
+    .floating-showcase-grid {
+        max-width: 340px;
+        gap: 15px;
+    }
+    .showcase-item {
+        padding: 15px 10px;
+    }
+    .showcase-item img {
+        max-width: 45px;
+        height: 45px;
+    }
+}
+
+/* ==========================================================================
+   STYLE FILTRATION & ADVANCED KATALOG PRODUK (PREMIUM LOOK)
+   ========================================================================== */
+
+.catalog-section {
+    padding-top: 110px;
+    padding-bottom: 60px;
+    min-height: 85vh;
+}
+
+.catalog-header {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto 40px auto;
+    text-align: center;
+    padding: 20px;
+    z-index: 2;
+}
+
+/* Penampung Search & Tabs */
+.catalog-filter-container {
+    margin-top: 35px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+/* Modifikasi Search Box */
+.search-box-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+}
+
+.search-box-wrapper .search-icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 215, 0, 0.6);
+    font-size: 16px;
+}
+
+.search-box-wrapper input {
+    width: 100%;
+    padding: 14px 20px 14px 48px;
+    background: rgba(11, 35, 66, 0.6);
+    border: 1px solid rgba(255, 215, 0, 0.25);
+    border-radius: 50px;
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    outline: none;
+    backdrop-filter: blur(5px);
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.search-box-wrapper input:focus {
+    border-color: #ffd700;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+    background: rgba(11, 35, 66, 0.9);
+}
+
+/* Tombol Tabs Kategori */
+.filter-tabs {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.tab-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 8px 18px;
+    border-radius: 30px;
+    color: #cbd5e1;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tab-btn i {
+    font-size: 12px;
+}
+
+.tab-btn:hover {
+    background: rgba(255, 215, 0, 0.1);
+    border-color: rgba(255, 215, 0, 0.4);
+    color: #fff;
+}
+
+.tab-btn.active {
+    background: linear-gradient(135deg, #ffd700, #b8860b);
+    border-color: #ffd700;
+    color: #030e1e;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+}
+
+/* Tampilan Jika Search Tidak Ada */
+.empty-search-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 20px;
+    color: #94a3b8;
+    width: 100%;
+}
+
+.empty-search-state i {
+    font-size: 50px;
+    color: rgba(255, 215, 0, 0.3);
+    margin-bottom: 15px;
+}
+
+.empty-search-state h4 {
+    font-size: 18px;
+    color: #f8fafc;
+    margin: 0 0 8px 0;
+}
+
+.empty-search-state p {
+    font-size: 14px;
+    margin: 0;
+    max-width: 400px;
+}
+
+/* Modifikasi Efek Hover Card biar Makin Berkelas */
+#productGrid .card {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease !important;
+}
+
+#productGrid .card:hover {
+    transform: translateY(-8px) scale(1.02) !important;
+    border-color: #ffd700 !important;
+    box-shadow: 0 15px 30px rgba(255, 215, 0, 0.15) !important;
+}
+
+.product-image-sheet {
+    width: 70px !important;
+    height: 70px !important;
+    object-fit: contain !important;
+    margin-bottom: 15px !important;
+    border-radius: 15px !important;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+}
+
+/* ==========================================================================
+   INTERFASE MODERN DIGITAL NOVEL HUB (LAPAKSTORE88)
+   ========================================================================== */
+
+.grid-novels-layout {
+    display: grid !important;
+    /* Memaksa selalu 2 kolom di layar kecil tanpa peduli lebar konten */
+    grid-template-columns: repeat(2, 1fr) !important; 
+    gap: 15px !important;
+    padding: 10px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+/* Pastikan kartu novel di dalamnya juga tidak memakan tempat berlebih */
+.grid-novels-layout > div, 
+.grid-novels-layout > .novel-card {
+    width: 100% !important;
+    min-width: 0 !important; /* Mencegah kartu mendorong grid */
+    margin: 0 !important;
+}
+
+/* Modifikasi Box Modal Daftar Bab */
+.modal-top-accent.novel-accent {
+    background: rgba(255, 215, 0, 0.1);
+    color: #ffd700;
+    border-color: rgba(255, 215, 0, 0.2);
+}
+
+.novel-scroll-box {
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 5px;
+}
+
+.reader-overlay {
+    position: fixed !important;
+    inset: 0 !important;
+    background: #090d16 !important;
+    z-index: 999999 !important;
+    display: none !important; /* Diubah dari flex menjadi none agar tidak langsung muncul */
+    align-items: center;
+    justify-content: center;
+    padding: 0 !important;
+}
+
+/* Ketika class .active ditambahkan oleh JavaScript, baru dia memunculkan diri */
+.reader-overlay.active {
+    display: flex !important;
+}
+
+.reader-box {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 750px !important;
+    background: #121824 !important; /* Latar gelap teduh khusus membaca */
+    box-shadow: 0 0 60px rgba(0,0,0,0.6);
+    display: flex;
+    flex-direction: column;
+    padding: 25px 30px !important;
+    box-sizing: border-box;
+    border-left: 1px solid rgba(255,255,255,0.05);
+    border-right: 1px solid rgba(255,255,255,0.05);
+}
+
+@media(max-width: 600px) {
+    .reader-box {
+        padding: 15px 15px !important;
+    }
+}
+
+/* Progres Bar Membaca Atas */
+.reading-progress-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: rgba(255,255,255,0.05);
+    z-index: 5100;
+}
+.reading-progress-bar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(to right, #ffd700, #4cdf66);
+    transition: width 0.1s ease;
+}
+
+/* Panel Kontrol Atas Lembaran */
+.reader-control-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.reader-brand-name {
+    font-size: 13px;
+    color: #ffd700;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+.control-btn {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #cbd5e1;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-left: 6px;
+    transition: all 0.2s;
+}
+.control-btn:hover {
+    background: rgba(255,215,0,0.15);
+    color: #ffd700;
+    border-color: #ffd700;
+}
+.close-reader-btn {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+}
+.close-reader-btn:hover {
+    background: #ef4444;
+    color: #fff;
+    border-color: #ef4444;
+}
+
+/* Judul & Garis Buku */
+#readingTitle {
+    font-size: 22px !important;
+    font-weight: 700 !important;
+    color: #ffd700 !important;
+    text-align: center !important;
+    margin: 10px 0 !important;
+    line-height: 1.4;
+}
+.reader-divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255,215,0,0.3), transparent);
+    margin: 15px auto 20px auto;
+    width: 60%;
+}
+
+/* Blok Inti Teks Cerita (Sangat Hidup & Fleksibel) */
+#readingBody {
+    flex: 1 !important;
+    overflow-y: auto !important;
+    padding: 10px 15px 30px 15px !important;
+    font-family: 'Lora', Georgia, serif !important; /* Font khusus karya sastra */
+    font-size: 17px; /* Ukuran default ideal mata */
+    line-height: 2 !important; /* Spasi renggang nyaman dibaca */
+    color: #cbd5e1 !important;
+    text-align: justify !important;
+    scrollbar-width: thin;
+    scroll-behavior: smooth;
+}
+
+/* Navigasi Footer Pembaca */
+.reader-navigation-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+.btn-reader-nav {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+.btn-reader-nav.prev {
+    background: #232d3f;
+    color: #94a3b8;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+.btn-reader-nav.prev:hover {
+    background: #2d394f;
+    color: #fff;
+}
+.btn-reader-nav.next {
+    background: #ffd700;
+    color: #090d16;
+}
+.btn-reader-nav.next:hover {
+    background: #ffea70;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
+    transform: translateY(-1px);
+}
+
+/* Tombol Exit Akhir */
+.reader-exit-zone {
+    text-align: center;
+    margin-top: 12px;
+}
+.btn-reader-exit {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #64748b;
+    padding: 6px 20px;
+    font-size: 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.2s;
+}
+.btn-reader-exit:hover {
+    color: #fff;
+    background: rgba(255,255,255,0.03);
+    border-color: rgba(255,255,255,0.2);
 }
