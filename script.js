@@ -1,61 +1,77 @@
 // ================= CONFIGURATION =================
-const ADMIN_USERNAME = "admin";
-const ADMIN_PASSWORD = "password88"; 
-const whatsappNumber = "6285180572575";
-// URL BARU ANDA SUDAH DIPASANG DI SINI
 const SPREADSHEET_URL = "https://script.google.com/macros/s/AKfycbxIV3NFcgOP_5vTJ-Qw1NA9FPzvJCoRBt3RJMZC1J7nIpkP5P0s_X5hpaZPN1Q8gAD6jw/exec";
 
 let productsData = [];
 let novelsData = []; 
-let activeProduct = null;
-let activeNovel = null; 
-let currentChapterIndex = 0; 
-let isAdmin = false;
-let adminActiveProductId = null;
+let activeNovel = null;
 
 // ================= INITIALIZATION =================
 function loadData() {
-    isAdmin = localStorage.getItem("lapakAdminLogin") === "true";
-    updateAdminUIElements();
-
     fetch(SPREADSHEET_URL)
-        .then(response => response.json())
+        .then(res => res.json())
         .then(data => {
-            // Data diambil langsung dari URL terbaru
             productsData = data.products || [];
             novelsData = data.novels || [];
-            renderProducts();
-            renderNovels();
+            
+            // Render berdasarkan halaman yang aktif
+            if (document.getElementById("productGrid")) renderProducts('all');
+            if (document.getElementById("novelGrid")) renderNovels();
         })
-        .catch(error => {
-            console.error("Gagal memuat dari Sheet:", error);
-        });
+        .catch(err => console.error("Error loading data:", err));
 }
 
-// ================= RENDER PRODUK & NOVEL =================
-function renderProducts() {
+// ================= RENDER PRODUK DENGAN FILTER =================
+window.renderProducts = (category = 'all') => {
     const grid = document.getElementById("productGrid");
     if (!grid) return;
     grid.innerHTML = "";
-    productsData.forEach(p => {
+
+    const filtered = (category === 'all') 
+        ? productsData 
+        : productsData.filter(p => p.category && p.category.toLowerCase() === category.toLowerCase());
+
+    if (filtered.length === 0) {
+        grid.innerHTML = `<div style="text-align:center; padding:20px; color:#aaa;"><h3>Aplikasi Tidak Ditemukan</h3></div>`;
+        return;
+    }
+
+    filtered.forEach(p => {
         const card = document.createElement("div");
         card.className = "card";
         card.innerHTML = `
-            <div class="card-logo-wrapper"><img src="${p.image || 'https://img.icons8.com/fluency/512/box.png'}" class="product-image-sheet" onerror="this.src='https://img.icons8.com/fluency/512/box.png'"></div>
+            <div class="card-logo-wrapper"><img src="${p.image || 'https://img.icons8.com/fluency/512/box.png'}" onerror="this.src='https://img.icons8.com/fluency/512/box.png'"></div>
             <h3 class="product-name">${p.name}</h3>
         `;
         card.onclick = () => openProductModal(p.id);
-        if (isAdmin) {
-            const btn = document.createElement("button");
-            btn.innerText = "🛠️ Edit";
-            btn.style.marginTop = "10px";
-            btn.onclick = (e) => { e.stopPropagation(); openAdminEditModal(p.id); };
-            card.appendChild(btn);
-        }
         grid.appendChild(card);
     });
+};
+
+// ================= MODAL PRODUK =================
+function openProductModal(id) {
+    const p = productsData.find(x => x.id === id);
+    if (!p) return;
+    
+    document.getElementById("modalProductName").innerText = p.name;
+    const container = document.getElementById("packetOptionsContainer");
+    container.innerHTML = "";
+    
+    p.packets.forEach((pkt, i) => {
+        container.innerHTML += `
+            <label class="packet-row" style="display:block; padding:10px; border-bottom:1px solid #333; cursor:pointer;">
+                <input type="radio" name="pkt" value="${pkt.price}" onchange="updateTotalPrice(${pkt.price})" ${i===0?'checked':''}>
+                ${pkt.type} - ${pkt.desc} | Rp ${Number(pkt.price).toLocaleString()}
+            </label>`;
+    });
+    document.getElementById("totalPrice").innerText = "Rp " + Number(p.packets[0].price).toLocaleString();
+    document.getElementById("productModal").classList.add("active");
 }
 
+window.updateTotalPrice = (price) => {
+    document.getElementById("totalPrice").innerText = "Rp " + Number(price).toLocaleString();
+};
+
+// ================= NOVEL SYSTEM =================
 function renderNovels() {
     const grid = document.getElementById("novelGrid");
     if (!grid) return;
@@ -64,82 +80,41 @@ function renderNovels() {
         const card = document.createElement("div");
         card.className = "card novel-card";
         card.onclick = () => openNovelModal(n.id);
-        card.innerHTML = `<div class="card-logo-wrapper"><img src="${n.foto}" style="max-width:85px;" onerror="this.src='https://img.icons8.com/fluency/512/book.png'"></div><div style="margin-top:10px;">${n.judul}</div>`;
+        card.innerHTML = `<img src="${n.foto}" style="width:60px;" onerror="this.src='https://img.icons8.com/fluency/512/book.png'"><div>${n.judul}</div>`;
         grid.appendChild(card);
     });
 }
 
-// ================= NOVEL SYSTEM =================
 window.openNovelModal = (id) => {
-    activeNovel = novelsData.find(n => n.id === id);
+    activeNovel = novelsData.find(x => x.id === id);
     if (!activeNovel) return;
     document.getElementById("modalNovelTitle").innerText = activeNovel.judul;
     const container = document.getElementById("novelChaptersContainer");
     container.innerHTML = "";
     activeNovel.chapters.forEach((ch, i) => {
-        const row = document.createElement("div");
-        row.className = "packet-row";
-        row.onclick = () => readChapter(i);
-        row.innerHTML = `<div>📖 ${ch.bab}</div>`;
-        container.appendChild(row);
+        const btn = document.createElement("div");
+        btn.className = "packet-row";
+        btn.style.cursor = "pointer";
+        btn.style.padding = "10px";
+        btn.style.borderBottom = "1px solid #333";
+        btn.innerHTML = `📖 ${ch.bab}`;
+        btn.onclick = () => readChapter(i);
+        container.appendChild(btn);
     });
     document.getElementById("novelModal").classList.add("active");
 };
 
-window.readChapter = (index) => {
-    currentChapterIndex = index;
-    const ch = activeNovel.chapters[index];
+window.readChapter = (i) => {
+    const ch = activeNovel.chapters[i];
     document.getElementById("readingTitle").innerText = ch.bab;
     document.getElementById("readingBody").innerText = ch.isi;
     document.getElementById("novelReadingContainer").classList.add("active");
 };
 
-// ================= MODAL & SHOPPING =================
-function openProductModal(id) {
-    activeProduct = productsData.find(p => p.id === id);
-    if (!activeProduct) return;
-    document.getElementById("modalProductName").innerText = activeProduct.name;
-    const container = document.getElementById("packetOptionsContainer");
-    container.innerHTML = "";
-    activeProduct.packets.forEach((p, i) => {
-        container.innerHTML += `<label class="packet-row"><input type="radio" name="pkt" onchange="updateTotalPrice(${p.price})" ${i===0?'checked':''}> ${p.type} - ${p.desc} | Rp ${Number(p.price).toLocaleString()}</label>`;
-    });
-    document.getElementById("totalPrice").innerText = "Rp " + Number(activeProduct.packets[0].price).toLocaleString();
-    document.getElementById("productModal").classList.add("active");
-}
-
-window.updateTotalPrice = (price) => {
-    document.getElementById("totalPrice").innerText = "Rp " + Number(price).toLocaleString();
-};
-
-// ================= ADMIN & LOGIN =================
-function updateAdminUIElements() {
-    const loginNavBtn = document.getElementById("loginNavBtn");
-    if (!loginNavBtn) return;
-    loginNavBtn.innerText = isAdmin ? "Admin Aktif" : "Login";
-    loginNavBtn.onclick = isAdmin ? logoutAdmin : openLoginModal;
-}
-
-window.openLoginModal = () => document.getElementById("loginModal").classList.add("active");
-window.processLogin = () => {
-    if (document.getElementById("usernameInput").value === ADMIN_USERNAME && document.getElementById("passwordInput").value === ADMIN_PASSWORD) {
-        isAdmin = true;
-        localStorage.setItem("lapakAdminLogin", "true");
-        updateAdminUIElements();
-        renderProducts();
-        document.getElementById("loginModal").classList.remove("active");
-    } else alert("Login Gagal!");
-};
-
-window.logoutAdmin = () => {
-    isAdmin = false;
-    localStorage.setItem("lapakAdminLogin", "false");
-    updateAdminUIElements();
-    renderProducts();
-};
-
 // ================= CLOSERS =================
-window.closeModal = () => document.querySelectorAll(".modal-overlay").forEach(m => m.classList.remove("active"));
-window.closeNovelReaderElement = () => document.getElementById("novelReadingContainer").classList.remove("active");
+// Menutup semua modal yang memiliki class .modal-overlay
+window.closeModal = () => {
+    document.querySelectorAll(".modal-overlay").forEach(m => m.classList.remove("active"));
+};
 
 document.addEventListener("DOMContentLoaded", loadData);
