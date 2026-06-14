@@ -1,51 +1,178 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Produk | LapakStore88</title>
-
-<link rel="stylesheet" href="style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Katalog Produk Premium - LapakStore88</title>
+    <link rel="icon" type="image/png" href="https://i.ibb.co/7Jtv7WJs/image.png">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
 
-<div class="container page">
+    <header class="header">
+        <div class="container">
+            <div class="logo-area">
+                <img src="https://i.ibb.co/7Jtv7WJs/image.png" class="nav-logo" alt="Logo LapakStore88">
+                <div class="logo">LapakStore88</div>
+            </div>
 
-<h1>Daftar Produk</h1>
+            <input type="checkbox" id="menu-bar">
+            <label for="menu-bar" class="menu-icon">☰</label>
 
-<div class="cards">
+            <nav class="navbar">
+                <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+                <a href="produk.html" class="active"><i class="fa-solid fa-gem"></i> Produk</a>
+                <a href="novel.html"><i class="fa-solid fa-book-open"></i> Novel Gratis</a>
+                <a href="kontak.html"><i class="fa-solid fa-wallet"></i> Pembayaran</a>
+                <button id="loginNavBtn" onclick="openLoginModal()"><i class="fa-solid fa-user-lock"></i> Login</button>
+            </nav>
+        </div>
+    </header>
 
-<div class="card">
-<h3>Netflix Premium</h3>
-<p>Rp25.000</p>
-</div>
+    <div id="adminBadgePanel" class="admin-badge-bar" style="display: none;">
+        <span><i class="fa-solid fa-shield-halved"></i> Mode Administrator Aktif</span>
+        <button onclick="logoutAdmin()">Keluar Mode Admin</button>
+    </div>
 
-<div class="card">
-<h3>Spotify Premium</h3>
-<p>Rp20.000</p>
-</div>
+    <section id="produk" class="catalog-section">
+        <div class="catalog-header animate-fade-in">
+            <div class="catalog-header-glow"></div>
+            <span class="catalog-badge"><i class="fa-solid fa-wand-magic-sparkles animate-pulse"></i> Best Seller Apps</span>
+            <h2 class="glow-text">Katalog Produk Premium</h2>
+            <div class="title-divider"></div>
+            <p class="catalog-subtitle">Pilih aplikasi favoritmu di bawah ini untuk melihat daftar varian paket durasi, harga terupdate, dan order instan otomatis.</p>
+            
+            <div class="catalog-filter-container">
+                <div class="search-box-wrapper">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="productSearchInput" onkeyup="filterProductsByName()" placeholder="Cari aplikasi premium favoritmu...">
+                </div>
+                <div class="filter-tabs">
+                    <button class="tab-btn active" onclick="filterProductTab('all')"><i class="fa-solid fa-border-all"></i> Semua</button>
+                    <button class="tab-btn" onclick="filterProductTab('streaming')"><i class="fa-solid fa-clapperboard"></i> Streaming</button>
+                    <button class="tab-btn" onclick="filterProductTab('music')"><i class="fa-solid fa-music"></i> Musik</button>
+                    <button class="tab-btn" onclick="filterProductTab('tools')"><i class="fa-solid fa-screwdriver-wrench"></i> Tools</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div id="productGrid" class="grid grid-products-layout"></div>
+            
+            <div id="searchNotFound" class="empty-search-state" style="display: none;">
+                <i class="fa-solid fa-folder-open"></i>
+                <h4>Aplikasi Tidak Ditemukan</h4>
+                <p>Maaf, produk digital yang kamu cari belum tersedia atau coba cek kembali ejaanmu.</p>
+            </div>
+        </div>
+    </section>
 
-<div class="card">
-<h3>YouTube Premium</h3>
-<p>Rp20.000</p>
-</div>
+    <div id="productModal" class="modal-overlay">
+        <div class="modal-box">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <div class="modal-top-accent">
+                <i class="fa-solid fa-basket-shopping"></i>
+            </div>
+            <h3 id="modalProductName">Nama Brand</h3>
+            <p class="modal-instruction-text">Pilih durasi paket akun premium yang ingin kamu pesan:</p>
+            
+            <div id="packetOptionsContainer" class="packet-options-container"></div>
+            
+            <div class="modal-footer-premium">
+                <div class="total-price-block">
+                    <span class="label">Total Pembayaran:</span>
+                    <strong id="totalPrice" class="price-amount">Rp 0</strong>
+                </div>
+                <button class="btn-checkout-wa" onclick="sendWhatsAppOrder()">
+                    <i class="fa-brands fa-whatsapp"></i> Beli Sekarang via WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
 
-<div class="card">
-<h3>Canva Pro</h3>
-<p>Rp15.000</p>
-</div>
+    <div id="adminEditModal" class="modal-overlay">
+        <div class="modal-box">
+            <span class="close-btn" onclick="closeAdminModal()">&times;</span>
+            <div class="modal-top-accent admin-accent">
+                <i class="fa-solid fa-screwdriver-wrench"></i>
+            </div>
+            <h3 id="adminTargetProductName">Edit Paket</h3>
+            <p class="modal-instruction-text">Ubah konfigurasi teks tipe, durasi hari/bulan, dan harga dasar di bawah:</p>
+            
+            <div id="adminPacketsEditorContainer" class="packet-options-container admin-scroll-box"></div>
+            
+            <div class="modal-footer-premium">
+                <div class="total-price-block"></div>
+                <button class="btn-admin-save" onclick="saveAdminChanges()">
+                    <i class="fa-solid fa-floppy-disk"></i> Simpan Structure Perubahan Data
+                </button>
+            </div>
+        </div>
+    </div>
 
-<div class="card">
-<h3>ChatGPT Plus</h3>
-<p>Hubungi Admin</p>
-</div>
+    <footer class="footer">
+        <p>&copy; 2026 <span>LapakStore88</span>. All Rights Reserved.</p>
+    </footer>
 
-</div>
+    <script>
+        // Fitur Pencarian Nama Berdasarkan Input Teks
+        function filterProductsByName() {
+            let input = document.getElementById('productSearchInput').value.toLowerCase();
+            let grid = document.getElementById('productGrid');
+            let cards = grid.getElementsByClassName('card');
+            let anyVisible = false;
 
-</div>
+            for (let i = 0; i < cards.length; i++) {
+                let nameElement = cards[i].querySelector('h3') || cards[i].querySelector('.product-name') || cards[i];
+                let txtValue = nameElement.textContent || nameElement.innerText;
+                
+                if (txtValue.toLowerCase().indexOf(input) > -1) {
+                    cards[i].style.setProperty('display', '', 'important');
+                    anyVisible = true;
+                } else {
+                    cards[i].style.setProperty('display', 'none', 'important');
+                }
+            }
 
+            // Memunculkan pesan eror jika tidak ditemukan sama sekali
+            document.getElementById('searchNotFound').style.display = anyVisible ? 'none' : 'flex';
+        }
+
+        // Fitur Tab Filter Kategori (Fungsional & Siap Pakai jika Element Card ditandai data-category)
+        function filterProductTab(category) {
+    // Ubah status aktif tombol tab visual
+    let tabs = document.querySelectorAll('.tab-btn');
+    tabs.forEach(tab => tab.classList.remove('active'));
+    
+    // Proteksi jika dijalankan otomatis atau via klik
+    if(event && event.currentTarget) {
+        event.currentTarget.classList.add('active');
+    }
+
+    let grid = document.getElementById('productGrid');
+    let cards = grid.getElementsByClassName('card');
+    let anyVisible = false;
+
+    for (let i = 0; i < cards.length; i++) {
+        // Membaca atribut data-category yang sudah disuntikkan dari script.js tadi
+        let cardCategory = cards[i].getAttribute('data-category') || 'all';
+        
+        if (category === 'all' || cardCategory === category) {
+            cards[i].style.setProperty('display', 'flex', 'important'); // Kembalikan ke susunan kotak flex
+            anyVisible = true;
+        } else {
+            cards[i].style.setProperty('display', 'none', 'important');
+        }
+    }
+    
+    // Tampilkan pesan jika kosong
+    document.getElementById('searchNotFound').style.display = anyVisible ? 'none' : 'flex';
+}
+    </script>
+    <script src="script.js"></script>
 </body>
 </html>
