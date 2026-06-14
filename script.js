@@ -305,12 +305,13 @@ function updateAdminUIElements() {
     }
 }
 
-function openLoginModal() {
+// Mengatur eksposisi fungsi ke lingkup window agar bisa dipicu oleh elemen HTML onclick
+window.openLoginModal = function() {
     const modal = document.getElementById("loginModal");
     if (modal) modal.classList.add("active");
 }
 
-function closeLoginModal() {
+window.closeLoginModal = function() {
     const modal = document.getElementById("loginModal");
     if (modal) modal.classList.remove("active");
     
@@ -323,7 +324,7 @@ function closeLoginModal() {
     if (passInput) passInput.value = "";
 }
 
-function processLogin() {
+window.processLogin = function() {
     const user = document.getElementById("usernameInput")?.value;
     const pass = document.getElementById("passwordInput")?.value;
     
@@ -340,7 +341,7 @@ function processLogin() {
     }
 }
 
-function logoutAdmin() {
+window.logoutAdmin = function() {
     isAdmin = false;
     localStorage.setItem("lapakAdminLogin", "false");
     updateAdminUIElements();
@@ -389,7 +390,7 @@ function openProductModal(productId) {
     if (modal) modal.classList.add("active");
 }
 
-function changeSelectedPacketRow(radioElement, price) {
+window.changeSelectedPacketRow = function(radioElement, price) {
     document.querySelectorAll(".packet-row").forEach(el => el.classList.remove("selected"));
     const parentLabel = radioElement.closest(".packet-row");
     if (parentLabel) parentLabel.classList.add("selected");
@@ -403,12 +404,12 @@ function updateTotalPrice(price) {
     }
 }
 
-function closeModal() {
+window.closeModal = function() {
     const modal = document.getElementById("productModal");
     if (modal) modal.classList.remove("active");
 }
 
-function sendWhatsAppOrder() {
+window.sendWhatsAppOrder = function() {
     if (!activeProduct) return;
     const selectedRadio = document.querySelector('input[name="packetSelect"]:checked');
     if (!selectedRadio) return;
@@ -461,7 +462,7 @@ function openAdminEditModal(productId) {
     if (modal) modal.classList.add("active");
 }
 
-function saveAdminChanges() {
+window.saveAdminChanges = function() {
     const product = productsData.find(p => p.id === adminActiveProductId);
     if (!product) return;
     
@@ -484,12 +485,24 @@ function saveAdminChanges() {
     alert(`Berhasil! Struktur paket harga baru untuk ${product.name} telah disimpan.`);
 }
 
-function closeAdminModal() {
+window.closeAdminModal = function() {
     const modal = document.getElementById("adminEditModal");
     if (modal) modal.classList.remove("active");
 }
 
-// Global window handler untuk menutup overlay modal yang aktif
+window.closeNovelModal = function() {
+    const modal = document.getElementById("novelModal");
+    if (modal) modal.classList.remove("active");
+}
+
+window.navigateChapter = function(direction) {
+    const targetIndex = currentChapterIndex + direction;
+    if (activeNovel && activeNovel.chapters[targetIndex]) {
+        readChapter(targetIndex);
+    }
+}
+
+// Global window handler untuk menutup overlay modal yang aktif ketika area luar di-klik
 window.onclick = function(e) {
     if (e.target.classList.contains("modal-overlay")) {
         closeModal();
@@ -497,7 +510,6 @@ window.onclick = function(e) {
         closeAdminModal();
         closeNovelModal(); 
         
-        // Menutup penel bacaan novel jika area luar modal di-klik
         const bacaBox = document.getElementById("novelReadingContainer");
         if (bacaBox) {
             bacaBox.classList.remove("active");
