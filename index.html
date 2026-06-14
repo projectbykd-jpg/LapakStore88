@@ -220,13 +220,13 @@
             }
         });
 
-       // ================= TWEAK FAKE VIEW (SOSIAL PROOF) =================
+// ================= TWEAK FAKE VIEW (SOSIAL PROOF) =================
         
-        // Dikurung di local scope module agar TIDAK memblokir script.js luar
+        // Dikurung dengan aman di lingkup lokal modul agar tidak memblokir script.js luar
         let localFakeTotal = 8430; 
         let isFirebaseLoaded = false;
 
-        // 1. Manipulasi Live View (Berdasarkan data online Firebase + bonus)
+        // 1. Logika Live View (User asli Firebase + Bonus manipulasi acak)
         function updateFakeLiveView(realLiveCount) {
             const fakeBonus = Math.floor(Math.random() * (28 - 12 + 1)) + 12; 
             const finalFakeLive = realLiveCount + fakeBonus;
@@ -242,7 +242,7 @@
             updateFakeLiveView(totalLive);
         });
 
-        // 2. Efek Naik Turun Live & Otomatis Nambah ke Total Pengunjung (Setiap 5 Detik)
+        // 2. LOGIKA UTAMA: Naik-Turun Live & Otomatis Update Total Pengunjung Berkelanjutan
         setInterval(() => {
             const liveEl = document.getElementById('liveVisitors');
             const trafficEl = document.getElementById('totalTraffic');
@@ -250,30 +250,31 @@
 
             let currentLive = parseInt(liveEl.innerText) || 15;
             
-            // Acak perubahan untuk Live view (-1, 0, atau 1)
+            // Mengacak naik turun angka live view (-1, 0, atau 1)
             const change = [ -1, 0, 1 ][Math.floor(Math.random() * 3)];
             let newLive = currentLive + change;
             
+            // Batasan rasional angka live
             if (newLive < 10) newLive = 12; 
             if (newLive > 35) newLive = 28;
             liveEl.innerText = newLive;
 
-            // --- LOGIKA UTAMA SINKRONISASI ---
-            // Setiap 5 detik, tambahkan bonus pengunjung (1 s/d 2) ke total counter secara lokal
+            // --- SETIAP LIVE BERUBAH -> TAMBAH ANGKA TOTAL ---
+            // Tambahkan bonus acak halus (1 sampai 2 angka) ke total pengunjung saat ini
             const trafficBonus = Math.floor(Math.random() * 2) + 1; 
             localFakeTotal = localFakeTotal + trafficBonus;
             
-            // Tampilkan angka kumulatif terbaru ke layar browser
+            // Render ke layar menggunakan format ribuan Indonesia asli (menggunakan titik ".")
             trafficEl.innerText = localFakeTotal.toLocaleString('id-ID');
         }, 5000);
 
-        // 3. Ambil Data Pengunjung Asli dari Firebase Hanya Sekali Saat Start
+        // 3. Ambil data database Firebase asli HANYA SEKALI di awal untuk bonus real-time
         onValue(totalTrafficRef, (snapshot) => {
             if (!isFirebaseLoaded) {
                 const totalAllTime = snapshot.val() || 0;
                 const baseFakeTraffic = 8430; 
                 
-                // Rumus gabungan pertama kali load
+                // Gabungkan angka dasar 8430 dengan hitungan asli database
                 localFakeTotal = baseFakeTraffic + totalAllTime;
                 
                 const trafficEl = document.getElementById('totalTraffic');
@@ -281,12 +282,11 @@
                     trafficEl.innerText = localFakeTotal.toLocaleString('id-ID');
                 }
                 
-                // Kunci gerbang: Firebase tidak diizinkan meriset angka ini lagi
+                // Kunci gerbang pengaman agar browser tidak mereset variabel ini lagi
                 isFirebaseLoaded = true; 
             }
         });
-
-    <script src="script.js"></script>
+</script>
 </body>
 
 </html>
