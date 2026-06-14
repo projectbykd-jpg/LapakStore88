@@ -15,7 +15,7 @@ let adminActiveProductId = null;
 let currentFontSize = 17; // Ukuran font default pembaca novel (px)
 
 // ================= INITIALIZATION & DATA LOADING =================
-const SPREADSHEET_URL = "https://script.google.com/macros/s/AKfycbzCLWEKZBt-bqGb6OIdTDmXYfKOvNHCh07XiLSXQD4EIDNcb8vtKt2NdYijK4LtO4K1gQ/exec";
+const SPREADSHEET_URL = "https://script.google.com/macros/s/AKfycbzw2gZwgZ9KhFJcPx8AYnKjEzMtSj6m6aAtjqNEcRqo_d0zTjN5ufs5-k73tbAnI5ZyMA/exec";
 
 function loadData() {
     isAdmin = localStorage.getItem("lapakAdminLogin") === "true";
@@ -58,115 +58,166 @@ function loadData() {
 function renderProducts() {
     const grid = document.getElementById("productGrid");
     if (!grid) return;
+
     grid.innerHTML = "";
-    
+
+    const logoMap = {
+        netflix: "https://img.icons8.com/color/512/netflix--v1.png",
+        youtube: "https://img.icons8.com/color/512/youtube-play.png",
+        spotify: "https://img.icons8.com/color/512/spotify--v1.png",
+        canva: "https://img.icons8.com/color/512/canva.png",
+        grammarly: "https://img.icons8.com/color/512/grammarly.png",
+        zoom: "https://img.icons8.com/color/512/zoom.png",
+        chatgpt: "https://img.icons8.com/fluency/512/chatgpt.png",
+        apple: "https://img.icons8.com/color/512/apple-music.png",
+        picsart: "https://img.icons8.com/color/512/picsart.png",
+        prime: "https://img.icons8.com/color/512/amazon-prime-video.png",
+        bstation: "https://img.icons8.com/fluency/512/bilibili.png"
+    };
+
     productsData.forEach(product => {
+
         const card = document.createElement("div");
         card.className = "card";
-        
-        // Mengambil data dari Google Sheets (kolom 'image' atau 'gambar')
-        // Pastikan header di Google Sheet Anda sesuai dengan kunci ini
-        const logoUrl = product.image || product.gambar || 'https://img.icons8.com/fluency/512/box.png';
-        
-        card.onclick = () => openProductModal(product.id);
-        
+
+        const category =
+            product.category ||
+            product.kategori ||
+            "all";
+
+        card.setAttribute(
+            "data-category",
+            category.toLowerCase().trim()
+        );
+
+        const prodKey = (product.id || "")
+            .toLowerCase()
+            .trim();
+
+        const logoUrl =
+            product.image ||
+            product.gambar ||
+            logoMap[prodKey] ||
+            "https://img.icons8.com/fluency/512/box.png";
+
         card.innerHTML = `
             <div class="card-logo-wrapper">
-                <img src="${logoUrl}" alt="${product.name}" class="product-image-sheet" onerror="this.src='https://img.icons8.com/fluency/512/box.png'">
+                <img
+                    src="${logoUrl}"
+                    alt="${product.name}"
+                    class="product-image-sheet"
+                    loading="lazy"
+                    onerror="this.onerror=null;this.src='https://img.icons8.com/fluency/512/box.png';"
+                >
             </div>
-            <h3 class="product-name" style="text-align: center;">${product.name}</h3>
+
+            <h3 class="product-name ${product.class || ''}">
+                ${product.name}
+            </h3>
         `;
-        
-        // ... (sisanya tetap sama untuk logika admin)
-        grid.appendChild(card);
-    });
-}
-    
-    productsData.forEach(product => {
-        const card = document.createElement("div");
-        card.className = "card";
-        
-        // --- PERBAIKAN UTAMA: MEMBACA KATEGORI & GAMBAR DARI GOOGLE SHEET ---
-        const productCategory = product.category || product.kategori || "all";
-        card.setAttribute("data-category", productCategory.toLowerCase().trim());
-        
-        // Membaca link gambar langsung dari kolom Sheet baru. Jika kosong, pakai logoMap cadangan di atas.
-        const prodKey = product.id.toLowerCase();
-        const logoUrl = product.image || product.gambar || logoMap[prodKey] || 'https://img.icons8.com/fluency/512/box.png';
-        
+
         card.onclick = () => openProductModal(product.id);
-        
-        // Memasang struktur bersih & menyuntikkan class styling gambar khusus
-        card.innerHTML = `
-            <div class="card-logo-wrapper">
-                <img src="${logoUrl}" alt="${product.name}" class="product-image-sheet">
-            </div>
-            <h3 class="product-name ${product.class || ''}" style="margin: 5px 0 0 0; font-size: 14px; text-align: center;">${product.name}</h3>
-        `;
-        
+
         if (isAdmin) {
+
             const editBtn = document.createElement("button");
-            editBtn.className = "admin-edit-trigger";
-            editBtn.innerText = "🛠️ Edit Paket";
-            editBtn.style.marginTop = "10px";
-            editBtn.style.width = "100%";
+
+            editBtn.className =
+                "admin-edit-trigger";
+
+            editBtn.innerHTML =
+                "🛠️ Edit Paket";
+
             editBtn.onclick = (e) => {
-                e.stopPropagation(); 
+                e.stopPropagation();
                 openAdminEditModal(product.id);
             };
+
             card.appendChild(editBtn);
         }
+
         grid.appendChild(card);
     });
 
-    // Menjalankan penyegaran tampilan awal tab agar aplikasi langsung terlihat tanpa tersembunyi
-    if (typeof filterProductTab === "function") {
-        const activeTabElement = document.querySelector('.tab-btn.active');
-        if (activeTabElement) {
-            const activeCategory = activeTabElement.textContent.toLowerCase().includes('semua') ? 'all' : 
-                                   activeTabElement.textContent.toLowerCase().includes('stream') ? 'streaming' :
-                                   activeTabElement.textContent.toLowerCase().includes('musi') ? 'music' : 'tools';
-            
-            let cards = grid.getElementsByClassName('card');
-            let anyVisible = false;
-            for (let i = 0; i < cards.length; i++) {
-                let cardCategory = cards[i].getAttribute('data-category') || 'all';
-                if (activeCategory === 'all' || cardCategory === activeCategory) {
-                    cards[i].style.setProperty('display', '', 'important');
-                    anyVisible = true;
-                } else {
-                    cards[i].style.setProperty('display', 'none', 'important');
-                }
-            }
-            const notFoundEl = document.getElementById('searchNotFound');
-            if (notFoundEl) notFoundEl.style.display = anyVisible ? 'none' : 'flex';
-        }
-    }
+    console.log(
+        "Produk berhasil dirender:",
+        productsData
+    );
 }
 
 // ================= RENDER NOVELS SYSTEM =================
 function renderNovels() {
-    const grid = document.getElementById("novelGrid");
-    if (!grid) return; // PENGAMAN: Berhenti jika tidak berada di novel.html
+
+    const grid =
+        document.getElementById("novelGrid");
+
+    if (!grid) return;
+
     grid.innerHTML = "";
 
     if (novelsData.length === 0) {
-        grid.innerHTML = "<div style='color:#a0aec0; text-align:center; width:100%; padding:20px;'>Belum ada koleksi novel hari ini.</div>";
+
+        grid.innerHTML = `
+            <div style="
+                color:#a0aec0;
+                text-align:center;
+                width:100%;
+                padding:20px;
+            ">
+                Belum ada koleksi novel hari ini.
+            </div>
+        `;
+
         return;
     }
 
     novelsData.forEach(novel => {
-        const card = document.createElement("div");
-        card.className = "card novel-card";
-        card.onclick = () => openNovelModal(novel.id);
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "card novel-card";
+
+        card.onclick =
+            () => openNovelModal(novel.id);
 
         card.innerHTML = `
-            <div class="card-logo-wrapper" style="width: 100%; height: 90px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px;">
-                <img src="${novel.foto}" alt="${novel.judul}" style="max-width: 85px; max-height: 85px; object-fit: cover; border-radius: 6px;">
+            <div class="card-logo-wrapper">
+
+                <img
+                    src="${novel.foto}"
+                    alt="${novel.judul}"
+                    style="
+                        max-width:85px;
+                        max-height:85px;
+                        object-fit:cover;
+                        border-radius:8px;
+                    "
+                    onerror="this.onerror=null;this.src='https://img.icons8.com/fluency/512/book.png';"
+                >
+
             </div>
-            <div style="font-weight: bold; text-align: center; color: #ffd700; font-size: 14px;">${novel.judul}</div>
-            <div style="font-size: 11px; color: #a0aec0; text-align: center; margin-top: 4px;">${novel.chapters.length} Bab Tersedia</div>
+
+            <div style="
+                font-weight:bold;
+                color:#ffd700;
+                text-align:center;
+                margin-top:10px;
+            ">
+                ${novel.judul}
+            </div>
+
+            <div style="
+                font-size:11px;
+                color:#a0aec0;
+                text-align:center;
+                margin-top:4px;
+            ">
+                ${(novel.chapters || []).length} Bab
+            </div>
         `;
+
         grid.appendChild(card);
     });
 }
