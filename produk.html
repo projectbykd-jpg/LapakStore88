@@ -52,11 +52,11 @@
                     <input type="text" id="productSearchInput" onkeyup="filterProductsByName()" placeholder="Cari aplikasi premium favoritmu...">
                 </div>
                 <div class="filter-tabs">
-                    <button class="tab-btn active" onclick="filterProductTab('all')"><i class="fa-solid fa-border-all"></i> Semua</button>
-                    <button class="tab-btn" onclick="filterProductTab('streaming')"><i class="fa-solid fa-clapperboard"></i> Streaming</button>
-                    <button class="tab-btn" onclick="filterProductTab('music')"><i class="fa-solid fa-music"></i> Musik</button>
-                    <button class="tab-btn" onclick="filterProductTab('tools')"><i class="fa-solid fa-screwdriver-wrench"></i> Tools</button>
-                </div>
+    <button class="tab-btn active" onclick="renderProducts('all')">Semua</button>
+    <button class="tab-btn" onclick="renderProducts('streaming')">Streaming</button>
+    <button class="tab-btn" onclick="renderProducts('music')">Musik</button>
+    <button class="tab-btn" onclick="renderProducts('tools')">Tools</button>
+</div>
             </div>
         </div>
         
