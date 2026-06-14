@@ -220,13 +220,13 @@
             }
         });
 
-        // ================= TWEAK FAKE VIEW (SOSIAL PROOF) =================
+       // ================= TWEAK FAKE VIEW (SOSIAL PROOF) =================
         
-        // ================= TWEAK FAKE VIEW LIVE & AUTO-INCREMENT TOTAL =================
-        
-        let currentFakeTotal = 1; // Cadangan angka dasar jika Firebase lambat merespons
+        // 1. Inisialisasi Angka Dasar Utama & Kunci Firebase
+        let currentFakeTotal = 8430; 
+        let isFirebaseTotalLoaded = false; // Pengunci agar Firebase tidak menimpa interval lokal
 
-        // 1. Manipulasi Live View (Berdasarkan data online Firebase + bonus)
+        // 2. Manipulasi Live View (Berdasarkan data online Firebase + bonus)
         function updateFakeLiveView(realLiveCount) {
             // Ditambah bonus angka acak antara 12 sampai 28 dari visitor asli
             const fakeBonus = Math.floor(Math.random() * (28 - 12 + 1)) + 12; 
@@ -242,7 +242,7 @@
             updateFakeLiveView(totalLive);
         });
 
-        // 2. Efek naik turun Live sekalian menambahkan angka ke Total Pengunjung
+        // 3. Efek Naik Turun Live & Akumulasi Otomatis ke Total Pengunjung (Setiap 5 Detik)
         setInterval(() => {
             // Ambil angka live saat ini di layar
             let currentLive = parseInt(document.getElementById('liveVisitors').innerText) || 15;
@@ -251,34 +251,38 @@
             const change = [ -1, 0, 1 ][Math.floor(Math.random() * 3)];
             let newLive = currentLive + change;
             
-            // Batasi biar angka live tetap stabil (tidak drop di bawah 10 atau loncat kebanyakan)
+            // Batasi biar angka live tetap stabil di kisaran logis
             if(newLive < 10) newLive = 12; 
-            if(newLive > 500) newLive = 28;
+            if(newLive > 35) newLive = 28;
             document.getElementById('liveVisitors').innerText = newLive;
 
-            // --- LOGIKA UTAMA REKUESMU ---
-            // Setiap 5 detik saat live berfluktuasi, tambahkan angka acak (1 s/d 2) ke total pengunjung
+            // --- LOGIKA UTAMA SINKRONISASI ---
+            // Setiap 5 detik saat live bergerak, tambahkan bonus pengunjung (1 s/d 2) secara permanen
             const trafficBonus = Math.floor(Math.random() * 2) + 1; 
             currentFakeTotal = currentFakeTotal + trafficBonus;
             
-            // Update tampilan total pengunjung di layar
+            // Update tampilan total pengunjung di layar tanpa takut ter-reset
             document.getElementById('totalTraffic').innerText = currentFakeTotal.toLocaleString('id-ID');
         }, 5000);
 
 
-        // 3. Ambil data Total Pengunjung Asli dari Firebase & Gabungkan dengan Angka Dasar
+        // 4. Sinkronisasi Data Awal Firebase (Hanya Diizinkan Sekali Saat Pertama Load)
         onValue(totalTrafficRef, (snapshot) => {
-            const totalAllTime = snapshot.val() || 0;
-            const baseFakeTraffic = 8430; 
-            
-            // Angka total kumulatif = (Angka dasar 8430 + Hitungan asli Firebase)
-            // Ini menjaga agar angka totalnya terus berkembang seiring pengunjung asli berdatangan
-            currentFakeTotal = baseFakeTraffic + totalAllTime;
-            
-            // Tampilkan ke layar
-            document.getElementById('totalTraffic').innerText = currentFakeTotal.toLocaleString('id-ID');
+            // Jika status pengunci masih false, izinkan mengambil angka dasar real dari database kamu
+            if (!isFirebaseTotalLoaded) {
+                const totalAllTime = snapshot.val() || 0;
+                const baseFakeTraffic = 8430; 
+                
+                // Rumus kalkulasi awal: Angka dasar + Hitungan real server
+                currentFakeTotal = baseFakeTraffic + totalAllTime;
+                
+                // Tampilkan ke layar
+                document.getElementById('totalTraffic').innerText = currentFakeTotal.toLocaleString('id-ID');
+                
+                // AKTIFKAN KUNCI: Firebase diputus jalurnya agar tidak bisa merusak data interval di atas
+                isFirebaseTotalLoaded = true; 
+            }
         });
-    </script>
 
     <script src="script.js"></script>
 </body>
