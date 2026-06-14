@@ -222,9 +222,13 @@
 
         // ================= TWEAK FAKE VIEW (SOSIAL PROOF) =================
         
-        // 1. Manipulasi Live View (Biar naik turun acak di kisaran angka tertentu)
+        // ================= TWEAK FAKE VIEW LIVE & AUTO-INCREMENT TOTAL =================
+        
+        let currentFakeTotal = 1; // Cadangan angka dasar jika Firebase lambat merespons
+
+        // 1. Manipulasi Live View (Berdasarkan data online Firebase + bonus)
         function updateFakeLiveView(realLiveCount) {
-            // Kita tambah angka acak antara 12 sampai 28 dari total visitor asli
+            // Ditambah bonus angka acak antara 12 sampai 28 dari visitor asli
             const fakeBonus = Math.floor(Math.random() * (28 - 12 + 1)) + 12; 
             const finalFakeLive = realLiveCount + fakeBonus;
             document.getElementById('liveVisitors').innerText = finalFakeLive;
@@ -238,28 +242,41 @@
             updateFakeLiveView(totalLive);
         });
 
-        // Bikin efek fluktuasi naik turun setiap 5 detik agar tidak statis
+        // 2. Efek naik turun Live sekalian menambahkan angka ke Total Pengunjung
         setInterval(() => {
+            // Ambil angka live saat ini di layar
             let currentLive = parseInt(document.getElementById('liveVisitors').innerText) || 15;
-            // Acak apakah mau ditambah 1, dikurang 1, atau tetap
+            
+            // Acak perubahan untuk Live view (-1, 0, atau 1)
             const change = [ -1, 0, 1 ][Math.floor(Math.random() * 3)];
             let newLive = currentLive + change;
             
-            // Batasi biar ga turun drastis di bawah angka 10
+            // Batasi biar angka live tetap stabil (tidak drop di bawah 10 atau loncat kebanyakan)
             if(newLive < 10) newLive = 12; 
+            if(newLive > 500) newLive = 28;
             document.getElementById('liveVisitors').innerText = newLive;
+
+            // --- LOGIKA UTAMA REKUESMU ---
+            // Setiap 5 detik saat live berfluktuasi, tambahkan angka acak (1 s/d 2) ke total pengunjung
+            const trafficBonus = Math.floor(Math.random() * 2) + 1; 
+            currentFakeTotal = currentFakeTotal + trafficBonus;
+            
+            // Update tampilan total pengunjung di layar
+            document.getElementById('totalTraffic').innerText = currentFakeTotal.toLocaleString('id-ID');
         }, 5000);
 
 
-        // 2. Manipulasi Total Pengunjung (Ditambah bonus angka dasar yang besar)
+        // 3. Ambil data Total Pengunjung Asli dari Firebase & Gabungkan dengan Angka Dasar
         onValue(totalTrafficRef, (snapshot) => {
             const totalAllTime = snapshot.val() || 0;
-            
-            // Kita manipulasi dengan menambahkan angka dasar gratis (misal: + 8,430)
             const baseFakeTraffic = 8430; 
-            const finalFakeTotal = totalAllTime + baseFakeTraffic;
             
-            document.getElementById('totalTraffic').innerText = finalFakeTotal.toLocaleString('id-ID');
+            // Angka total kumulatif = (Angka dasar 8430 + Hitungan asli Firebase)
+            // Ini menjaga agar angka totalnya terus berkembang seiring pengunjung asli berdatangan
+            currentFakeTotal = baseFakeTraffic + totalAllTime;
+            
+            // Tampilkan ke layar
+            document.getElementById('totalTraffic').innerText = currentFakeTotal.toLocaleString('id-ID');
         });
     </script>
 
