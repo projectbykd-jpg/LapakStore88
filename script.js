@@ -15,6 +15,7 @@ function loadData() {
             productsData = data.products || [];
             novelsData = data.novels || [];
             
+            // Render sesuai halaman yang sedang dibuka
             if (document.getElementById("productGrid")) renderProducts('all');
             if (document.getElementById("novelGrid")) renderNovels();
         })
@@ -34,7 +35,6 @@ window.renderProducts = (category = 'all') => {
     filtered.forEach(p => {
         const card = document.createElement("div");
         card.className = "card";
-        card.setAttribute('data-category', p.category || 'all');
         card.innerHTML = `
             <div class="card-logo-wrapper"><img src="${p.image || 'https://img.icons8.com/fluency/512/box.png'}" onerror="this.src='https://img.icons8.com/fluency/512/box.png'"></div>
             <h3 class="product-name">${p.name}</h3>
@@ -44,7 +44,7 @@ window.renderProducts = (category = 'all') => {
     });
 };
 
-// ================= MODAL PRODUK & WHATSAPP =================
+// ================= MODAL PRODUK =================
 function openProductModal(id) {
     const p = productsData.find(x => x.id === id);
     if (!p) return;
@@ -86,7 +86,7 @@ window.renderNovels = () => {
         const card = document.createElement("div");
         card.className = "card novel-card";
         card.onclick = () => openNovelModal(n.id);
-        card.innerHTML = `<img src="${n.foto}" onerror="this.src='https://img.icons8.com/fluency/512/book.png'"><div>${n.judul}</div>`;
+        card.innerHTML = `<img src="${n.foto}" style="width:100%; border-radius:8px;" onerror="this.src='https://img.icons8.com/fluency/512/book.png'"><div>${n.judul}</div>`;
         grid.appendChild(card);
     });
 };
