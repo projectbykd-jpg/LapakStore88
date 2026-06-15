@@ -108,7 +108,6 @@ window.navigateChapter = (direction) => {
     if (newIndex >= 0 && newIndex < activeNovel.chapters.length) readChapter(newIndex);
 };
 
-let currentFontSize = 16;
 window.adjustNovelFontSize = (change) => {
     currentFontSize += change;
     const readerBody = document.getElementById("readingBody");
