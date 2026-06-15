@@ -12,14 +12,19 @@ function loadData() {
     fetch(SPREADSHEET_URL)
         .then(res => res.json())
         .then(data => {
+            // Memastikan data diambil dengan aman
             productsData = data.products || [];
             novelsData = data.novels || [];
             
-            // Render sesuai halaman yang sedang dibuka
+            console.log("Data Loaded:", { productsData, novelsData });
+
             if (document.getElementById("productGrid")) renderProducts('all');
             if (document.getElementById("novelGrid")) renderNovels();
         })
-        .catch(err => console.error("Error loading data:", err));
+        .catch(err => {
+            console.error("Error loading data:", err);
+            alert("Gagal memuat data. Periksa koneksi atau URL Spreadsheet.");
+        });
 }
 
 // ================= RENDER PRODUK =================
@@ -31,6 +36,11 @@ window.renderProducts = (category = 'all') => {
     const filtered = (category === 'all') 
         ? productsData 
         : productsData.filter(p => p.category && p.category.toLowerCase() === category.toLowerCase());
+
+    if (filtered.length === 0) {
+        grid.innerHTML = `<p style="text-align:center; width:100%;">Produk tidak ditemukan.</p>`;
+        return;
+    }
 
     filtered.forEach(p => {
         const card = document.createElement("div");
@@ -45,7 +55,7 @@ window.renderProducts = (category = 'all') => {
 };
 
 // ================= MODAL PRODUK =================
-function openProductModal(id) {
+window.openProductModal = (id) => {
     const p = productsData.find(x => x.id === id);
     if (!p) return;
     
@@ -63,7 +73,7 @@ function openProductModal(id) {
     });
     document.getElementById("totalPrice").innerText = "Rp " + Number(p.packets[0].price).toLocaleString();
     document.getElementById("productModal").classList.add("active");
-}
+};
 
 window.updateTotalPrice = (price) => {
     document.getElementById("totalPrice").innerText = "Rp " + Number(price).toLocaleString();
@@ -73,7 +83,11 @@ window.checkoutViaWhatsApp = () => {
     if (!currentProduct) return;
     const radio = document.querySelector('input[name="pkt"]:checked');
     const selectedPkt = currentProduct.packets[radio.value];
-    const text = `Halo LapakStore88, saya ingin membeli paket premium ini:\n\n• *Produk:* ${currentProduct.name}\n• *Tipe Paket:* ${selectedPkt.type} (${selectedPkt.desc})\n• *Total Harga:* Rp ${Number(selectedPkt.price).toLocaleString()}\n\nMohon instruksi pembayaran QRIS selanjutnya ya min, terima kasih!`;
+    const text = `Halo LapakStore88, saya ingin membeli paket premium ini:
+• *Produk:* ${currentProduct.name}
+• *Tipe:* ${selectedPkt.type} (${selectedPkt.desc})
+• *Harga:* Rp ${Number(selectedPkt.price).toLocaleString()}
+Mohon instruksi pembayaran QRIS selanjutnya ya min, terima kasih!`;
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, '_blank');
 };
 
@@ -82,6 +96,7 @@ window.renderNovels = () => {
     const grid = document.getElementById("novelGrid");
     if (!grid) return;
     grid.innerHTML = "";
+    
     novelsData.forEach(n => {
         const card = document.createElement("div");
         card.className = "card novel-card";
@@ -117,7 +132,6 @@ window.readChapter = (i) => {
     document.getElementById("novelReadingContainer").classList.add("active");
 };
 
-// ================= CLOSERS =================
 window.closeModal = () => {
     document.querySelectorAll(".modal-overlay").forEach(m => m.classList.remove("active"));
 };
