@@ -12,19 +12,12 @@ function loadData() {
     fetch(SPREADSHEET_URL)
         .then(res => res.json())
         .then(data => {
-            // Memastikan data diambil dengan aman
             productsData = data.products || [];
             novelsData = data.novels || [];
-            
-            console.log("Data Loaded:", { productsData, novelsData });
-
             if (document.getElementById("productGrid")) renderProducts('all');
             if (document.getElementById("novelGrid")) renderNovels();
         })
-        .catch(err => {
-            console.error("Error loading data:", err);
-            alert("Gagal memuat data. Periksa koneksi atau URL Spreadsheet.");
-        });
+        .catch(err => console.error("Error loading data:", err));
 }
 
 // ================= RENDER PRODUK =================
@@ -32,62 +25,37 @@ window.renderProducts = (category = 'all') => {
     const grid = document.getElementById("productGrid");
     if (!grid) return;
     grid.innerHTML = "";
-
-    const filtered = (category === 'all') 
-        ? productsData 
-        : productsData.filter(p => p.category && p.category.toLowerCase() === category.toLowerCase());
-
-    if (filtered.length === 0) {
-        grid.innerHTML = `<p style="text-align:center; width:100%;">Produk tidak ditemukan.</p>`;
-        return;
-    }
-
+    const filtered = (category === 'all') ? productsData : productsData.filter(p => p.category && p.category.toLowerCase() === category.toLowerCase());
     filtered.forEach(p => {
         const card = document.createElement("div");
         card.className = "card";
-        card.innerHTML = `
-            <div class="card-logo-wrapper"><img src="${p.image || 'https://img.icons8.com/fluency/512/box.png'}" onerror="this.src='https://img.icons8.com/fluency/512/box.png'"></div>
-            <h3 class="product-name">${p.name}</h3>
-        `;
+        card.innerHTML = `<div class="card-logo-wrapper"><img src="${p.image || 'https://img.icons8.com/fluency/512/box.png'}" onerror="this.src='https://img.icons8.com/fluency/512/box.png'"></div><h3>${p.name}</h3>`;
         card.onclick = () => openProductModal(p.id);
         grid.appendChild(card);
     });
 };
 
-// ================= MODAL PRODUK =================
 window.openProductModal = (id) => {
     const p = productsData.find(x => x.id === id);
     if (!p) return;
-    
     currentProduct = p;
     document.getElementById("modalProductName").innerText = p.name;
     const container = document.getElementById("packetOptionsContainer");
     container.innerHTML = "";
-    
     p.packets.forEach((pkt, i) => {
-        container.innerHTML += `
-            <label class="packet-row" style="display:block; padding:10px; border-bottom:1px solid #333; cursor:pointer;">
-                <input type="radio" name="pkt" value="${i}" onchange="updateTotalPrice(${pkt.price})" ${i===0?'checked':''}>
-                ${pkt.type} - ${pkt.desc} | Rp ${Number(pkt.price).toLocaleString()}
-            </label>`;
+        container.innerHTML += `<label class="packet-row" style="display:block; padding:10px; border-bottom:1px solid #333; cursor:pointer;"><input type="radio" name="pkt" value="${i}" onchange="updateTotalPrice(${pkt.price})" ${i===0?'checked':''}> ${pkt.type} - ${pkt.desc} | Rp ${Number(pkt.price).toLocaleString()}</label>`;
     });
     document.getElementById("totalPrice").innerText = "Rp " + Number(p.packets[0].price).toLocaleString();
     document.getElementById("productModal").classList.add("active");
 };
 
-window.updateTotalPrice = (price) => {
-    document.getElementById("totalPrice").innerText = "Rp " + Number(price).toLocaleString();
-};
+window.updateTotalPrice = (price) => { document.getElementById("totalPrice").innerText = "Rp " + Number(price).toLocaleString(); };
 
 window.checkoutViaWhatsApp = () => {
     if (!currentProduct) return;
     const radio = document.querySelector('input[name="pkt"]:checked');
     const selectedPkt = currentProduct.packets[radio.value];
-    const text = `Halo LapakStore88, saya ingin membeli paket premium ini:
-• *Produk:* ${currentProduct.name}
-• *Tipe:* ${selectedPkt.type} (${selectedPkt.desc})
-• *Harga:* Rp ${Number(selectedPkt.price).toLocaleString()}
-Mohon instruksi pembayaran QRIS selanjutnya ya min, terima kasih!`;
+    const text = `Halo LapakStore88, saya ingin membeli paket premium ini:\n\n• Produk: ${currentProduct.name}\n• Tipe: ${selectedPkt.type} (${selectedPkt.desc})\n• Harga: Rp ${Number(selectedPkt.price).toLocaleString()}\n\nMohon instruksi pembayaran QRIS selanjutnya ya min, terima kasih!`;
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, '_blank');
 };
 
@@ -96,7 +64,6 @@ window.renderNovels = () => {
     const grid = document.getElementById("novelGrid");
     if (!grid) return;
     grid.innerHTML = "";
-    
     novelsData.forEach(n => {
         const card = document.createElement("div");
         card.className = "card novel-card";
@@ -125,35 +92,30 @@ window.openNovelModal = (id) => {
     document.getElementById("novelModal").classList.add("active");
 };
 
-window.navigateChapter = (direction) => {
-    if (!activeNovel || !activeNovel.chapters) return;
-    
-    // Mencari indeks bab saat ini berdasarkan judul yang ditampilkan
-    const currentTitle = document.getElementById("readingTitle").innerText;
-    const currentIndex = activeNovel.chapters.findIndex(ch => ch.bab === currentTitle);
-    
-    const newIndex = currentIndex + direction;
-    
-    // Jika bab ada, buka bab tersebut
-    if (newIndex >= 0 && newIndex < activeNovel.chapters.length) {
-        readChapter(newIndex);
-    }
+window.readChapter = (i) => {
+    const ch = activeNovel.chapters[i];
+    document.getElementById("readingTitle").innerText = ch.bab;
+    document.getElementById("readingBody").innerText = ch.isi;
+    document.getElementById("novelReadingContainer").classList.add("active");
 };
 
-// Fungsi untuk mengatur ukuran font
+// ================= FIX NOVEL NAVIGATION & SETTINGS =================
+window.navigateChapter = (direction) => {
+    if (!activeNovel || !activeNovel.chapters) return;
+    const currentTitle = document.getElementById("readingTitle").innerText;
+    const currentIndex = activeNovel.chapters.findIndex(ch => ch.bab === currentTitle);
+    const newIndex = currentIndex + direction;
+    if (newIndex >= 0 && newIndex < activeNovel.chapters.length) readChapter(newIndex);
+};
+
 let currentFontSize = 16;
 window.adjustNovelFontSize = (change) => {
     currentFontSize += change;
     const readerBody = document.getElementById("readingBody");
-    if (readerBody) {
-        readerBody.style.fontSize = currentFontSize + "px";
-    }
+    if (readerBody) readerBody.style.fontSize = currentFontSize + "px";
 };
 
-// Fungsi untuk menutup modal bacaan
-window.closeNovelReaderElement = () => {
-    const container = document.getElementById("novelReadingContainer");
-    if (container) container.classList.remove("active");
-};
+window.closeNovelReaderElement = () => document.getElementById("novelReadingContainer").classList.remove("active");
+window.closeModal = () => document.querySelectorAll(".modal-overlay").forEach(m => m.classList.remove("active"));
 
 document.addEventListener("DOMContentLoaded", loadData);
