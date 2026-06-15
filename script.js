@@ -116,5 +116,6 @@ window.adjustNovelFontSize = (change) => {
 
 window.closeNovelReaderElement = () => document.getElementById("novelReadingContainer").classList.remove("active");
 window.closeModal = () => document.querySelectorAll(".modal-overlay").forEach(m => m.classList.remove("active"));
+window.closeNovelModal = () => document.getElementById("novelModal").classList.remove("active");
 
 document.addEventListener("DOMContentLoaded", loadData);
