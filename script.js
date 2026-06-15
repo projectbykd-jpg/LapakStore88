@@ -96,13 +96,29 @@ Mohon instruksi pembayaran QRIS selanjutnya ya min, terima kasih!`;
 
 // ================= NOVEL SYSTEM =================
 // ... (Bagian novel tetap sama seperti kode asli Anda)
-function renderNovels() { /* ... */ }
-window.openNovelModal = (id) => { /* ... */ };
-window.readChapter = (i) => { /* ... */ };
+function renderNovels() {
+    const grid = document.getElementById("novelGrid");
+    if (!grid) {
+        console.warn("Elemen 'novelGrid' tidak ditemukan di halaman ini.");
+        return;
+    }
+    
+    grid.innerHTML = "";
 
-// ================= CLOSERS =================
-window.closeModal = () => {
-    document.querySelectorAll(".modal-overlay").forEach(m => m.classList.remove("active"));
-};
+    if (!novelsData || novelsData.length === 0) {
+        grid.innerHTML = `<div style="text-align:center; padding:50px; color:#aaa;"><h3>Belum ada novel tersedia.</h3></div>`;
+        return;
+    }
 
-document.addEventListener("DOMContentLoaded", loadData);
+    novelsData.forEach(n => {
+        const card = document.createElement("div");
+        card.className = "card novel-card";
+        // Pastikan struktur HTML di sini sesuai dengan CSS Anda
+        card.innerHTML = `
+            <img src="${n.foto}" style="width:100%; border-radius:8px;" onerror="this.src='https://img.icons8.com/fluency/512/book.png'">
+            <div style="padding:10px;">${n.judul}</div>
+        `;
+        card.onclick = () => openNovelModal(n.id);
+        grid.appendChild(card);
+    });
+}
