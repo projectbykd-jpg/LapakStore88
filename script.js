@@ -125,15 +125,35 @@ window.openNovelModal = (id) => {
     document.getElementById("novelModal").classList.add("active");
 };
 
-window.readChapter = (i) => {
-    const ch = activeNovel.chapters[i];
-    document.getElementById("readingTitle").innerText = ch.bab;
-    document.getElementById("readingBody").innerText = ch.isi;
-    document.getElementById("novelReadingContainer").classList.add("active");
+window.navigateChapter = (direction) => {
+    if (!activeNovel || !activeNovel.chapters) return;
+    
+    // Mencari indeks bab saat ini berdasarkan judul yang ditampilkan
+    const currentTitle = document.getElementById("readingTitle").innerText;
+    const currentIndex = activeNovel.chapters.findIndex(ch => ch.bab === currentTitle);
+    
+    const newIndex = currentIndex + direction;
+    
+    // Jika bab ada, buka bab tersebut
+    if (newIndex >= 0 && newIndex < activeNovel.chapters.length) {
+        readChapter(newIndex);
+    }
 };
 
-window.closeModal = () => {
-    document.querySelectorAll(".modal-overlay").forEach(m => m.classList.remove("active"));
+// Fungsi untuk mengatur ukuran font
+let currentFontSize = 16;
+window.adjustNovelFontSize = (change) => {
+    currentFontSize += change;
+    const readerBody = document.getElementById("readingBody");
+    if (readerBody) {
+        readerBody.style.fontSize = currentFontSize + "px";
+    }
+};
+
+// Fungsi untuk menutup modal bacaan
+window.closeNovelReaderElement = () => {
+    const container = document.getElementById("novelReadingContainer");
+    if (container) container.classList.remove("active");
 };
 
 document.addEventListener("DOMContentLoaded", loadData);
