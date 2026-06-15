@@ -1,11 +1,11 @@
 // ================= CONFIGURATION =================
 const SPREADSHEET_URL = "https://script.google.com/macros/s/AKfycbxIV3NFcgOP_5vTJ-Qw1NA9FPzvJCoRBt3RJMZC1J7nIpkP5P0s_X5hpaZPN1Q8gAD6jw/exec";
-const WHATSAPP_NUMBER = "6285180572575"; // GANTI DENGAN NOMOR ANDA
+const WHATSAPP_NUMBER = "6285180572575";
 
 let productsData = [];
 let novelsData = []; 
 let activeNovel = null;
-let currentProduct = null; // Menyimpan data produk yang sedang dibuka di modal
+let currentProduct = null;
 
 // ================= INITIALIZATION =================
 function loadData() {
@@ -21,7 +21,7 @@ function loadData() {
         .catch(err => console.error("Error loading data:", err));
 }
 
-// ================= RENDER PRODUK DENGAN FILTER =================
+// ================= RENDER PRODUK =================
 window.renderProducts = (category = 'all') => {
     const grid = document.getElementById("productGrid");
     if (!grid) return;
@@ -31,14 +31,10 @@ window.renderProducts = (category = 'all') => {
         ? productsData 
         : productsData.filter(p => p.category && p.category.toLowerCase() === category.toLowerCase());
 
-    if (filtered.length === 0) {
-        grid.innerHTML = `<div style="text-align:center; padding:20px; color:#aaa;"><h3>Aplikasi Tidak Ditemukan</h3></div>`;
-        return;
-    }
-
     filtered.forEach(p => {
         const card = document.createElement("div");
         card.className = "card";
+        card.setAttribute('data-category', p.category || 'all');
         card.innerHTML = `
             <div class="card-logo-wrapper"><img src="${p.image || 'https://img.icons8.com/fluency/512/box.png'}" onerror="this.src='https://img.icons8.com/fluency/512/box.png'"></div>
             <h3 class="product-name">${p.name}</h3>
@@ -48,12 +44,12 @@ window.renderProducts = (category = 'all') => {
     });
 };
 
-// ================= MODAL PRODUK =================
+// ================= MODAL PRODUK & WHATSAPP =================
 function openProductModal(id) {
     const p = productsData.find(x => x.id === id);
     if (!p) return;
     
-    currentProduct = p; // Simpan ke variabel global
+    currentProduct = p;
     document.getElementById("modalProductName").innerText = p.name;
     const container = document.getElementById("packetOptionsContainer");
     container.innerHTML = "";
@@ -65,7 +61,6 @@ function openProductModal(id) {
                 ${pkt.type} - ${pkt.desc} | Rp ${Number(pkt.price).toLocaleString()}
             </label>`;
     });
-    
     document.getElementById("totalPrice").innerText = "Rp " + Number(p.packets[0].price).toLocaleString();
     document.getElementById("productModal").classList.add("active");
 }
@@ -74,51 +69,57 @@ window.updateTotalPrice = (price) => {
     document.getElementById("totalPrice").innerText = "Rp " + Number(price).toLocaleString();
 };
 
-// ================= FUNGSI WHATSAPP =================
 window.checkoutViaWhatsApp = () => {
     if (!currentProduct) return;
-    
     const radio = document.querySelector('input[name="pkt"]:checked');
     const selectedPkt = currentProduct.packets[radio.value];
-    
-    const text = `Halo LapakStore88, saya ingin membeli paket premium ini:
-
-• *Produk:* ${currentProduct.name}
-• *Tipe Paket:* ${selectedPkt.type} (${selectedPkt.desc})
-• *Durasi:* 1 Bulan
-• *Total Harga:* Rp ${Number(selectedPkt.price).toLocaleString()}
-
-Mohon instruksi pembayaran QRIS selanjutnya ya min, terima kasih!`;
-
-    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
-    window.open(url, '_blank');
+    const text = `Halo LapakStore88, saya ingin membeli paket premium ini:\n\n• *Produk:* ${currentProduct.name}\n• *Tipe Paket:* ${selectedPkt.type} (${selectedPkt.desc})\n• *Total Harga:* Rp ${Number(selectedPkt.price).toLocaleString()}\n\nMohon instruksi pembayaran QRIS selanjutnya ya min, terima kasih!`;
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, '_blank');
 };
 
 // ================= NOVEL SYSTEM =================
-// ... (Bagian novel tetap sama seperti kode asli Anda)
-function renderNovels() {
+window.renderNovels = () => {
     const grid = document.getElementById("novelGrid");
-    if (!grid) {
-        console.warn("Elemen 'novelGrid' tidak ditemukan di halaman ini.");
-        return;
-    }
-    
+    if (!grid) return;
     grid.innerHTML = "";
-
-    if (!novelsData || novelsData.length === 0) {
-        grid.innerHTML = `<div style="text-align:center; padding:50px; color:#aaa;"><h3>Belum ada novel tersedia.</h3></div>`;
-        return;
-    }
-
     novelsData.forEach(n => {
         const card = document.createElement("div");
         card.className = "card novel-card";
-        // Pastikan struktur HTML di sini sesuai dengan CSS Anda
-        card.innerHTML = `
-            <img src="${n.foto}" style="width:100%; border-radius:8px;" onerror="this.src='https://img.icons8.com/fluency/512/book.png'">
-            <div style="padding:10px;">${n.judul}</div>
-        `;
         card.onclick = () => openNovelModal(n.id);
+        card.innerHTML = `<img src="${n.foto}" onerror="this.src='https://img.icons8.com/fluency/512/book.png'"><div>${n.judul}</div>`;
         grid.appendChild(card);
     });
-}
+};
+
+window.openNovelModal = (id) => {
+    activeNovel = novelsData.find(x => x.id === id);
+    if (!activeNovel) return;
+    document.getElementById("modalNovelTitle").innerText = activeNovel.judul;
+    const container = document.getElementById("novelChaptersContainer");
+    container.innerHTML = "";
+    activeNovel.chapters.forEach((ch, i) => {
+        const btn = document.createElement("div");
+        btn.className = "packet-row";
+        btn.style.cursor = "pointer";
+        btn.style.padding = "10px";
+        btn.style.borderBottom = "1px solid #333";
+        btn.innerHTML = `📖 ${ch.bab}`;
+        btn.onclick = () => readChapter(i);
+        container.appendChild(btn);
+    });
+    document.getElementById("novelModal").classList.add("active");
+};
+
+window.readChapter = (i) => {
+    const ch = activeNovel.chapters[i];
+    document.getElementById("readingTitle").innerText = ch.bab;
+    document.getElementById("readingBody").innerText = ch.isi;
+    document.getElementById("novelReadingContainer").classList.add("active");
+};
+
+// ================= CLOSERS =================
+window.closeModal = () => {
+    document.querySelectorAll(".modal-overlay").forEach(m => m.classList.remove("active"));
+};
+
+document.addEventListener("DOMContentLoaded", loadData);
