@@ -1542,3 +1542,121 @@ h1 {
     pointer-events: auto !important;
     cursor: pointer;
 }
+
+/* ==========================================================================
+   UPGRADE TAMPILAN MODERN & PREMIUM - LAPAKSTORE88
+   ========================================================================== */
+
+/* Efek Glassmorphism & Gradasi Elegan pada Header */
+.header {
+    background: rgba(2, 16, 31, 0.85) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.15) !important;
+}
+
+/* Sentuhan Premium pada Kartu Produk & Novel */
+.card, .novel-card {
+    background: linear-gradient(145deg, #0c2444, #06152b) !important;
+    border: 1px solid rgba(255, 215, 0, 0.15) !important;
+    border-radius: 18px !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
+    transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+    overflow: hidden;
+}
+
+.card:hover, .novel-card:hover {
+    transform: translateY(-8px) scale(1.02) !important;
+    border-color: #ffd700 !important;
+    box-shadow: 0 15px 35px rgba(255, 215, 0, 0.25) !important;
+}
+
+/* Perbaikan Kotak Logo Produk agar Simetris & Bersih */
+.card-logo-wrapper {
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%) !important;
+    border-radius: 14px !important;
+    border: 1px solid rgba(255, 215, 0, 0.1) !important;
+    padding: 8px !important;
+}
+
+/* Peningkatan Tampilan Modal (Popup) agar Lebih Modern */
+.modal-box {
+    background: linear-gradient(135deg, #0b223f, #07172b) !important;
+    border: 1px solid rgba(255, 215, 0, 0.4) !important;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 25px rgba(255, 215, 0, 0.1) !important;
+    border-radius: 24px !important;
+    animation: modalPopIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+@keyframes modalPopIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.85);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Desain Pilihan Paket dalam Modal (Radio Button Custom Look) */
+.packet-row {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 12px !important;
+    margin-bottom: 10px !important;
+    transition: all 0.25s ease !important;
+}
+
+.packet-row:hover {
+    background: rgba(255, 215, 0, 0.07) !important;
+    border-color: rgba(255, 215, 0, 0.4) !important;
+    transform: translateX(4px);
+}
+
+/* Tombol WhatsApp Mengkilap & Menarik Perhatian */
+.btn-whatsapp {
+    background: linear-gradient(135deg, #25D366, #128C7E) !important;
+    box-shadow: 0 8px 20px rgba(37, 211, 102, 0.35) !important;
+    border-radius: 12px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease !important;
+}
+
+.btn-whatsapp:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 12px 25px rgba(37, 211, 102, 0.5) !important;
+    background: linear-gradient(135deg, #2ae872, #159e8f) !important;
+}
+
+/* Desain UI Pembaca Novel yang Lebih Nyaman di Mata (Dark Reader Mode) */
+.reader-box {
+    background: #0d131f !important;
+    border: 1px solid rgba(255, 215, 0, 0.2) !important;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.9) !important;
+}
+
+#readingBody {
+    color: #e2e8f0 !important;
+    text-shadow: 0 0 1px rgba(255,255,255,0.1);
+}
+
+/* Scrollbar Kustom yang Tipis dan Estetik */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(2, 16, 31, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 215, 0, 0.3);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 215, 0, 0.6);
+}
