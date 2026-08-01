@@ -63,22 +63,6 @@ body {
 .navbar a:hover {
     color: #ffd700;
 }
-#loginNavBtn {
-    background: transparent;
-    border: 1px solid #ffd700;
-    color: #ffd700;
-    padding: 6px 18px;
-    border-radius: 20px;
-    margin-left: 25px;
-    cursor: pointer;
-    font-family: 'Poppins', sans-serif;
-    font-size: 13px;
-    transition: all 0.3s;
-}
-#loginNavBtn:hover {
-    background: #ffd700;
-    color: #000;
-}
 
 /* Sembunyikan pemicu menu mobile di PC */
 #menu-bar, .menu-icon {
@@ -472,13 +456,6 @@ h1 {
         font-size: 15px;
         width: 100%;
     }
-    #loginNavBtn {
-        margin: 10px auto 0 auto;
-        width: 50%;
-        display: block;
-        text-align: center;
-    }
-
     #menu-bar:checked ~ .navbar {
         display: flex;
     }
