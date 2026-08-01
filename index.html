@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Koleksi Novel Gratis - LapakStore88</title>
+    <title>LapakStore88 - Akun Premium & Novel Gratis</title>
     <link rel="icon" type="image/png" href="https://i.ibb.co/7Jtv7WJs/image.png">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
@@ -24,9 +24,9 @@
             <label for="menu-bar" class="menu-icon">☰</label>
 
             <nav class="navbar">
-                <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+                <a href="index.html" class="active"><i class="fa-solid fa-house"></i> Home</a>
                 <a href="produk.html"><i class="fa-solid fa-gem"></i> Produk</a>
-                <a href="novel.html" class="active"><i class="fa-solid fa-book-open"></i> Novel Gratis</a>
+                <a href="novel.html"><i class="fa-solid fa-book-open"></i> Novel Gratis</a>
                 <a href="kontak.html"><i class="fa-solid fa-wallet"></i> Pembayaran</a>
             </nav>
         </div>
@@ -37,75 +37,160 @@
         <button onclick="logoutAdmin()">Keluar Mode Admin</button>
     </div>
 
-    <section id="novel-section" class="novel-catalog-section">
-        <div class="catalog-header animate-fade-in">
-            <span class="catalog-badge"><i class="fa-solid fa-fire-flame-curved animate-pulse"></i> Trending Hub</span>
-            <h2 class="glow-text">Koleksi Novel Gratis</h2>
-            <div class="title-divider"></div>
-            <p class="catalog-subtitle">Pilih buku favoritmu dan selami ribuan kisah fantasi, romansa, dan petualangan seru sepuasnya tanpa biaya berlangganan!</p>
-        </div>
+    <section id="home" class="hero">
+        <video autoplay muted loop playsinline class="hero-video">
+            <source src="assets/hero.mp4" type="video/mp4">
+            <source src="https://files.fm/u/era4cd858m" type="video/mp4">
+        </video>
+        <div class="overlay"></div>
+        
+        <div class="hero-split-container">
+            <div class="hero-left-content">
+                <div class="hero-brand-wrapper">
+                    <img src="https://i.ibb.co/7Jtv7WJs/image.png" class="hero-logo" alt="LapakStore88 Logo Big">
+                    <h1 class="glow-text">LapakStore88</h1>
+                </div>
+                <p class="hero-subtitle">Premium Account Supplier & Digital Reading Hub</p>
+                <p class="hero-tags">✨ Fast Response • Full Garansi • Legal 100%</p>
+                
+                <div class="hero-action-buttons">
+                    <a class="btn btn-primary" href="produk.html"><i class="fa-solid fa-bag-shopping"></i> Jelajahi Katalog</a>
+                    <a class="btn btn-secondary" href="novel.html"><i class="fa-solid fa-bookmark"></i> Baca Novel</a>
+                </div>
 
-        <div class="container">
-            <div id="novelGrid" class="grid-novels-layout"></div>
+                <div class="live-counter-widget">
+                    <div class="counter-item live-pulse">
+                        <span class="pulse-dot"></span>
+                        <span class="counter-text"><i class="fa-solid fa-eye"></i> <strong id="liveVisitors">12</strong> Live Online</span>
+                    </div>
+                    <div class="counter-divider"></div>
+                    <div class="counter-item total-views">
+                        <span class="counter-text"><i class="fa-solid fa-users"></i> Total: <strong id="totalTraffic">8.430</strong> Pengunjung</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-right-showcase">
+                <div class="floating-showcase-grid">
+                    <div class="showcase-item item-1"><img src="https://img.icons8.com/color/512/netflix--v1.png" alt="Netflix"><p>Netflix</p></div>
+                    <div class="showcase-item item-2"><img src="https://img.icons8.com/color/512/spotify--v1.png" alt="Spotify"><p>Spotify</p></div>
+                    <div class="showcase-item item-3"><img src="https://i.ibb.co/4Z12Ycjm/image.png" alt="Viu"><p>Viu</p></div>
+                    <div class="showcase-item item-4"><img src="https://img.icons8.com/fluent/512/chatgpt.png" alt="ChatGPT"><p>ChatGPT</p></div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <div id="novelModal" class="modal-overlay">
-        <div class="modal-box novel-chapters-box">
-            <span class="close-btn" onclick="closeNovelModal()">&times;</span>
-            <div class="modal-top-accent novel-accent">
-                <i class="fa-solid fa-book"></i>
+    <section class="features-section">
+        <div class="container-features">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-bolt"></i></div>
+                <h3>Proses Kilat</h3>
+                <p>Pesanan akun premium diproses secepat kilat via WhatsApp setelah pembayaran divalidasi.</p>
             </div>
-            <h3 id="modalNovelTitle">Judul Novel</h3>
-            <p class="modal-instruction-text"><i class="fa-solid fa-list-ul"></i> Pilih daftar bab yang ingin kamu baca:</p>
-            
-            <div id="novelChaptersContainer" class="packet-options-container novel-scroll-box"></div>
-        </div>
-    </div>
-
-    <div id="novelReadingContainer" class="reader-overlay" style="display: none;">
-        <div class="reading-progress-container">
-            <div id="readingProgressBar" class="reading-progress-bar"></div>
-        </div>
-
-        <div class="reader-box animate-fade-in">
-            <div class="reader-control-panel">
-                <div class="control-left">
-                    <span class="reader-brand-name"><i class="fa-solid fa-feather-pointed"></i> LapakHub</span>
-                </div>
-                <div class="control-right">
-                    <button class="control-btn" onclick="adjustNovelFontSize(-1)" title="Perkecil Huruf"><i class="fa-solid fa-minus"></i> A</button>
-                    <button class="control-btn" onclick="adjustNovelFontSize(1)" title="Perbesar Huruf">A <i class="fa-solid fa-plus"></i></button>
-                    <button class="control-btn close-reader-btn" onclick="closeNovelReaderElement()" title="Selesai Membaca"><i class="fa-solid fa-xmark"></i></button>
-                </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-shield-heart"></i></div>
+                <h3>Garansi Penuh</h3>
+                <p>Kendala saat durasi aktif? Jangan khawatir, tim kami siap bantu klaim garansi ganti baru.</p>
             </div>
-
-            <h3 id="readingTitle">Bab Cerita</h3>
-            <div class="reader-divider"></div>
-
-            <div id="readingBody"></div>
-
-            <div class="reader-navigation-footer">
-                <button id="btnPrevChapter" class="btn-reader-nav prev" onclick="navigateChapter(-1)">
-                    <i class="fa-solid fa-arrow-left-long"></i> Bab Sebelumnya
-                </button>
-                <button id="btnNextChapter" class="btn-reader-nav next" onclick="navigateChapter(1)">
-                    Bab Selanjutnya <i class="fa-solid fa-arrow-right-long"></i>
-                </button>
-            </div>
-            
-            <div class="reader-exit-zone">
-                <button class="btn-reader-exit" onclick="closeNovelReaderElement()">
-                    <i class="fa-solid fa-circle-check"></i> Selesai Membaca & Kembali
-                </button>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-face-smile-beam"></i></div>
+                <h3>Akses Gratis</h3>
+                <p>Nikmati puluhan koleksi novel menarik yang bisa kamu baca sepuasnya tanpa biaya langganan.</p>
             </div>
         </div>
-    </div>
-
+    </section>
+	
     <footer class="footer">
-        <p>&copy; 2026 <span>LapakStore88</span>. All Rights Reserved.</p>
+        <p>&copy; 2026 <span>LapakStore88</span>. Crafted with Love & Passion.</p>
     </footer>
 
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, onValue, push, onDisconnect, set, runTransaction } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyB6DJyeGbd3mdsYB5QXlo9eLTRxExgUCNc",
+            authDomain: "lapakstore88-f6d56.firebaseapp.com",
+            databaseURL: "https://lapakstore88-f6d56-default-rtdb.firebaseio.com",
+            projectId: "lapakstore88-f6d56",
+            storageBucket: "lapakstore88-f6d56.firebasestorage.app",
+            messagingSenderId: "367270199782",
+            appId: "1:367270199782:web:5c1042b7bf98981d4c1627",
+            measurementId: "G-LXK7TQ227Q"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        const onlineUsersRef = ref(database, 'traffic/online_present');
+        const totalTrafficRef = ref(database, 'traffic/total_counter');
+        const connectedRef = ref(database, '.info/connected');
+
+        onValue(connectedRef, (snapshot) => {
+            if (snapshot.val() === true) {
+                const newLiveRef = push(onlineUsersRef);
+                set(newLiveRef, true);
+                onDisconnect(newLiveRef).remove();
+
+                if (!sessionStorage.getItem('isCounted')) {
+                    runTransaction(totalTrafficRef, (currentValue) => {
+                        return (currentValue || 0) + 1;
+                    });
+                    sessionStorage.setItem('isCounted', 'true');
+                }
+            }
+        });
+
+        let localFakeTotal = 8430; 
+        let isFirebaseLoaded = false;
+
+        function updateFakeLiveView(realLiveCount) {
+            const fakeBonus = Math.floor(Math.random() * (28 - 12 + 1)) + 12; 
+            const finalFakeLive = realLiveCount + fakeBonus;
+            const liveEl = document.getElementById('liveVisitors');
+            if (liveEl) liveEl.innerText = finalFakeLive;
+        }
+
+        onValue(onlineUsersRef, (snapshot) => {
+            let totalLive = 0;
+            if (snapshot.exists()) {
+                totalLive = Object.keys(snapshot.val()).length;
+            }
+            updateFakeLiveView(totalLive);
+        });
+
+        setInterval(() => {
+            const liveEl = document.getElementById('liveVisitors');
+            const trafficEl = document.getElementById('totalTraffic');
+            if (!liveEl || !trafficEl) return;
+
+            let currentLive = parseInt(liveEl.innerText) || 15;
+            const change = [ -1, 0, 1 ][Math.floor(Math.random() * 3)];
+            let newLive = currentLive + change;
+            
+            if (newLive < 10) newLive = 12; 
+            if (newLive > 35) newLive = 28;
+            liveEl.innerText = newLive;
+
+            const trafficBonus = Math.floor(Math.random() * 2) + 1; 
+            localFakeTotal = localFakeTotal + trafficBonus;
+            trafficEl.innerText = localFakeTotal.toLocaleString('id-ID');
+        }, 5000);
+
+        onValue(totalTrafficRef, (snapshot) => {
+            if (!isFirebaseLoaded) {
+                const totalAllTime = snapshot.val() || 0;
+                const baseFakeTraffic = 8430; // FIXED: Perbaikan typo variabel pendukung total traffic
+                localFakeTotal = baseFakeTraffic + totalAllTime;
+                const trafficEl = document.getElementById('totalTraffic');
+                if (trafficEl) {
+                    trafficEl.innerText = localFakeTotal.toLocaleString('id-ID');
+                }
+                isFirebaseLoaded = true;
+            }
+        });
+    </script>
     <script src="script.js"></script>
 </body>
 </html>
