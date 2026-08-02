@@ -4,9 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#07111f">
+    <meta name="description" content="Katalog akun premium LapakStore88 dengan proses pemesanan cepat dan aman.">
     <title>Katalog Produk Premium - LapakStore88</title>
     <link rel="icon" type="image/png" href="https://i.ibb.co/qY1y2j8h/image.png">
-    <link rel="stylesheet" href="assets/styles-ui.css">
+    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -21,7 +23,9 @@
             </div>
 
             <input type="checkbox" id="menu-bar">
-            <label for="menu-bar" class="menu-icon">☰</label>
+            <label for="menu-bar" class="menu-icon" aria-label="Buka menu navigasi">
+                <span></span><span></span><span></span>
+            </label>
 
             <nav class="navbar">
                 <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
@@ -38,24 +42,32 @@
     </div>
 
     <section id="produk" class="catalog-section">
+        <div class="catalog-orb catalog-orb-one" aria-hidden="true"></div>
+        <div class="catalog-orb catalog-orb-two" aria-hidden="true"></div>
         <div class="catalog-header animate-fade-in">
             <div class="catalog-header-glow"></div>
             <span class="catalog-badge"><i class="fa-solid fa-wand-magic-sparkles animate-pulse"></i> Best Seller Apps</span>
             <h2 class="glow-text">Katalog Produk Premium</h2>
             <div class="title-divider"></div>
-            <p class="catalog-subtitle">Pilih aplikasi favoritmu di bawah ini untuk melihat daftar varian paket durasi, harga terupdate, dan order instan otomatis.</p>
+            <p class="catalog-subtitle">Temukan paket premium favoritmu, pilih durasi, lalu pesan langsung lewat WhatsApp dalam hitungan detik.</p>
+
+            <div class="trust-points" aria-label="Keunggulan layanan">
+                <span><i class="fa-solid fa-bolt"></i> Proses cepat</span>
+                <span><i class="fa-solid fa-shield-halved"></i> Transaksi aman</span>
+                <span><i class="fa-solid fa-headset"></i> Bantuan responsif</span>
+            </div>
             
             <div class="catalog-filter-container">
                 <div class="search-box-wrapper">
                     <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                    <input type="text" id="productSearchInput" onkeyup="filterProductsByName()" placeholder="Cari aplikasi premium favoritmu...">
+                    <input type="search" id="productSearchInput" onkeyup="filterProductsByName()" placeholder="Cari Netflix, Spotify, CapCut..." aria-label="Cari produk">
                 </div>
-                <div class="filter-tabs">
-    <button class="tab-btn active" onclick="renderProducts('all')">Semua</button>
-    <button class="tab-btn" onclick="renderProducts('streaming')">Streaming</button>
-    <button class="tab-btn" onclick="renderProducts('music')">Musik</button>
-    <button class="tab-btn" onclick="renderProducts('tools')">Tools</button>
-</div>
+                <div class="filter-tabs" role="group" aria-label="Filter kategori produk">
+                    <button class="tab-btn active" onclick="renderProducts('all')"><i class="fa-solid fa-border-all"></i> Semua</button>
+                    <button class="tab-btn" onclick="renderProducts('streaming')"><i class="fa-solid fa-play"></i> Streaming</button>
+                    <button class="tab-btn" onclick="renderProducts('music')"><i class="fa-solid fa-music"></i> Musik</button>
+                    <button class="tab-btn" onclick="renderProducts('tools')"><i class="fa-solid fa-wand-magic-sparkles"></i> Tools</button>
+                </div>
             </div>
         </div>
         
@@ -71,8 +83,8 @@
     </section>
 
     <div id="productModal" class="modal-overlay" aria-hidden="true">
-        <div class="modal-box">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
+        <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modalProductName">
+            <button class="close-btn" type="button" onclick="closeModal()" aria-label="Tutup pilihan paket">&times;</button>
             <div class="modal-top-accent">
                 <i class="fa-solid fa-basket-shopping"></i>
             </div>
@@ -87,15 +99,16 @@
                     <strong id="totalPrice" class="price-amount">Rp 0</strong>
                 </div>
                 <button onclick="checkoutViaWhatsApp()" class="btn-whatsapp">
-    Beli Sekarang via WhatsApp
-</button>
+                    <i class="fa-brands fa-whatsapp"></i> Beli Sekarang
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
             </div>
         </div>
     </div>
 
     <div id="adminEditModal" class="modal-overlay">
-        <div class="modal-box">
-            <span class="close-btn" onclick="closeAdminModal()">&times;</span>
+        <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="adminTargetProductName">
+            <button class="close-btn" type="button" onclick="closeAdminModal()" aria-label="Tutup editor admin">&times;</button>
             <div class="modal-top-accent admin-accent">
                 <i class="fa-solid fa-screwdriver-wrench"></i>
             </div>
