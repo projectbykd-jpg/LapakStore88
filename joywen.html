@@ -482,6 +482,7 @@
       <nav class="nav-links" id="navLinks" aria-label="Navigasi utama">
         <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
         <a href="produk.html"><i class="fa-solid fa-store"></i> Produk</a>
+        <a href="novel.html"><i class="fa-solid fa-book-open"></i> Novel</a>
         <a href="joywen.html" class="active" aria-current="page"><i class="fa-solid fa-heart"></i> JoyWen</a>
         <a href="kontak.html"><i class="fa-solid fa-wallet"></i> Pembayaran</a>
       </nav>
@@ -610,10 +611,10 @@
       'use strict';
 
       const CONFIG = {
-        apiUrl: 'https://script.google.com/macros/s/AKfycbyEfspTml7o-X_TzU75UlFxnaIA1dvgjtV5r90dGk4U0Vmd3nTnVrW3WRq2uKLk-0ue8Q/exec',
+        apiUrl: 'https://script.google.com/macros/s/AKfycbxIV3NFcgOP_5vTJ-Qw1NA9FPzvJCoRBt3RJMZC1J7nIpkP5P0s_X5hpaZPN1Q8gAD6jw/exec',
         dataKey: 'joywenProducts',
         sheetName: 'PAKET JoyWen',
-        whatsappNumber: '6285180572575',
+        whatsappNumber: '6282285391595',
         fallbackImage: 'https://i.ibb.co/My56Cj7L/image.png'
       };
 
@@ -889,14 +890,14 @@
         const packet = product?.packets?.[state.selectedPacket];
         if (!product || !packet) return;
         const message = [
-          'Halo LapakStore88, saya ingin memesan produk dari JoyWen Store:',
+          'Halo JoyWen Store, saya ingin memesan produk premium berikut:',
           '',
           `• Produk: ${product.name}`,
           `• Paket: ${packet.type}`,
           `• Durasi: ${packet.desc || '-'}`,
           `• Harga: ${formatPrice(packet.price)}`,
           '',
-          'Mohon informasi proses selanjutnya. Terima kasih.'
+          'Mohon dibantu proses pemesanannya. Terima kasih, JoyWen Store.'
         ].join('\n');
         window.open(`https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
       }
