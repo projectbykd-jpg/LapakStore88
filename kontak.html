@@ -1,83 +1,129 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pembayaran & Kontak Resmi - LapakStore88</title>
-    <link rel="icon" type="image/png" href="https://i.ibb.co/qY1y2j8h/image.png">
-    <link rel="stylesheet" href="assets/styles-ui.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#050b14">
+  <meta name="description" content="Pembayaran QRIS dan kontak resmi LapakStore88 serta partner JoyWen Store.">
+  <title>Pembayaran & Kontak Resmi — LapakStore88</title>
+  <link rel="icon" type="image/png" href="https://i.ibb.co/7Jtv7WJs/image.png">
+  <link rel="stylesheet" href="style.css?v=20260802-joywen-final">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-
-<body>
-
-    <header class="header">
-        <div class="container">
-            <div class="logo-area">
-                <img src="https://i.ibb.co/qY1y2j8h/image.png" class="nav-logo" alt="Logo">
-                <div class="logo">LapakStore88</div>
-            </div>
-
-            <input type="checkbox" id="menu-bar">
-            <label for="menu-bar" class="menu-icon">☰</label>
-
-            <nav class="navbar">
-                <a href="index.html">Home</a>
-                <a href="produk.html">Produk</a>
-                <a href="novel.html">Novel Gratis</a>
-                <a href="kontak.html" class="active">Pembayaran & Kontak</a>
-                <button id="loginNavBtn" onclick="openLoginModal()">Login</button>
-            </nav>
-        </div>
-    </header>
-
-    <div id="adminBadgePanel" class="admin-badge-bar" style="display: none;">
-        <span><i class="fa-solid fa-shield-halved"></i> Mode Administrator Aktif</span>
-        <button onclick="logoutAdmin()">Keluar Mode Admin</button>
+<body class="contact-page">
+  <header class="header">
+    <div class="container">
+      <a class="logo-area" href="index.html" aria-label="LapakStore88 Home">
+        <img src="https://i.ibb.co/7Jtv7WJs/image.png" class="nav-logo" alt="Logo LapakStore88">
+        <div class="logo">LapakStore88</div>
+      </a>
+      <input type="checkbox" id="menu-bar">
+      <label for="menu-bar" class="menu-icon" aria-label="Buka menu navigasi"><span></span><span></span><span></span></label>
+      <nav class="navbar" aria-label="Navigasi utama">
+        <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="produk.html"><i class="fa-solid fa-gem"></i> Produk</a>
+        <a href="novel.html"><i class="fa-solid fa-book-open"></i> Novel Gratis</a>
+        <a href="joywen.html"><i class="fa-solid fa-handshake"></i> JoyWen Store</a>
+        <a href="kontak.html" class="active" aria-current="page"><i class="fa-solid fa-wallet"></i> Pembayaran</a>
+      </nav>
     </div>
+  </header>
 
-    <section id="info-lapak" class="catalog-section" style="padding-top:120px; padding-bottom:60px;">
-        <div class="container">
-            <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;align-items:start">
-                <div class="ui-card">
-                    <h3>QRIS Pembayaran Resmi</h3>
-                    <p>Silakan scan kode QRIS di bawah ini untuk melakukan transaksi aman otomatis.</p>
-                    <div style="display:flex;align-items:center;justify-content:center;padding:18px">
-                        <img src="https://i.ibb.co/4wPGPjBr/image.png" loading="lazy" alt="QRIS LapakStore88" style="max-width:260px;width:100%;border-radius:12px;box-shadow:0 8px 18px rgba(0,0,0,0.6)">
-                    </div>
-                </div>
-
-                <div class="ui-card">
-                    <h3>Hubungi Admin Toko</h3>
-                    <p>Punya pertanyaan atau butuh klaim garansi kilat? Hubungi kami melalui saluran di bawah:</p>
-                    <div style="display:flex;flex-direction:column;gap:12px;margin-top:12px">
-                        <a class="ui-card" href="https://wa.me/6285180572575" style="display:flex;align-items:center;gap:12px;padding:12px;text-decoration:none;color:inherit;">
-                            <div style="width:48px;height:48px;border-radius:10px;background:rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center"><i class="fa-brands fa-whatsapp" style="color:var(--accent)"></i></div>
-                            <div>
-                                <div style="font-weight:700">WhatsApp CS Utama</div>
-                                <div style="color:var(--muted);font-size:0.95rem">+62 851-8057-2575 (Fast Response)</div>
-                            </div>
-                        </a>
-
-                        <div class="ui-card" style="display:flex;align-items:center;gap:12px;padding:12px">
-                            <div style="width:48px;height:48px;border-radius:10px;background:rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center"><i class="fa-solid fa-clock" style="color:var(--gold)"></i></div>
-                            <div>
-                                <div style="font-weight:700">Jam Operasional Toko</div>
-                                <div style="color:var(--muted);font-size:0.95rem">Setiap Hari (09.00 - 23.00 WIB)</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <main>
+    <section class="contact-hero">
+      <div class="contact-orb contact-orb-one" aria-hidden="true"></div>
+      <div class="contact-orb contact-orb-two" aria-hidden="true"></div>
+      <div class="container contact-hero-grid">
+        <div class="contact-hero-copy">
+          <span class="page-eyebrow"><i class="fa-solid fa-shield-heart"></i> Saluran resmi & aman</span>
+          <h1>Pembayaran lebih mudah, bantuan selalu dekat.</h1>
+          <p>Pilih QRIS sesuai toko tempat kamu memesan, lalu hubungi kontak resmi untuk konfirmasi atau bantuan layanan.</p>
+          <div class="contact-hero-actions">
+            <a href="#pembayaran" class="page-button page-button-primary"><i class="fa-solid fa-qrcode"></i> Lihat QRIS</a>
+            <a href="#kontak-resmi" class="page-button page-button-soft"><i class="fa-brands fa-whatsapp"></i> Hubungi Admin</a>
+          </div>
+          <div class="contact-trust">
+            <span><i class="fa-solid fa-circle-check"></i> Kontak terverifikasi</span>
+            <span><i class="fa-solid fa-circle-check"></i> QRIS resmi</span>
+            <span><i class="fa-solid fa-circle-check"></i> Respons cepat</span>
+          </div>
         </div>
+        <div class="contact-hero-panel">
+          <div class="contact-panel-logo-row">
+            <span class="store-logo"><img src="https://i.ibb.co/7Jtv7WJs/image.png" alt="Logo LapakStore88"></span>
+            <span class="partner-connector"><i class="fa-solid fa-link"></i></span>
+            <span class="store-logo joywen-logo"><img src="https://i.ibb.co/My56Cj7L/image.png" alt="Logo JoyWen Store"></span>
+          </div>
+          <strong>LapakStore88 × JoyWen Store</strong>
+          <p>Dua layanan, satu pengalaman belanja digital yang praktis dan responsif.</p>
+          <span class="verified-pill"><i class="fa-solid fa-badge-check"></i> Partner Store Resmi</span>
+        </div>
+      </div>
     </section>
 
-    <footer class="footer">
-        <p>&copy; 2026 LapakStore88. All Rights Reserved.</p>
-    </footer>
+    <section id="pembayaran" class="payment-section">
+      <div class="container contact-section-shell">
+        <div class="contact-section-heading">
+          <span class="page-eyebrow"><i class="fa-solid fa-qrcode"></i> Metode pembayaran</span>
+          <h2>Pilih QRIS sesuai pesananmu</h2>
+          <p>Pastikan nama toko dan nominal sudah benar sebelum menyelesaikan pembayaran.</p>
+        </div>
+        <div class="payment-grid">
+          <article class="payment-card">
+            <div class="payment-card-head">
+              <span class="payment-store-logo"><img src="https://i.ibb.co/7Jtv7WJs/image.png" alt="Logo LapakStore88"></span>
+              <div><span class="payment-label">QRIS Utama</span><h3>LapakStore88</h3></div>
+              <span class="official-chip"><i class="fa-solid fa-circle-check"></i> Resmi</span>
+            </div>
+            <div class="qris-frame"><img src="https://i.ibb.co/4wPGPjBr/image.png" loading="lazy" alt="QRIS resmi LapakStore88"></div>
+            <p>Gunakan QRIS ini untuk pembelian produk dari katalog utama LapakStore88.</p>
+            <a class="qris-action" href="https://i.ibb.co/4wPGPjBr/image.png" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-up-right-from-square"></i> Buka QRIS ukuran penuh</a>
+          </article>
 
-    <script src="script.js"></script>
+          <article class="payment-card partner-payment-card">
+            <div class="payment-card-head">
+              <span class="payment-store-logo"><img src="https://i.ibb.co/My56Cj7L/image.png" alt="Logo JoyWen Store"></span>
+              <div><span class="payment-label">QRIS Partner</span><h3>JoyWen Store</h3></div>
+              <span class="official-chip partner-chip"><i class="fa-solid fa-handshake"></i> Partner</span>
+            </div>
+            <div class="qris-frame"><img src="https://i.ibb.co/G4CVvMXV/image.png" loading="lazy" alt="QRIS resmi JoyWen Store"></div>
+            <p>Gunakan QRIS ini untuk pesanan yang dibuat melalui halaman katalog JoyWen Store.</p>
+            <a class="qris-action" href="https://i.ibb.co/G4CVvMXV/image.png" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-up-right-from-square"></i> Buka QRIS ukuran penuh</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="kontak-resmi" class="official-contact-section">
+      <div class="container contact-section-shell">
+        <div class="contact-section-heading">
+          <span class="page-eyebrow"><i class="fa-brands fa-whatsapp"></i> Kontak resmi</span>
+          <h2>Hubungi toko yang sesuai</h2>
+          <p>Pesan sudah disiapkan otomatis agar kamu dapat langsung melanjutkan percakapan.</p>
+        </div>
+        <div class="official-contact-grid">
+          <a class="official-contact-card" href="https://wa.me/6285180572575?text=Halo%20LapakStore88%2C%20saya%20ingin%20bertanya%20tentang%20produk%20atau%20pesanan%20saya." target="_blank" rel="noopener noreferrer">
+            <span class="contact-icon"><i class="fa-brands fa-whatsapp"></i></span>
+            <span class="contact-copy"><small>Customer Service Utama</small><strong>LapakStore88</strong><span>+62 851-8057-2575</span></span>
+            <span class="contact-arrow"><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+          </a>
+          <a class="official-contact-card joywen-contact-card" href="https://wa.me/6282285391595?text=Halo%20JoyWen%20Store%2C%20saya%20ingin%20bertanya%20tentang%20produk%20atau%20pesanan%20JoyWen." target="_blank" rel="noopener noreferrer">
+            <span class="contact-icon"><i class="fa-brands fa-whatsapp"></i></span>
+            <span class="contact-copy"><small>Partner LapakStore88</small><strong>JoyWen Store</strong><span>+62 822-8539-1595</span></span>
+            <span class="contact-arrow"><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+          </a>
+          <div class="official-contact-card operation-card">
+            <span class="contact-icon"><i class="fa-solid fa-clock"></i></span>
+            <span class="contact-copy"><small>Jam Operasional</small><strong>Setiap Hari</strong><span>09.00 – 23.00 WIB</span></span>
+            <span class="status-dot"><i class="fa-solid fa-circle"></i> Siap membantu</span>
+          </div>
+        </div>
+        <div class="security-note"><i class="fa-solid fa-triangle-exclamation"></i><p><strong>Catatan keamanan:</strong> jangan pernah memberikan kode OTP, PIN, atau kata sandi kepada siapa pun. Pastikan nomor tujuan dan QRIS sesuai dengan toko tempat kamu memesan.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer"><p>&copy; 2026 <span>LapakStore88</span> × JoyWen Store. Semua hak dilindungi.</p></footer>
 </body>
 </html>
