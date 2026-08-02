@@ -160,6 +160,23 @@ body{margin:0;font-family:Inter, Poppins, system-ui,-apple-system,"Segoe UI",Rob
 /* ensure searchNotFound center */
 .empty-search-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px;color:var(--muted)}
 
+/* safety fixes and stronger overrides to handle conflicting style.css */
+/* hide the visible checkbox square caused by legacy styles */
+input#menu-bar{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important}
+/* hide admin modal for public users, enable only with body.admin-mode */
+#adminEditModal{display:none!important}
+body.admin-mode #adminEditModal{display:flex!important}
+/* force modal overlays to be full-screen and centered */
+.modal-overlay{position:fixed!important;inset:0!important;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(2,6,17,0.65)!important;z-index:3000}
+.modal-overlay.active{display:flex!important}
+.modal-box{margin:0 auto;max-width:720px;width:100%}
+/* improve packet option visuals inside modal */
+.packet-options-container{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+.packet-row{background:rgba(255,255,255,0.01);padding:10px;border-radius:10px;display:flex;align-items:center;justify-content:space-between}
+/* ensure reader overlay is above everything */
+.reader-overlay{position:fixed!important;inset:0!important;display:none;align-items:center;justify-content:center;background:rgba(2,6,17,0.7)!important;z-index:3100}
+.reader-overlay.active{display:flex!important}
+
 /* prefers reduced motion */
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
 
