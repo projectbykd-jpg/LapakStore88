@@ -2081,3 +2081,262 @@ button:focus-visible, a:focus-visible, input:focus-visible {
         font-size: 13px;
     }
 }
+
+/* ========================================================================== 
+   FILTER ACTIVE STATE + COMPACT RESPONSIVE PURCHASE MODAL
+   ========================================================================== */
+.filter-tabs .tab-btn {
+    position: relative;
+    overflow: hidden;
+    color: #b8c4d4 !important;
+    background: rgba(255, 255, 255, .045) !important;
+    border: 1px solid transparent !important;
+    box-shadow: none !important;
+    transform: translateY(0);
+    transition: color .22s ease, background .22s ease, border-color .22s ease, transform .22s ease, box-shadow .22s ease !important;
+}
+
+.filter-tabs .tab-btn:hover {
+    color: #fff !important;
+    background: rgba(255, 255, 255, .09) !important;
+    border-color: rgba(148, 163, 184, .18) !important;
+    transform: translateY(-1px);
+}
+
+.filter-tabs .tab-btn.active,
+.filter-tabs .tab-btn[aria-pressed="true"] {
+    color: #07111f !important;
+    background: linear-gradient(135deg, #fde047, #f59e0b) !important;
+    border-color: rgba(253, 224, 71, .8) !important;
+    box-shadow: 0 8px 22px rgba(245, 158, 11, .24) !important;
+}
+
+.filter-tabs .tab-btn.active i,
+.filter-tabs .tab-btn[aria-pressed="true"] i {
+    color: #07111f !important;
+}
+
+#productModal.modal-overlay {
+    padding: 16px !important;
+    overflow: hidden;
+}
+
+#productModal .modal-box {
+    width: min(440px, calc(100vw - 32px)) !important;
+    max-width: 440px !important;
+    max-height: calc(100dvh - 32px) !important;
+    margin: 0 !important;
+    padding: 22px !important;
+    overflow: hidden !important;
+    border-radius: 20px !important;
+    display: flex;
+    flex-direction: column;
+}
+
+#productModal .close-btn {
+    top: 14px;
+    right: 14px;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    font-size: 20px;
+}
+
+#productModal .modal-top-accent {
+    flex: 0 0 auto;
+    width: 48px;
+    height: 48px;
+    margin: 0 0 14px;
+    border-radius: 14px;
+    font-size: 20px;
+}
+
+#productModal .modal-box h3 {
+    flex: 0 0 auto;
+    margin: 0 42px 6px 0;
+    padding: 0;
+    font-size: 20px;
+    line-height: 1.3;
+}
+
+#productModal .modal-instruction-text {
+    flex: 0 0 auto;
+    margin: 0 0 14px;
+    font-size: 12px;
+    line-height: 1.55;
+}
+
+#productModal .packet-options-container {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: 220px;
+    margin: 0 0 14px;
+    padding: 5px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    border-radius: 13px;
+    scrollbar-width: thin;
+}
+
+#productModal .packet-row {
+    display: grid !important;
+    grid-template-columns: 18px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 58px;
+    margin: 0 0 7px !important;
+    padding: 11px 12px !important;
+    border-radius: 11px !important;
+    cursor: pointer;
+    transform: none !important;
+}
+
+#productModal .packet-row:last-child {
+    margin-bottom: 0 !important;
+}
+
+#productModal .packet-row:hover {
+    background: rgba(255, 255, 255, .055) !important;
+    border-color: rgba(148, 163, 184, .22) !important;
+}
+
+#productModal .packet-row.selected {
+    background: rgba(250, 204, 21, .075) !important;
+    border-color: rgba(250, 204, 21, .5) !important;
+}
+
+#productModal .packet-row input[type="radio"] {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    accent-color: #facc15;
+}
+
+#productModal .packet-left {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    min-width: 0;
+    gap: 2px;
+    color: #fff;
+    font-size: 12px;
+    line-height: 1.35;
+}
+
+#productModal .packet-left strong {
+    width: 100%;
+    overflow: hidden;
+    font-size: 12px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#productModal .packet-left small {
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 500;
+}
+
+#productModal .packet-price {
+    color: var(--brand);
+    font-size: 12px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+#productModal .modal-footer-premium {
+    flex: 0 0 auto;
+    gap: 10px;
+    padding-top: 13px;
+}
+
+#productModal .total-price-block .label {
+    font-size: 11px;
+}
+
+#productModal .total-price-block .price-amount {
+    font-size: 20px;
+}
+
+#productModal .btn-whatsapp {
+    min-height: 46px;
+    padding: 11px 15px;
+    border-radius: 12px !important;
+    font-size: 13px;
+}
+
+@media (max-width: 600px) {
+    .filter-tabs {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 7px;
+    }
+
+    .filter-tabs .tab-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 9px 10px;
+    }
+
+    #productModal.modal-overlay {
+        align-items: center;
+        padding: 12px !important;
+    }
+
+    #productModal .modal-box {
+        width: calc(100vw - 24px) !important;
+        max-height: calc(100dvh - 24px) !important;
+        padding: 18px !important;
+        border-radius: 18px !important;
+    }
+
+    #productModal .modal-top-accent {
+        width: 44px;
+        height: 44px;
+        margin-bottom: 11px;
+    }
+
+    #productModal .modal-box h3 {
+        font-size: 18px;
+    }
+
+    #productModal .packet-options-container {
+        max-height: 205px;
+    }
+
+    #productModal .packet-row {
+        grid-template-columns: 17px minmax(0, 1fr);
+        min-height: 56px;
+        gap: 9px;
+        padding: 10px !important;
+    }
+
+    #productModal .packet-price {
+        grid-column: 2;
+        margin-top: -2px;
+        font-size: 11px;
+    }
+}
+
+@media (max-height: 650px) {
+    #productModal .modal-top-accent {
+        width: 42px;
+        height: 42px;
+        margin-bottom: 9px;
+    }
+
+    #productModal .modal-instruction-text {
+        margin-bottom: 10px;
+    }
+
+    #productModal .packet-options-container {
+        max-height: 180px;
+        margin-bottom: 10px;
+    }
+
+    #productModal .modal-footer-premium {
+        padding-top: 10px;
+    }
+}
