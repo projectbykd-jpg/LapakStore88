@@ -38,9 +38,21 @@ function formatPrice(n) {
 window.renderProducts = function(category = 'all'){
   const grid = document.getElementById('productGrid');
   if (!grid) return;
+  const activeCategory = String(category || 'all').toLowerCase();
+
+  // Pindahkan warna aktif ke tab kategori yang benar.
+  document.querySelectorAll('.filter-tabs .tab-btn').forEach(btn => {
+    const onclickValue = btn.getAttribute('onclick') || '';
+    const categoryMatch = onclickValue.match(/renderProducts\(['"]([^'"]+)['"]\)/);
+    const buttonCategory = String(btn.dataset.category || categoryMatch?.[1] || '').toLowerCase();
+    const isActive = buttonCategory === activeCategory;
+    btn.classList.toggle('active', isActive);
+    btn.setAttribute('aria-pressed', String(isActive));
+  });
+
   grid.innerHTML = '';
 
-  const filtered = (category === 'all') ? productsData : productsData.filter(p => (p.category||'').toLowerCase() === category.toLowerCase());
+  const filtered = (activeCategory === 'all') ? productsData : productsData.filter(p => (p.category||'').toLowerCase() === activeCategory);
 
   if (!filtered.length) {
     const notFound = document.getElementById('searchNotFound');
@@ -151,15 +163,22 @@ window.openProductModal = function(id){
 
   (p.packets || []).forEach((pkt, i) => {
     const row = document.createElement('label');
-    row.className = 'packet-row';
-    row.style.display = 'block';
+    row.className = `packet-row${i === 0 ? ' selected' : ''}`;
     row.innerHTML = `
-      <input type="radio" name="pkt" value="${i}" ${i===0? 'checked': ''} style="margin-right:8px"> 
-      <span class="packet-left"> <strong>${pkt.type}</strong> — <small style='color:var(--muted)'>${pkt.desc || ''}</small></span>
+      <input type="radio" name="pkt" value="${i}" ${i===0? 'checked': ''}> 
+      <span class="packet-left">
+        <strong>${pkt.type}</strong>
+        <small>${pkt.desc || ''}</small>
+      </span>
       <span class="packet-price">${formatPrice(pkt.price)}</span>
     `;
     const input = row.querySelector('input[type="radio"]');
-    input?.addEventListener('change', () => updateTotalPrice(pkt.price));
+    input?.addEventListener('change', () => {
+      container.querySelectorAll('.packet-row').forEach(option => {
+        option.classList.toggle('selected', option.querySelector('input')?.checked === true);
+      });
+      updateTotalPrice(pkt.price);
+    });
     container.appendChild(row);
   });
 
