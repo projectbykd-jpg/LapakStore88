@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Koleksi Novel Gratis - LapakStore88</title>
-    <link rel="icon" type="image/png" href="https://i.ibb.co/7Jtv7WJs/image.png">
-    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="https://i.ibb.co/qY1y2j8h/image.png">
+    <link rel="stylesheet" href="assets/styles-ui.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -16,7 +16,7 @@
     <header class="header">
         <div class="container">
             <div class="logo-area">
-                <img src="https://i.ibb.co/7Jtv7WJs/image.png" class="nav-logo" alt="Logo LapakStore88">
+                <img src="https://i.ibb.co/qY1y2j8h/image.png" class="nav-logo" alt="Logo LapakStore88">
                 <div class="logo">LapakStore88</div>
             </div>
 
@@ -37,7 +37,7 @@
         <button onclick="logoutAdmin()">Keluar Mode Admin</button>
     </div>
 
-    <section id="novel-section" class="novel-catalog-section">
+    <section id="novel-section" class="catalog-section">
         <div class="catalog-header animate-fade-in">
             <span class="catalog-badge"><i class="fa-solid fa-fire-flame-curved animate-pulse"></i> Trending Hub</span>
             <h2 class="glow-text">Koleksi Novel Gratis</h2>
@@ -46,7 +46,7 @@
         </div>
 
         <div class="container">
-            <div id="novelGrid" class="grid-novels-layout"></div>
+            <div id="novelGrid" class="grid"></div>
         </div>
     </section>
 
@@ -63,7 +63,7 @@
         </div>
     </div>
 
-    <div id="novelReadingContainer" class="reader-overlay" style="display: none;">
+    <div id="novelReadingContainer" class="reader-overlay" aria-hidden="true">
         <div class="reading-progress-container">
             <div id="readingProgressBar" class="reading-progress-bar"></div>
         </div>
