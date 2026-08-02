@@ -2340,3 +2340,11 @@ button:focus-visible, a:focus-visible, input:focus-visible {
         padding-top: 10px;
     }
 }
+
+/* Search visibility harus menang dari display:flex !important pada kartu. */
+#productGrid .ui-card.is-search-hidden,
+#productGrid .card.is-search-hidden,
+#productGrid .ui-card[hidden],
+#productGrid .card[hidden] {
+    display: none !important;
+}
