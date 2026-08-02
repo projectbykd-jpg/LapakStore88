@@ -123,7 +123,7 @@ body{margin:0;font-family:Inter, Poppins, system-ui,-apple-system,"Segoe UI",Rob
 /* constrain huge showcase/hero images (fixes overlap) */
 .floating-showcase-grid, .hero-right-showcase{position:relative;overflow:hidden}
 .floating-showcase-grid .showcase-item, .hero-right-showcase .showcase-item{display:inline-block;vertical-align:middle;margin:0 8px}
-.floating-showcase-grid img, .hero-right-showcase img, .showcase-item img{max-width:220px;height:auto;object-fit:contain;display:block}
+.floating-showcase-grid img, .hero-right-showcase img, .showcase-item img{max-width:220px !important; height:auto !important; object-fit:contain; display:block; max-height:220px !important}
 
 /* ensure modal overlays stay on top and readable */
 .modal-overlay{z-index:2200}
