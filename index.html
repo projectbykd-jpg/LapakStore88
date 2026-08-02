@@ -473,6 +473,348 @@
       *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition-duration: .01ms !important; }
       .reveal { opacity: 1; transform: none; }
     }
+
+
+    /* ================================================================
+       PROMO CAROUSEL — auto slide 5 detik + swipe / drag manual
+       ================================================================ */
+    .promo-showcase-section {
+      position: relative;
+      padding: 84px 0 24px;
+      overflow: hidden;
+      isolation: isolate;
+    }
+    .promo-showcase-section::before,
+    .promo-showcase-section::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      border-radius: 999px;
+      pointer-events: none;
+      filter: blur(2px);
+    }
+    .promo-showcase-section::before {
+      width: 360px;
+      height: 360px;
+      left: -220px;
+      top: 40px;
+      background: rgba(56, 189, 248, .075);
+    }
+    .promo-showcase-section::after {
+      width: 420px;
+      height: 420px;
+      right: -250px;
+      bottom: -160px;
+      background: rgba(250, 204, 21, .06);
+    }
+    .promo-heading {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 22px;
+    }
+    .promo-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .promo-title-icon {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      color: var(--yellow);
+      background: rgba(250, 204, 21, .08);
+      border: 1px solid rgba(250, 204, 21, .17);
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .14);
+    }
+    .promo-heading small {
+      display: block;
+      color: var(--yellow);
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .promo-heading h2 {
+      margin-top: 3px;
+      font-family: "Poppins", sans-serif;
+      font-size: clamp(1.2rem, 2.5vw, 1.65rem);
+      line-height: 1.25;
+      letter-spacing: -.7px;
+    }
+    .promo-swipe-hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #8392a6;
+      font-size: 10px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .promo-swipe-hint i { color: var(--yellow); }
+
+    .promo-carousel {
+      --slide-duration: 5000ms;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(145deg, rgba(15, 29, 47, .94), rgba(6, 15, 27, .98));
+      border: 1px solid rgba(148, 163, 184, .17);
+      border-radius: 28px;
+      box-shadow: 0 28px 85px rgba(0, 0, 0, .32);
+      isolation: isolate;
+      touch-action: pan-y;
+      user-select: none;
+    }
+    .promo-carousel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+      border-radius: inherit;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .035);
+    }
+    .promo-track {
+      display: flex;
+      width: 100%;
+      transition: transform .72s cubic-bezier(.2, .8, .2, 1);
+      will-change: transform;
+    }
+    .promo-carousel.is-dragging .promo-track { transition: none; }
+    .promo-slide {
+      min-width: 100%;
+      display: grid;
+      grid-template-columns: minmax(0, 1.22fr) minmax(310px, .78fr);
+      align-items: stretch;
+      min-height: 440px;
+      color: inherit;
+      text-decoration: none;
+      background:
+        radial-gradient(circle at 85% 15%, rgba(250, 204, 21, .08), transparent 21rem),
+        linear-gradient(140deg, rgba(255, 255, 255, .018), transparent 55%);
+    }
+    .promo-media {
+      position: relative;
+      min-width: 0;
+      overflow: hidden;
+      background: #07111f;
+    }
+    .promo-media::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(90deg, transparent 64%, rgba(7, 17, 31, .48));
+    }
+    .promo-media img {
+      width: 100%;
+      height: 100%;
+      min-height: 440px;
+      object-fit: contain;
+      object-position: center;
+      transition: transform .8s cubic-bezier(.2, .8, .2, 1), filter .4s ease;
+    }
+    .promo-slide:hover .promo-media img { transform: scale(1.025); filter: saturate(1.06) brightness(1.025); }
+    .promo-image-label {
+      position: absolute;
+      z-index: 2;
+      top: 18px;
+      left: 18px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 11px;
+      color: #07111f;
+      background: rgba(254, 240, 138, .94);
+      border: 1px solid rgba(255, 255, 255, .24);
+      border-radius: 999px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, .22);
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      backdrop-filter: blur(9px);
+    }
+    .promo-copy {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(34px, 5vw, 58px);
+      overflow: hidden;
+    }
+    .promo-copy::after {
+      content: "";
+      position: absolute;
+      width: 190px;
+      height: 190px;
+      right: -105px;
+      bottom: -105px;
+      border: 1px solid rgba(250, 204, 21, .12);
+      border-radius: 50%;
+      box-shadow: 0 0 0 28px rgba(250, 204, 21, .025), 0 0 0 58px rgba(250, 204, 21, .016);
+      pointer-events: none;
+    }
+    .promo-kicker {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      padding: 7px 10px;
+      color: #fde68a;
+      background: rgba(250, 204, 21, .075);
+      border: 1px solid rgba(250, 204, 21, .16);
+      border-radius: 999px;
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .promo-copy h3 {
+      position: relative;
+      z-index: 1;
+      margin: 17px 0 13px;
+      font-family: "Poppins", sans-serif;
+      font-size: clamp(1.75rem, 3.2vw, 3rem);
+      line-height: 1.08;
+      letter-spacing: -1.8px;
+    }
+    .promo-copy p {
+      position: relative;
+      z-index: 1;
+      color: #9aa9bc;
+      font-size: 13px;
+      line-height: 1.75;
+    }
+    .promo-cta {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      width: fit-content;
+      min-height: 46px;
+      margin-top: 23px;
+      padding: 0 17px;
+      color: #07111f;
+      background: linear-gradient(135deg, #fde047, #f59e0b);
+      border-radius: 13px;
+      box-shadow: 0 13px 30px rgba(245, 158, 11, .2);
+      font-size: 11px;
+      font-weight: 900;
+      transition: transform .22s ease, box-shadow .22s ease;
+    }
+    .promo-slide:hover .promo-cta { transform: translateX(4px); box-shadow: 0 17px 34px rgba(245, 158, 11, .29); }
+    .promo-meta {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 17px;
+    }
+    .promo-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 9px;
+      color: #a9b6c7;
+      background: rgba(255, 255, 255, .032);
+      border: 1px solid rgba(148, 163, 184, .11);
+      border-radius: 9px;
+      font-size: 9px;
+      font-weight: 700;
+    }
+    .promo-meta i { color: #22c55e; }
+
+    .promo-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 14px 16px;
+      background: rgba(4, 11, 20, .78);
+      border-top: 1px solid rgba(148, 163, 184, .1);
+    }
+    .promo-nav-buttons { display: flex; gap: 8px; }
+    .promo-arrow {
+      width: 39px;
+      height: 39px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(148, 163, 184, .16);
+      border-radius: 11px;
+      color: #dce5ef;
+      background: rgba(255, 255, 255, .035);
+      cursor: pointer;
+      transition: transform .2s ease, border-color .2s ease, background .2s ease;
+    }
+    .promo-arrow:hover {
+      transform: translateY(-2px);
+      border-color: rgba(250, 204, 21, .35);
+      background: rgba(250, 204, 21, .07);
+    }
+    .promo-status { flex: 1; display: flex; align-items: center; justify-content: center; gap: 11px; }
+    .promo-dots { display: flex; align-items: center; gap: 7px; }
+    .promo-dot {
+      width: 8px;
+      height: 8px;
+      padding: 0;
+      border: 0;
+      border-radius: 999px;
+      background: #405066;
+      cursor: pointer;
+      transition: width .28s ease, background .28s ease;
+    }
+    .promo-dot.active { width: 25px; background: linear-gradient(90deg, #fde047, #f59e0b); }
+    .promo-count { color: #748398; font-size: 9px; font-weight: 800; letter-spacing: .08em; }
+    .promo-timer {
+      width: min(210px, 28vw);
+      height: 3px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(148, 163, 184, .14);
+    }
+    .promo-timer-fill {
+      display: block;
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #38bdf8, #fde047, #f59e0b);
+    }
+    .promo-timer-fill.running { animation: promoTimer var(--slide-duration) linear forwards; }
+    .promo-carousel.is-paused .promo-timer-fill { animation-play-state: paused; }
+    @keyframes promoTimer { from { width: 0; } to { width: 100%; } }
+
+    @media (max-width: 900px) {
+      .promo-slide { grid-template-columns: 1fr; min-height: 0; }
+      .promo-media img { min-height: 0; aspect-ratio: 16 / 9; }
+      .promo-media::after { background: linear-gradient(to bottom, transparent 68%, rgba(7, 17, 31, .35)); }
+      .promo-copy { padding: 32px; }
+      .promo-copy h3 { max-width: 650px; }
+    }
+    @media (max-width: 620px) {
+      .promo-showcase-section { padding: 58px 0 10px; }
+      .promo-heading { align-items: flex-start; flex-direction: column; gap: 10px; }
+      .promo-title-icon { width: 40px; height: 40px; border-radius: 12px; }
+      .promo-swipe-hint { padding-left: 54px; }
+      .promo-carousel { border-radius: 20px; }
+      .promo-copy { padding: 27px 22px 30px; }
+      .promo-copy h3 { margin-top: 14px; font-size: clamp(1.55rem, 9vw, 2.25rem); letter-spacing: -1.2px; }
+      .promo-copy p { font-size: 12px; }
+      .promo-image-label { top: 11px; left: 11px; padding: 6px 9px; font-size: 8px; }
+      .promo-controls { padding: 11px 12px; }
+      .promo-arrow { width: 36px; height: 36px; }
+      .promo-timer { display: none; }
+      .promo-status { justify-content: flex-end; }
+    }
+
   </style>
 </head>
 <body>
@@ -556,22 +898,69 @@
       </div>
     </div>
 
-    <section class="partner-section" id="partner">
+    <section class="promo-showcase-section" id="promo">
       <div class="container">
-        <div class="partner-heading reveal">
-          <div class="partner-title-wrap">
-            <span class="partner-mark"><i class="fa-solid fa-handshake"></i></span>
+        <div class="promo-heading reveal">
+          <div class="promo-title-wrap">
+            <span class="promo-title-icon"><i class="fa-solid fa-images"></i></span>
             <span>
-              <span class="partner-eyebrow">Official partner</span>
-              <h2>Kenali partner terpercaya kami</h2>
+              <small>Promo & partner pilihan</small>
+              <h2>Geser untuk melihat penawaran terbaru</h2>
             </span>
           </div>
-          <span class="partner-hint"><i class="fa-regular fa-hand-pointer"></i> Klik banner untuk mengunjungi halaman partner</span>
+          <span class="promo-swipe-hint"><i class="fa-solid fa-hand-pointer"></i> Auto slide tiap 5 detik · swipe untuk geser</span>
         </div>
-        <a href="joywen.html" class="partner-banner reveal" aria-label="Buka halaman Partner Joywen">
-          <img src="https://i.ibb.co/LX08Ybr2/image.png" width="1896" height="830" loading="lazy" alt="Banner Partner Joywen bersama LapakStore88">
-          <span class="partner-action">Lihat Partner <i class="fa-solid fa-arrow-right"></i></span>
-        </a>
+
+        <div class="promo-carousel reveal" id="promoCarousel" aria-roledescription="carousel" aria-label="Promo LapakStore88">
+          <div class="promo-track" id="promoTrack">
+            <a href="produk.html" class="promo-slide" aria-label="Buka katalog aplikasi premium LapakStore88">
+              <div class="promo-media">
+                <img src="https://i.ibb.co/HDT5QJbD/image.png" width="640" height="360" loading="eager" alt="Banner Store App Premium LapakStore88">
+                <span class="promo-image-label"><i class="fa-solid fa-crown"></i> Store App Premium</span>
+              </div>
+              <div class="promo-copy">
+                <span class="promo-kicker"><i class="fa-solid fa-wand-magic-sparkles"></i> Pilihan terbaru</span>
+                <h3>Aplikasi premium favorit, lebih mudah ditemukan.</h3>
+                <p>Lihat pilihan streaming, musik, design tools, dan kebutuhan digital lainnya dalam satu katalog yang rapi. Pilih paketnya lalu pesan langsung melalui WhatsApp.</p>
+                <span class="promo-cta">Jelajahi Katalog <i class="fa-solid fa-arrow-right"></i></span>
+                <span class="promo-meta">
+                  <span><i class="fa-solid fa-circle-check"></i> Proses cepat</span>
+                  <span><i class="fa-solid fa-circle-check"></i> Harga transparan</span>
+                  <span><i class="fa-solid fa-circle-check"></i> Bantuan responsif</span>
+                </span>
+              </div>
+            </a>
+
+            <a href="joywen.html" class="promo-slide" aria-label="Buka halaman JoyWen Store partner LapakStore88">
+              <div class="promo-media">
+                <img src="https://i.ibb.co/LX08Ybr2/image.png" width="1896" height="830" loading="lazy" alt="Banner JoyWen Store partner LapakStore88">
+                <span class="promo-image-label"><i class="fa-solid fa-handshake"></i> Official Partner</span>
+              </div>
+              <div class="promo-copy">
+                <span class="promo-kicker"><i class="fa-solid fa-store"></i> JoyWen Store</span>
+                <h3>Partner pilihan dengan katalog yang semakin lengkap.</h3>
+                <p>Kunjungi JoyWen Store untuk melihat koleksi aplikasi premium partner LapakStore88, lengkap dengan pilihan paket dan pemesanan langsung melalui WhatsApp.</p>
+                <span class="promo-cta">Kunjungi JoyWen <i class="fa-solid fa-arrow-right"></i></span>
+                <span class="promo-meta">
+                  <span><i class="fa-solid fa-circle-check"></i> Official partner</span>
+                  <span><i class="fa-solid fa-circle-check"></i> Pemesanan praktis</span>
+                </span>
+              </div>
+            </a>
+          </div>
+
+          <div class="promo-controls">
+            <div class="promo-nav-buttons">
+              <button class="promo-arrow" id="promoPrev" type="button" aria-label="Banner sebelumnya"><i class="fa-solid fa-arrow-left"></i></button>
+              <button class="promo-arrow" id="promoNext" type="button" aria-label="Banner berikutnya"><i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+            <div class="promo-status">
+              <div class="promo-dots" id="promoDots" aria-label="Pilih banner"></div>
+              <span class="promo-count" id="promoCount">01 / 02</span>
+            </div>
+            <div class="promo-timer" aria-hidden="true"><span class="promo-timer-fill" id="promoTimerFill"></span></div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -691,6 +1080,149 @@
       element.style.transitionDelay = `${Math.min(index % 3, 2) * 90}ms`;
       observer.observe(element);
     });
+
+    // Promo carousel: otomatis setiap 5 detik, tombol, keyboard, dan swipe/drag.
+    (() => {
+      const carousel = document.getElementById('promoCarousel');
+      const track = document.getElementById('promoTrack');
+      const slides = Array.from(track?.querySelectorAll('.promo-slide') || []);
+      const prevButton = document.getElementById('promoPrev');
+      const nextButton = document.getElementById('promoNext');
+      const dotsContainer = document.getElementById('promoDots');
+      const count = document.getElementById('promoCount');
+      const timerFill = document.getElementById('promoTimerFill');
+      if (!carousel || !track || slides.length < 2) return;
+
+      const AUTOPLAY_DELAY = 5000;
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let activeIndex = 0;
+      let autoplayId = null;
+      let pointerStartX = 0;
+      let pointerDeltaX = 0;
+      let isDragging = false;
+      let didDrag = false;
+
+      const dots = slides.map((_, index) => {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'promo-dot';
+        dot.setAttribute('aria-label', `Tampilkan banner ${index + 1}`);
+        dot.addEventListener('click', () => {
+          goTo(index);
+          restartAutoplay();
+        });
+        dotsContainer.appendChild(dot);
+        return dot;
+      });
+
+      function restartTimerVisual() {
+        if (!timerFill || reduceMotion) return;
+        timerFill.classList.remove('running');
+        void timerFill.offsetWidth;
+        timerFill.classList.add('running');
+      }
+
+      function updateUI() {
+        track.style.transform = `translate3d(${-activeIndex * 100}%, 0, 0)`;
+        slides.forEach((slide, index) => {
+          const isActive = index === activeIndex;
+          slide.setAttribute('aria-hidden', String(!isActive));
+          slide.tabIndex = isActive ? 0 : -1;
+        });
+        dots.forEach((dot, index) => {
+          const isActive = index === activeIndex;
+          dot.classList.toggle('active', isActive);
+          dot.setAttribute('aria-current', isActive ? 'true' : 'false');
+        });
+        count.textContent = `${String(activeIndex + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+        restartTimerVisual();
+      }
+
+      function goTo(index) {
+        activeIndex = (index + slides.length) % slides.length;
+        updateUI();
+      }
+
+      function stopAutoplay() {
+        window.clearInterval(autoplayId);
+        autoplayId = null;
+        carousel.classList.add('is-paused');
+      }
+
+      function startAutoplay() {
+        if (reduceMotion || document.hidden || autoplayId) return;
+        carousel.classList.remove('is-paused');
+        restartTimerVisual();
+        autoplayId = window.setInterval(() => goTo(activeIndex + 1), AUTOPLAY_DELAY);
+      }
+
+      function restartAutoplay() {
+        stopAutoplay();
+        carousel.classList.remove('is-paused');
+        startAutoplay();
+      }
+
+      prevButton.addEventListener('click', () => { goTo(activeIndex - 1); restartAutoplay(); });
+      nextButton.addEventListener('click', () => { goTo(activeIndex + 1); restartAutoplay(); });
+
+      carousel.addEventListener('keydown', event => {
+        if (event.key === 'ArrowLeft') { event.preventDefault(); goTo(activeIndex - 1); restartAutoplay(); }
+        if (event.key === 'ArrowRight') { event.preventDefault(); goTo(activeIndex + 1); restartAutoplay(); }
+      });
+
+      carousel.addEventListener('pointerdown', event => {
+        if (event.pointerType === 'mouse' && event.button !== 0) return;
+        pointerStartX = event.clientX;
+        pointerDeltaX = 0;
+        isDragging = true;
+        didDrag = false;
+        carousel.classList.add('is-dragging');
+        carousel.setPointerCapture?.(event.pointerId);
+        stopAutoplay();
+      });
+
+      carousel.addEventListener('pointermove', event => {
+        if (!isDragging) return;
+        pointerDeltaX = event.clientX - pointerStartX;
+        if (Math.abs(pointerDeltaX) > 8) didDrag = true;
+        const offsetPercent = (-activeIndex * 100) + (pointerDeltaX / carousel.clientWidth * 100);
+        track.style.transform = `translate3d(${offsetPercent}%, 0, 0)`;
+      });
+
+      function finishDrag(event) {
+        if (!isDragging) return;
+        isDragging = false;
+        carousel.classList.remove('is-dragging');
+        carousel.releasePointerCapture?.(event.pointerId);
+        const threshold = Math.min(90, carousel.clientWidth * .16);
+        if (pointerDeltaX <= -threshold) goTo(activeIndex + 1);
+        else if (pointerDeltaX >= threshold) goTo(activeIndex - 1);
+        else updateUI();
+        window.setTimeout(() => { didDrag = false; }, 0);
+        startAutoplay();
+      }
+
+      carousel.addEventListener('pointerup', finishDrag);
+      carousel.addEventListener('pointercancel', finishDrag);
+      carousel.addEventListener('click', event => {
+        if (didDrag) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      }, true);
+
+      carousel.addEventListener('mouseenter', stopAutoplay);
+      carousel.addEventListener('mouseleave', startAutoplay);
+      carousel.addEventListener('focusin', stopAutoplay);
+      carousel.addEventListener('focusout', event => {
+        if (!carousel.contains(event.relatedTarget)) startAutoplay();
+      });
+      document.addEventListener('visibilitychange', () => document.hidden ? stopAutoplay() : startAutoplay());
+
+      updateUI();
+      startAutoplay();
+    })();
+
   </script>
 </body>
 </html>
