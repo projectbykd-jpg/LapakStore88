@@ -596,7 +596,9 @@
       background:
         radial-gradient(circle at 85% 15%, rgba(250, 204, 21, .08), transparent 21rem),
         linear-gradient(140deg, rgba(255, 255, 255, .018), transparent 55%);
+      cursor: grab;
     }
+    .promo-carousel.is-dragging .promo-slide { cursor: grabbing; }
     .promo-media {
       position: relative;
       min-width: 0;
@@ -709,6 +711,13 @@
       font-size: 11px;
       font-weight: 900;
       transition: transform .22s ease, box-shadow .22s ease;
+      cursor: pointer;
+      touch-action: manipulation;
+      pointer-events: auto;
+    }
+    .promo-cta:focus-visible {
+      outline: 3px solid rgba(56, 189, 248, .55);
+      outline-offset: 4px;
     }
     .promo-slide:hover .promo-cta { transform: translateX(4px); box-shadow: 0 17px 34px rgba(245, 158, 11, .29); }
     .promo-meta {
@@ -913,7 +922,7 @@
 
         <div class="promo-carousel reveal" id="promoCarousel" aria-roledescription="carousel" aria-label="Promo LapakStore88">
           <div class="promo-track" id="promoTrack">
-            <a href="produk.html" class="promo-slide" aria-label="Buka katalog aplikasi premium LapakStore88">
+            <article class="promo-slide" aria-label="Promo katalog aplikasi premium LapakStore88">
               <div class="promo-media">
                 <img src="https://i.ibb.co/HDT5QJbD/image.png" width="640" height="360" loading="eager" alt="Banner Store App Premium LapakStore88">
                 <span class="promo-image-label"><i class="fa-solid fa-crown"></i> Store App Premium</span>
@@ -922,16 +931,18 @@
                 <span class="promo-kicker"><i class="fa-solid fa-wand-magic-sparkles"></i> Pilihan terbaru</span>
                 <h3>Aplikasi premium favorit, lebih mudah ditemukan.</h3>
                 <p>Lihat pilihan streaming, musik, design tools, dan kebutuhan digital lainnya dalam satu katalog yang rapi. Pilih paketnya lalu pesan langsung melalui WhatsApp.</p>
-                <span class="promo-cta">Jelajahi Katalog <i class="fa-solid fa-arrow-right"></i></span>
+                <a class="promo-cta" href="produk.html" aria-label="Jelajahi katalog produk premium LapakStore88">
+                  Jelajahi Katalog <i class="fa-solid fa-arrow-right"></i>
+                </a>
                 <span class="promo-meta">
                   <span><i class="fa-solid fa-circle-check"></i> Proses cepat</span>
                   <span><i class="fa-solid fa-circle-check"></i> Harga transparan</span>
                   <span><i class="fa-solid fa-circle-check"></i> Bantuan responsif</span>
                 </span>
               </div>
-            </a>
+            </article>
 
-            <a href="joywen.html" class="promo-slide" aria-label="Buka halaman JoyWen Store partner LapakStore88">
+            <article class="promo-slide" aria-label="Promo JoyWen Store partner LapakStore88">
               <div class="promo-media">
                 <img src="https://i.ibb.co/LX08Ybr2/image.png" width="1896" height="830" loading="lazy" alt="Banner JoyWen Store partner LapakStore88">
                 <span class="promo-image-label"><i class="fa-solid fa-handshake"></i> Official Partner</span>
@@ -940,13 +951,15 @@
                 <span class="promo-kicker"><i class="fa-solid fa-store"></i> JoyWen Store</span>
                 <h3>Partner pilihan dengan katalog yang semakin lengkap.</h3>
                 <p>Kunjungi JoyWen Store untuk melihat koleksi aplikasi premium partner LapakStore88, lengkap dengan pilihan paket dan pemesanan langsung melalui WhatsApp.</p>
-                <span class="promo-cta">Kunjungi JoyWen <i class="fa-solid fa-arrow-right"></i></span>
+                <a class="promo-cta" href="joywen.html" aria-label="Kunjungi halaman JoyWen Store">
+                  Kunjungi JoyWen <i class="fa-solid fa-arrow-right"></i>
+                </a>
                 <span class="promo-meta">
                   <span><i class="fa-solid fa-circle-check"></i> Official partner</span>
                   <span><i class="fa-solid fa-circle-check"></i> Pemesanan praktis</span>
                 </span>
               </div>
-            </a>
+            </article>
           </div>
 
           <div class="promo-controls">
@@ -1081,7 +1094,11 @@
       observer.observe(element);
     });
 
-    // Promo carousel: otomatis setiap 5 detik, tombol, keyboard, dan swipe/drag.
+    // Promo carousel stabil:
+    // - CTA tetap bisa diklik.
+    // - Swipe/drag hanya dimulai dari area non-interaktif.
+    // - Klik tombol panah/titik tidak mengulang timer dari 0.
+    // - Timer dijeda dan dilanjutkan dari sisa waktu yang sama.
     (() => {
       const carousel = document.getElementById('promoCarousel');
       const track = document.getElementById('promoTrack');
@@ -1091,51 +1108,174 @@
       const dotsContainer = document.getElementById('promoDots');
       const count = document.getElementById('promoCount');
       const timerFill = document.getElementById('promoTimerFill');
-      if (!carousel || !track || slides.length < 2) return;
+
+      if (
+        !carousel ||
+        !track ||
+        !prevButton ||
+        !nextButton ||
+        !dotsContainer ||
+        !count ||
+        slides.length < 2
+      ) return;
 
       const AUTOPLAY_DELAY = 5000;
+      const DRAG_START_THRESHOLD = 10;
+      const INTERACTIVE_SELECTOR = 'a, button, input, select, textarea, label, [role="button"]';
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
       let activeIndex = 0;
-      let autoplayId = null;
+      let autoplayTimeoutId = null;
+      let timerAnimationFrameId = null;
+      let cycleStartedAt = performance.now();
+      let remainingTime = AUTOPLAY_DELAY;
+      let pointerId = null;
       let pointerStartX = 0;
+      let pointerStartY = 0;
       let pointerDeltaX = 0;
+      let pointerPending = false;
       let isDragging = false;
-      let didDrag = false;
+      let suppressClickUntil = 0;
+      const pauseReasons = new Set();
 
       const dots = slides.map((_, index) => {
         const dot = document.createElement('button');
         dot.type = 'button';
         dot.className = 'promo-dot';
         dot.setAttribute('aria-label', `Tampilkan banner ${index + 1}`);
-        dot.addEventListener('click', () => {
+        dot.addEventListener('click', event => {
+          event.stopPropagation();
           goTo(index);
-          restartAutoplay();
+          // Timer sengaja tidak dimulai ulang agar hitungan tetap berjalan stabil.
         });
         dotsContainer.appendChild(dot);
         return dot;
       });
 
-      function restartTimerVisual() {
-        if (!timerFill || reduceMotion) return;
+      function setTimerProgress(progress) {
+        if (!timerFill) return;
+        const safeProgress = Math.min(Math.max(progress, 0), 1);
         timerFill.classList.remove('running');
-        void timerFill.offsetWidth;
-        timerFill.classList.add('running');
+        timerFill.style.width = `${safeProgress * 100}%`;
+      }
+
+      function stopTimerAnimation() {
+        if (timerAnimationFrameId !== null) {
+          window.cancelAnimationFrame(timerAnimationFrameId);
+          timerAnimationFrameId = null;
+        }
+      }
+
+      function renderTimer(now) {
+        if (pauseReasons.size || reduceMotion || document.hidden) {
+          timerAnimationFrameId = null;
+          return;
+        }
+
+        const elapsed = now - cycleStartedAt;
+        setTimerProgress(elapsed / AUTOPLAY_DELAY);
+
+        if (elapsed < AUTOPLAY_DELAY) {
+          timerAnimationFrameId = window.requestAnimationFrame(renderTimer);
+        } else {
+          timerAnimationFrameId = null;
+        }
+      }
+
+      function clearAutoplayTimeout() {
+        if (autoplayTimeoutId !== null) {
+          window.clearTimeout(autoplayTimeoutId);
+          autoplayTimeoutId = null;
+        }
+      }
+
+      function scheduleAutoplay({ reset = false } = {}) {
+        clearAutoplayTimeout();
+        stopTimerAnimation();
+
+        if (reduceMotion || document.hidden || pauseReasons.size) return;
+
+        if (reset) {
+          remainingTime = AUTOPLAY_DELAY;
+          cycleStartedAt = performance.now();
+          setTimerProgress(0);
+        } else {
+          const elapsedBeforePause = AUTOPLAY_DELAY - remainingTime;
+          cycleStartedAt = performance.now() - elapsedBeforePause;
+        }
+
+        autoplayTimeoutId = window.setTimeout(() => {
+          goTo(activeIndex + 1);
+          remainingTime = AUTOPLAY_DELAY;
+          scheduleAutoplay({ reset: true });
+        }, Math.max(remainingTime, 0));
+
+        timerAnimationFrameId = window.requestAnimationFrame(renderTimer);
+      }
+
+      function pauseAutoplay(reason) {
+        if (pauseReasons.has(reason)) return;
+
+        if (pauseReasons.size === 0 && !reduceMotion && !document.hidden) {
+          const elapsed = performance.now() - cycleStartedAt;
+          remainingTime = Math.max(AUTOPLAY_DELAY - elapsed, 0);
+          setTimerProgress(elapsed / AUTOPLAY_DELAY);
+        }
+
+        pauseReasons.add(reason);
+        carousel.classList.add('is-paused');
+        clearAutoplayTimeout();
+        stopTimerAnimation();
+      }
+
+      function resumeAutoplay(reason) {
+        pauseReasons.delete(reason);
+        if (pauseReasons.size > 0 || reduceMotion || document.hidden) return;
+
+        carousel.classList.remove('is-paused');
+
+        if (remainingTime <= 0) {
+          goTo(activeIndex + 1);
+          remainingTime = AUTOPLAY_DELAY;
+          scheduleAutoplay({ reset: true });
+          return;
+        }
+
+        scheduleAutoplay({ reset: false });
       }
 
       function updateUI() {
         track.style.transform = `translate3d(${-activeIndex * 100}%, 0, 0)`;
+
         slides.forEach((slide, index) => {
           const isActive = index === activeIndex;
           slide.setAttribute('aria-hidden', String(!isActive));
-          slide.tabIndex = isActive ? 0 : -1;
+
+          slide.querySelectorAll('a, button, input, select, textarea, [tabindex]').forEach(element => {
+            if (isActive) {
+              if (element.dataset.carouselTabindex !== undefined) {
+                const savedValue = element.dataset.carouselTabindex;
+                if (savedValue === '') element.removeAttribute('tabindex');
+                else element.setAttribute('tabindex', savedValue);
+                delete element.dataset.carouselTabindex;
+              }
+            } else {
+              if (element.dataset.carouselTabindex === undefined) {
+                element.dataset.carouselTabindex = element.getAttribute('tabindex') ?? '';
+              }
+              element.setAttribute('tabindex', '-1');
+            }
+          });
         });
+
         dots.forEach((dot, index) => {
           const isActive = index === activeIndex;
           dot.classList.toggle('active', isActive);
-          dot.setAttribute('aria-current', isActive ? 'true' : 'false');
+          if (isActive) dot.setAttribute('aria-current', 'true');
+          else dot.removeAttribute('aria-current');
         });
+
         count.textContent = `${String(activeIndex + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
-        restartTimerVisual();
       }
 
       function goTo(index) {
@@ -1143,84 +1283,123 @@
         updateUI();
       }
 
-      function stopAutoplay() {
-        window.clearInterval(autoplayId);
-        autoplayId = null;
-        carousel.classList.add('is-paused');
-      }
+      prevButton.addEventListener('click', event => {
+        event.stopPropagation();
+        goTo(activeIndex - 1);
+      });
 
-      function startAutoplay() {
-        if (reduceMotion || document.hidden || autoplayId) return;
-        carousel.classList.remove('is-paused');
-        restartTimerVisual();
-        autoplayId = window.setInterval(() => goTo(activeIndex + 1), AUTOPLAY_DELAY);
-      }
-
-      function restartAutoplay() {
-        stopAutoplay();
-        carousel.classList.remove('is-paused');
-        startAutoplay();
-      }
-
-      prevButton.addEventListener('click', () => { goTo(activeIndex - 1); restartAutoplay(); });
-      nextButton.addEventListener('click', () => { goTo(activeIndex + 1); restartAutoplay(); });
+      nextButton.addEventListener('click', event => {
+        event.stopPropagation();
+        goTo(activeIndex + 1);
+      });
 
       carousel.addEventListener('keydown', event => {
-        if (event.key === 'ArrowLeft') { event.preventDefault(); goTo(activeIndex - 1); restartAutoplay(); }
-        if (event.key === 'ArrowRight') { event.preventDefault(); goTo(activeIndex + 1); restartAutoplay(); }
+        if (event.target.closest(INTERACTIVE_SELECTOR) && !event.target.classList.contains('promo-carousel')) return;
+
+        if (event.key === 'ArrowLeft') {
+          event.preventDefault();
+          goTo(activeIndex - 1);
+        }
+
+        if (event.key === 'ArrowRight') {
+          event.preventDefault();
+          goTo(activeIndex + 1);
+        }
       });
 
       carousel.addEventListener('pointerdown', event => {
+        if (event.target.closest(INTERACTIVE_SELECTOR)) return;
         if (event.pointerType === 'mouse' && event.button !== 0) return;
+
+        pointerId = event.pointerId;
         pointerStartX = event.clientX;
+        pointerStartY = event.clientY;
         pointerDeltaX = 0;
-        isDragging = true;
-        didDrag = false;
-        carousel.classList.add('is-dragging');
-        carousel.setPointerCapture?.(event.pointerId);
-        stopAutoplay();
+        pointerPending = true;
+        isDragging = false;
       });
 
       carousel.addEventListener('pointermove', event => {
-        if (!isDragging) return;
-        pointerDeltaX = event.clientX - pointerStartX;
-        if (Math.abs(pointerDeltaX) > 8) didDrag = true;
-        const offsetPercent = (-activeIndex * 100) + (pointerDeltaX / carousel.clientWidth * 100);
+        if (!pointerPending || event.pointerId !== pointerId) return;
+
+        const deltaX = event.clientX - pointerStartX;
+        const deltaY = event.clientY - pointerStartY;
+
+        if (!isDragging) {
+          if (Math.abs(deltaX) < DRAG_START_THRESHOLD && Math.abs(deltaY) < DRAG_START_THRESHOLD) return;
+
+          // Gerakan vertikal dibiarkan untuk scrolling halaman.
+          if (Math.abs(deltaY) >= Math.abs(deltaX)) {
+            pointerPending = false;
+            pointerId = null;
+            return;
+          }
+
+          isDragging = true;
+          carousel.classList.add('is-dragging');
+          carousel.setPointerCapture?.(event.pointerId);
+          pauseAutoplay('drag');
+        }
+
+        event.preventDefault();
+        pointerDeltaX = deltaX;
+        const width = Math.max(carousel.clientWidth, 1);
+        const offsetPercent = (-activeIndex * 100) + (pointerDeltaX / width * 100);
         track.style.transform = `translate3d(${offsetPercent}%, 0, 0)`;
-      });
+      }, { passive: false });
 
       function finishDrag(event) {
-        if (!isDragging) return;
+        if (event.pointerId !== pointerId && pointerId !== null) return;
+
+        const wasDragging = isDragging;
+        pointerPending = false;
         isDragging = false;
+        pointerId = null;
         carousel.classList.remove('is-dragging');
-        carousel.releasePointerCapture?.(event.pointerId);
-        const threshold = Math.min(90, carousel.clientWidth * .16);
+
+        try {
+          carousel.releasePointerCapture?.(event.pointerId);
+        } catch (_) {
+          // Pointer capture mungkin sudah dilepas browser.
+        }
+
+        if (!wasDragging) return;
+
+        const threshold = Math.min(90, carousel.clientWidth * 0.16);
+
         if (pointerDeltaX <= -threshold) goTo(activeIndex + 1);
         else if (pointerDeltaX >= threshold) goTo(activeIndex - 1);
         else updateUI();
-        window.setTimeout(() => { didDrag = false; }, 0);
-        startAutoplay();
+
+        pointerDeltaX = 0;
+        suppressClickUntil = performance.now() + 350;
+        resumeAutoplay('drag');
       }
 
       carousel.addEventListener('pointerup', finishDrag);
       carousel.addEventListener('pointercancel', finishDrag);
+      carousel.addEventListener('lostpointercapture', event => {
+        if (isDragging) finishDrag(event);
+      });
+
       carousel.addEventListener('click', event => {
-        if (didDrag) {
+        if (performance.now() < suppressClickUntil) {
           event.preventDefault();
           event.stopPropagation();
         }
       }, true);
 
-      carousel.addEventListener('mouseenter', stopAutoplay);
-      carousel.addEventListener('mouseleave', startAutoplay);
-      carousel.addEventListener('focusin', stopAutoplay);
-      carousel.addEventListener('focusout', event => {
-        if (!carousel.contains(event.relatedTarget)) startAutoplay();
+      carousel.addEventListener('mouseenter', () => pauseAutoplay('hover'));
+      carousel.addEventListener('mouseleave', () => resumeAutoplay('hover'));
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) pauseAutoplay('hidden');
+        else resumeAutoplay('hidden');
       });
-      document.addEventListener('visibilitychange', () => document.hidden ? stopAutoplay() : startAutoplay());
 
       updateUI();
-      startAutoplay();
+      setTimerProgress(0);
+      scheduleAutoplay({ reset: true });
     })();
 
   </script>
