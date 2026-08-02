@@ -146,6 +146,8 @@ window.filterProductsByName = function(){
     const matches = !q || txt.includes(q);
     c.classList.toggle('is-search-hidden', !matches);
     c.hidden = !matches;
+    // Paksa prioritas inline agar tetap menang meski CSS lama masih tercache.
+    c.style.setProperty('display', matches ? 'flex' : 'none', 'important');
     if (matches) anyVisible = true;
   });
   const notFound = document.getElementById('searchNotFound');
