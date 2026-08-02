@@ -2,7 +2,7 @@
 // - Safer rendering, semantic product cards, keyboard support, modal focus management
 
 // Configuration
-const SPREADSHEET_URL = "https://script.google.com/macros/s/AKfycbxIV3NFcgOP_5vTJ-Qw1NA9FPzvJCoRBt3RJMZC1J7nIpkP5P0s_X5hpaZPN1Q8gAD6jw/exec";
+const SPREADSHEET_URL = "https://script.google.com/macros/s/AKfycbyEfspTml7o-X_TzU75UlFxnaIA1dvgjtV5r90dGk4U0Vmd3nTnVrW3WRq2uKLk-0ue8Q/exec";
 const WHATSAPP_NUMBER = "6285180572575";
 
 let productsData = [];
