@@ -1,5 +1,6 @@
 /* styles-ui.css — Design system + component styles (Dark-modern)
-   Added by Copilot on branch upgrade/ui
+   Added by Copilot
+   COMPATIBILITY PATCH: appended to mitigate mixed old/new CSS while refactor completes
 */
 :root{
   --bg:#07101b;
@@ -22,7 +23,7 @@
 /* RESET / LAYOUT */
 *{box-sizing:border-box}
 html,body{height:100%}
-body{margin:0;font-family:Inter, Poppins, system-ui,-apple-system,"Segoe UI",Roboto,Arial;color:#E6EEF8;background:linear-gradient(180deg,var(--bg),#041022 80%);-webkit-font-smoothing:antialiased;line-height:1.45}
+body{margin:0;font-family:Inter, Poppins, system-ui,-apple-system,"Segoe UI",Roboto,Arial;color:#E6EEF8;background:linear-gradient(180deg,var(--bg),#041022 80%);-webkit-font-smoothing:antialiased;line-height:1.45;overflow-x:hidden}
 .container{max-width:var(--container);margin:0 auto;padding:24px}
 
 /* Utility */
@@ -94,4 +95,51 @@ body{margin:0;font-family:Inter, Poppins, system-ui,-apple-system,"Segoe UI",Rob
 /* Footer */
 .footer{padding:20px;background:transparent;color:var(--muted);text-align:center}
 
-/* end of styles-ui.css */
+/* ==========================================================================
+   COMPATIBILITY PATCH (legacy selectors + quick layout fixes)
+   These rules reduce breakage while the refactor completes.
+   - Maps old `.card` usage to new `.ui-card` styles
+   - Constrains oversized showcase/hero images that were overlapping
+   - Ensures product grid has sane defaults if both style.css and styles-ui.css load
+   ========================================================================== */
+
+/* map legacy .card to ui-card visual styles (keeps old markup working) */
+.card{
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius:12px;
+  padding:14px;
+  box-shadow:var(--shadow-1);
+  transition:transform .28s var(--ease),box-shadow .28s var(--ease);
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(2,6,23,0.7)}
+
+/* product grid fallback */
+.grid-products-layout, #productGrid{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(160px,1fr))!important;gap:20px!important;padding:20px 0!important}
+#productGrid .card, #productGrid .ui-card{width:100%!important;box-sizing:border-box}
+
+/* constrain huge showcase/hero images (fixes overlap) */
+.floating-showcase-grid, .hero-right-showcase{position:relative;overflow:hidden}
+.floating-showcase-grid .showcase-item, .hero-right-showcase .showcase-item{display:inline-block;vertical-align:middle;margin:0 8px}
+.floating-showcase-grid img, .hero-right-showcase img, .showcase-item img{max-width:220px;height:auto;object-fit:contain;display:block}
+
+/* ensure modal overlays stay on top and readable */
+.modal-overlay{z-index:2200}
+.modal-box{max-width:720px;width:90%;background:linear-gradient(180deg,#071529,#071b2a);border:1px solid rgba(255,255,255,0.04);color:#e6eef8}
+
+/* small fixes for reader/novel UI that showed at page bottom */
+.reader-overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.7);z-index:2300}
+.reader-box{max-width:900px;width:95%;max-height:86vh;overflow:auto;padding:20px;background:#071428;border-radius:12px}
+
+/* reduce huge logo in header if both styles apply */
+.nav-logo{height:40px;max-width:48px}
+
+/* ensure searchNotFound center */
+.empty-search-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px;color:var(--muted)}
+
+/* prefers reduced motion */
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* end compatibility patch */
