@@ -182,8 +182,19 @@ window.checkoutViaWhatsApp = function(){
   const radio = document.querySelector('input[name="pkt"]:checked');
   const idx = radio ? Number(radio.value) : 0;
   const selected = (currentProduct.packets || [])[idx] || { type: '-', desc: '', price: currentProduct.price || 0 };
-  const text = `Halo LapakStore88, saya ingin membeli paket premium ini:%0A%0A• Produk: ${currentProduct.name}%0A• Tipe: ${selected.type} (${selected.desc})%0A• Harga: ${formatPrice(selected.price)}%0A%0ATerima kasih.`;
-  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(decodeURIComponent(text))}`, '_blank');
+  // build message and open WhatsApp link
+  const messageLines = [
+    'Halo LapakStore88, saya ingin membeli paket premium ini:',
+    '',
+    `• Produk: ${currentProduct.name}`,
+    `• Tipe: ${selected.type} ${selected.desc ? '(' + selected.desc + ')' : ''}`,
+    `• Harga: ${formatPrice(selected.price)}`,
+    '',
+    'Terima kasih.'
+  ];
+  const text = messageLines.join('\n');
+  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+  window.open(url, '_blank');
 }
 
 // Close modals and restore focus
