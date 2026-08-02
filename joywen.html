@@ -710,7 +710,7 @@
           } else {
             elements.grid.innerHTML = '';
             elements.error.hidden = false;
-            elements.errorMessage.textContent = `Data dari sheet “${CONFIG.sheetName}” belum terbaca. Perbarui deployment Apps Script menggunakan code.gs yang disertakan, lalu coba lagi.`;
+            elements.errorMessage.textContent = `API sudah terhubung, tetapi data sheet “${CONFIG.sheetName}” belum terbaca. Pastikan code.gs terbaru telah disimpan dan deployment Web App diperbarui ke versi baru.`;
             elements.count.innerHTML = '<strong>Katalog tidak tersedia</strong>';
           }
         } finally {
