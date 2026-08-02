@@ -52,19 +52,23 @@ window.renderProducts = function(category = 'all'){
 
   filtered.forEach(p => {
     const article = document.createElement('article');
-    article.className = 'ui-card';
+    // Gunakan kedua class agar kartu cocok dengan CSS lama dan UI baru.
+    article.className = 'card ui-card';
     article.setAttribute('tabindex','0');
     article.setAttribute('role','button');
     article.dataset.id = p.id || '';
     article.dataset.category = p.category || 'all';
 
     const media = document.createElement('div');
-    media.className = 'ui-card-media';
+    media.className = 'card-logo-wrapper ui-card-media';
     const img = document.createElement('img');
     img.alt = p.name || 'Produk';
     img.loading = 'lazy';
     img.src = p.image || 'https://img.icons8.com/fluency/512/box.png';
-    img.onerror = () => img.src = 'https://img.icons8.com/fluency/512/box.png';
+    img.onerror = () => {
+      img.onerror = null;
+      img.src = 'https://img.icons8.com/fluency/512/box.png';
+    };
     media.appendChild(img);
 
     const body = document.createElement('div');
