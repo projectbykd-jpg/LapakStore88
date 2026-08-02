@@ -212,6 +212,98 @@
     .brand-track span { flex: 0 0 auto; font-size: 12px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
     .brand-track i { margin-right: 8px; color: #8b9bb0; }
 
+    .partner-section { padding: 76px 0 18px; }
+    .partner-heading {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 19px;
+    }
+    .partner-title-wrap { display: flex; align-items: center; gap: 13px; }
+    .partner-mark {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      color: var(--yellow);
+      background: rgba(250, 204, 21, .08);
+      border: 1px solid rgba(250, 204, 21, .16);
+      border-radius: 13px;
+    }
+    .partner-eyebrow { display: block; color: var(--yellow); font-size: 9px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    .partner-heading h2 { margin-top: 2px; font-family: "Poppins", sans-serif; font-size: 19px; line-height: 1.3; letter-spacing: -.5px; }
+    .partner-hint { display: inline-flex; align-items: center; gap: 8px; color: #8493a7; font-size: 10px; font-weight: 700; }
+    .partner-hint i { color: var(--yellow); }
+    .partner-banner {
+      position: relative;
+      display: block;
+      width: 100%;
+      overflow: hidden;
+      background: #0b1727;
+      border: 1px solid rgba(250, 204, 21, .23);
+      border-radius: 24px;
+      box-shadow: 0 24px 65px rgba(0, 0, 0, .3), 0 0 0 1px rgba(250, 204, 21, .025) inset;
+      isolation: isolate;
+      transform: translateZ(0);
+      transition: transform .35s cubic-bezier(.2,.8,.2,1), border-color .35s ease, box-shadow .35s ease;
+    }
+    .partner-banner::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      border-radius: inherit;
+      background: linear-gradient(115deg, rgba(255,255,255,.055), transparent 32%, transparent 72%, rgba(250,204,21,.055));
+    }
+    .partner-banner::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      border: 1px solid rgba(255, 255, 255, .055);
+      border-radius: inherit;
+    }
+    .partner-banner img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1896 / 830;
+      object-fit: cover;
+      object-position: center;
+      transition: transform .55s cubic-bezier(.2,.8,.2,1), filter .35s ease;
+    }
+    .partner-banner:hover {
+      transform: translateY(-7px);
+      border-color: rgba(250, 204, 21, .48);
+      box-shadow: 0 32px 80px rgba(0, 0, 0, .4), 0 0 35px rgba(250, 204, 21, .08);
+    }
+    .partner-banner:hover img { transform: scale(1.018); filter: saturate(1.05) brightness(1.025); }
+    .partner-action {
+      position: absolute;
+      right: 18px;
+      bottom: 18px;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 11px 14px;
+      color: #07111f;
+      background: linear-gradient(135deg, rgba(254,240,138,.96), rgba(245,158,11,.96));
+      border: 1px solid rgba(255,255,255,.22);
+      border-radius: 12px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, .3);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .01em;
+      backdrop-filter: blur(10px);
+      transition: transform .25s ease;
+    }
+    .partner-banner:hover .partner-action { transform: translateX(3px); }
+
     .section { padding: 100px 0; }
     .section-heading { max-width: 660px; margin: 0 auto 48px; text-align: center; }
     .section-heading h2 { margin: 15px 0 12px; font-family: "Poppins", sans-serif; font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.15; letter-spacing: -2px; }
@@ -340,12 +432,20 @@
       .spotlight-panel { grid-template-columns: 1fr; }
       .spotlight-copy { text-align: center; }
       .brand-track { justify-content: flex-start; overflow-x: auto; scrollbar-width: none; }
+      .partner-section { padding-top: 62px; }
     }
 
     @media (max-width: 560px) {
       .container { width: min(100% - 28px, var(--container)); }
       .brand-logo { width: 38px; height: 38px; }
       .brand-name { font-size: 16px; }
+      .partner-section { padding: 52px 0 8px; }
+      .partner-heading { align-items: flex-start; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+      .partner-heading h2 { font-size: 16px; }
+      .partner-mark { width: 38px; height: 38px; border-radius: 11px; }
+      .partner-hint { padding-left: 51px; }
+      .partner-banner { border-radius: 17px; }
+      .partner-action { right: 10px; bottom: 10px; padding: 8px 10px; border-radius: 9px; font-size: 8px; }
       .hero { padding-top: 110px; }
       .hero h1 { font-size: clamp(2.65rem, 14vw, 4.1rem); letter-spacing: -2.7px; }
       .hero-description { font-size: 13px; }
@@ -454,6 +554,25 @@
         <span><i class="fa-solid fa-book-open"></i> Novel gratis</span>
       </div>
     </div>
+
+    <section class="partner-section" id="partner">
+      <div class="container">
+        <div class="partner-heading reveal">
+          <div class="partner-title-wrap">
+            <span class="partner-mark"><i class="fa-solid fa-handshake"></i></span>
+            <span>
+              <span class="partner-eyebrow">Official partner</span>
+              <h2>Kenali partner terpercaya kami</h2>
+            </span>
+          </div>
+          <span class="partner-hint"><i class="fa-regular fa-hand-pointer"></i> Klik banner untuk mengunjungi halaman partner</span>
+        </div>
+        <a href="joywen.html" class="partner-banner reveal" aria-label="Buka halaman Partner Joywen">
+          <img src="https://i.ibb.co/LX08Ybr2/image.png" width="1896" height="830" loading="lazy" alt="Banner Partner Joywen bersama LapakStore88">
+          <span class="partner-action">Lihat Partner <i class="fa-solid fa-arrow-right"></i></span>
+        </a>
+      </div>
+    </section>
 
     <section class="section" id="keunggulan">
       <div class="container">
