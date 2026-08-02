@@ -162,8 +162,13 @@ window.openProductModal = function(id){
   if (totalEl) totalEl.innerText = (p.packets && p.packets[0]) ? formatPrice(p.packets[0].price) : (p.price ? formatPrice(p.price) : 'Rp 0');
 
   if (modal) {
+    // move modal to body to avoid stacking/transform issues
+    if (modal.parentNode !== document.body) document.body.appendChild(modal);
     modal.classList.add('active');
     modal.setAttribute('aria-hidden','false');
+    modal.setAttribute('aria-modal','true');
+    // prevent background scroll
+    document.body.style.overflow = 'hidden';
     // focus first radio for keyboard users
     setTimeout(()=>{
       const firstRadio = container.querySelector('input[type="radio"]');
@@ -203,6 +208,9 @@ window.closeModal = function(){
     m.classList.remove('active');
     m.setAttribute('aria-hidden','true');
   });
+  // restore scroll if no modal active
+  const anyActive = document.querySelector('.modal-overlay.active, .reader-overlay.active');
+  if(!anyActive) document.body.style.overflow = '';
   if (lastActiveElement && lastActiveElement.focus) lastActiveElement.focus();
 }
 
@@ -253,7 +261,12 @@ window.openNovelModal = function(id){
     btn.addEventListener('click', () => readChapter(i));
     container.appendChild(btn);
   });
-  if (modal) modal.classList.add('active');
+  if (modal) {
+    if (modal.parentNode !== document.body) document.body.appendChild(modal);
+    modal.classList.add('active');
+    modal.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+  }
 }
 
 window.readChapter = function(i){
@@ -264,6 +277,8 @@ window.readChapter = function(i){
   const readingBody = document.getElementById('readingBody');
   if (readingTitle) readingTitle.innerText = ch.bab || '';
   if (readingBody) readingBody.innerText = ch.isi || '';
+  const reader = document.getElementById('novelReadingContainer');
+  if (reader && reader.parentNode !== document.body) document.body.appendChild(reader);
   document.getElementById('novelReadingContainer')?.classList.add('active');
 }
 
@@ -282,7 +297,37 @@ window.adjustNovelFontSize = function(change){
   if (readerBody) readerBody.style.fontSize = currentFontSize + 'px';
 }
 
-window.closeNovelReaderElement = function(){ document.getElementById('novelReadingContainer')?.classList.remove('active'); }
+window.closeNovelReaderElement = function(){
+  document.getElementById('novelReadingContainer')?.classList.remove('active');
+  const anyActive = document.querySelector('.modal-overlay.active, .reader-overlay.active');
+  if(!anyActive) document.body.style.overflow = '';
+}
+
+// Ensure modals on body to avoid stacking/transform issues
+function ensureModalsOnBody(){
+  document.querySelectorAll('.modal-overlay, .reader-overlay, #adminEditModal, #novelReadingContainer').forEach(el => {
+    if(el && el.parentNode !== document.body) document.body.appendChild(el);
+  });
+}
+
+// Observe modal active class to toggle body scroll
+const _modalObserver = new MutationObserver(muts => {
+  muts.forEach(m => {
+    const target = m.target;
+    if(!target.classList) return;
+    if(target.classList.contains('active')) document.body.style.overflow = 'hidden';
+    else {
+      const any = document.querySelector('.modal-overlay.active, .reader-overlay.active');
+      if(!any) document.body.style.overflow = '';
+    }
+  });
+});
 
 // Initialize
-document.addEventListener('DOMContentLoaded', loadData);
+document.addEventListener('DOMContentLoaded', () => {
+  loadData();
+  ensureModalsOnBody();
+  document.querySelectorAll('.modal-overlay, .reader-overlay').forEach(m => {
+    try{ _modalObserver.observe(m, { attributes: true, attributeFilter: ['class'] }); }catch(e){}
+  });
+});
