@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Katalog Produk Premium - LapakStore88</title>
-    <link rel="icon" type="image/png" href="https://i.ibb.co/7Jtv7WJs/image.png">
-    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="https://i.ibb.co/qY1y2j8h/image.png">
+    <link rel="stylesheet" href="assets/styles-ui.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -16,7 +16,7 @@
     <header class="header">
         <div class="container">
             <div class="logo-area">
-                <img src="https://i.ibb.co/7Jtv7WJs/image.png" class="nav-logo" alt="Logo LapakStore88">
+                <img src="https://i.ibb.co/qY1y2j8h/image.png" class="nav-logo" alt="Logo LapakStore88">
                 <div class="logo">LapakStore88</div>
             </div>
 
@@ -60,7 +60,7 @@
         </div>
         
         <div class="container">
-            <div id="productGrid" class="grid grid-products-layout"></div>
+            <div id="productGrid" class="grid"></div>
             
             <div id="searchNotFound" class="empty-search-state" style="display: none;">
                 <i class="fa-solid fa-folder-open"></i>
@@ -70,7 +70,7 @@
         </div>
     </section>
 
-    <div id="productModal" class="modal-overlay">
+    <div id="productModal" class="modal-overlay" aria-hidden="true">
         <div class="modal-box">
             <span class="close-btn" onclick="closeModal()">&times;</span>
             <div class="modal-top-accent">
@@ -117,61 +117,6 @@
         <p>&copy; 2026 <span>LapakStore88</span>. All Rights Reserved.</p>
     </footer>
 
-    <script>
-        // Fitur Pencarian Nama Berdasarkan Input Teks
-        function filterProductsByName() {
-            let input = document.getElementById('productSearchInput').value.toLowerCase();
-            let grid = document.getElementById('productGrid');
-            let cards = grid.getElementsByClassName('card');
-            let anyVisible = false;
-
-            for (let i = 0; i < cards.length; i++) {
-                let nameElement = cards[i].querySelector('h3') || cards[i].querySelector('.product-name') || cards[i];
-                let txtValue = nameElement.textContent || nameElement.innerText;
-                
-                if (txtValue.toLowerCase().indexOf(input) > -1) {
-                    cards[i].style.setProperty('display', '', 'important');
-                    anyVisible = true;
-                } else {
-                    cards[i].style.setProperty('display', 'none', 'important');
-                }
-            }
-
-            // Memunculkan pesan eror jika tidak ditemukan sama sekali
-            document.getElementById('searchNotFound').style.display = anyVisible ? 'none' : 'flex';
-        }
-
-        // Fitur Tab Filter Kategori (Fungsional & Siap Pakai jika Element Card ditandai data-category)
-        function filterProductTab(category) {
-    // Ubah status aktif tombol tab visual
-    let tabs = document.querySelectorAll('.tab-btn');
-    tabs.forEach(tab => tab.classList.remove('active'));
-    
-    // Proteksi jika dijalankan otomatis atau via klik
-    if(event && event.currentTarget) {
-        event.currentTarget.classList.add('active');
-    }
-
-    let grid = document.getElementById('productGrid');
-    let cards = grid.getElementsByClassName('card');
-    let anyVisible = false;
-
-    for (let i = 0; i < cards.length; i++) {
-        // Membaca atribut data-category yang sudah disuntikkan dari script.js tadi
-        let cardCategory = cards[i].getAttribute('data-category') || 'all';
-        
-        if (category === 'all' || cardCategory === category) {
-            cards[i].style.setProperty('display', 'flex', 'important'); // Kembalikan ke susunan kotak flex
-            anyVisible = true;
-        } else {
-            cards[i].style.setProperty('display', 'none', 'important');
-        }
-    }
-    
-    // Tampilkan pesan jika kosong
-    document.getElementById('searchNotFound').style.display = anyVisible ? 'none' : 'flex';
-}
-    </script>
     <script src="script.js"></script>
 </body>
 </html>
