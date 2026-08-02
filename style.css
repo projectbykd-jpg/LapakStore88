@@ -1886,3 +1886,198 @@ button:focus-visible, a:focus-visible, input:focus-visible {
 ::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 215, 0, 0.6);
 }
+
+/* ========================================================================== 
+   PRODUCT CARD COMPATIBILITY FIX
+   Menyamakan elemen kartu yang dibuat oleh script.js dengan desain katalog.
+   ========================================================================== */
+#productGrid .ui-card {
+    position: relative;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    width: 100% !important;
+    min-width: 0;
+    min-height: 260px;
+    margin: 0 !important;
+    padding: 16px !important;
+    gap: 0 !important;
+    overflow: hidden;
+    box-sizing: border-box;
+    cursor: pointer;
+    background: linear-gradient(160deg, rgba(16, 29, 47, .98), rgba(8, 17, 30, .98)) !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 18px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .22) !important;
+    transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease !important;
+}
+
+#productGrid .ui-card:hover {
+    transform: translateY(-7px) !important;
+    border-color: rgba(250, 204, 21, .48) !important;
+    box-shadow: 0 22px 45px rgba(0, 0, 0, .34), 0 0 0 1px rgba(250, 204, 21, .08) !important;
+}
+
+#productGrid .ui-card:focus-visible {
+    outline: 3px solid rgba(56, 189, 248, .5);
+    outline-offset: 3px;
+}
+
+#productGrid .ui-card-media {
+    position: relative;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 0 0 auto;
+    width: 100% !important;
+    height: 112px !important;
+    margin: 0 0 14px !important;
+    padding: 12px !important;
+    overflow: hidden !important;
+    box-sizing: border-box;
+    background: rgba(255, 255, 255, .04) !important;
+    border: 1px solid rgba(148, 163, 184, .08) !important;
+    border-radius: 14px !important;
+}
+
+#productGrid .ui-card-media img,
+#productGrid .card-logo-wrapper img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    margin: 0 !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    transform: none;
+}
+
+#productGrid .ui-card:hover .ui-card-media img {
+    transform: scale(1.055);
+}
+
+#productGrid .ui-card-body {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    align-items: stretch;
+    min-width: 0;
+}
+
+#productGrid .product-name {
+    display: -webkit-box;
+    margin: 0 0 5px;
+    overflow: hidden;
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: -.15px;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+}
+
+#productGrid .product-meta {
+    display: -webkit-box;
+    min-height: 32px;
+    margin: 0;
+    overflow: hidden;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.45;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+#productGrid .card-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 9px;
+    width: 100%;
+    margin-top: auto;
+    padding-top: 15px;
+}
+
+#productGrid .price {
+    min-width: 0;
+    overflow: hidden;
+    color: var(--brand);
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.3;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#productGrid .card-actions .btn,
+#productGrid .card-actions .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    min-height: 36px;
+    margin: 0;
+    padding: 9px 13px;
+    gap: 6px;
+    color: #06101d;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1;
+    white-space: nowrap;
+    background: linear-gradient(135deg, #fde047, #f59e0b) !important;
+    border: 0;
+    border-radius: 10px;
+    box-shadow: 0 8px 18px rgba(245, 158, 11, .18);
+}
+
+#productGrid .card-actions .btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.07);
+}
+
+@media (max-width: 768px) {
+    #productGrid .ui-card {
+        min-height: 230px;
+        padding: 12px !important;
+    }
+
+    #productGrid .ui-card-media {
+        height: 92px !important;
+        margin-bottom: 11px !important;
+        padding: 9px !important;
+    }
+
+    #productGrid .card-actions {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    #productGrid .price {
+        width: 100%;
+        white-space: normal;
+    }
+
+    #productGrid .card-actions .btn,
+    #productGrid .card-actions .btn-primary {
+        width: 100%;
+    }
+}
+
+@media (max-width: 420px) {
+    #productGrid .ui-card {
+        min-height: 218px;
+        border-radius: 15px !important;
+    }
+
+    #productGrid .ui-card-media {
+        height: 78px !important;
+    }
+
+    #productGrid .product-name {
+        font-size: 13px;
+    }
+}
