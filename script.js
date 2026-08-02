@@ -127,6 +127,11 @@ window.renderProducts = function(category = 'all'){
 
     grid.appendChild(article);
   });
+
+  // Terapkan kembali kata pencarian setelah kategori dirender ulang.
+  if (typeof window.filterProductsByName === 'function') {
+    window.filterProductsByName();
+  }
 }
 
 // Search filter by name
@@ -138,8 +143,10 @@ window.filterProductsByName = function(){
   let anyVisible = false;
   cards.forEach(c => {
     const txt = (c.querySelector('.product-name')?.innerText || c.innerText || '').toLowerCase();
-    if (!q || txt.includes(q)) { c.style.display = ''; anyVisible = true; }
-    else { c.style.display = 'none'; }
+    const matches = !q || txt.includes(q);
+    c.classList.toggle('is-search-hidden', !matches);
+    c.hidden = !matches;
+    if (matches) anyVisible = true;
   });
   const notFound = document.getElementById('searchNotFound');
   if (notFound) notFound.style.display = anyVisible ? 'none' : 'flex';
@@ -350,6 +357,11 @@ const _modalObserver = new MutationObserver(muts => {
 document.addEventListener('DOMContentLoaded', () => {
   loadData();
   ensureModalsOnBody();
+  const searchInput = document.getElementById('productSearchInput');
+  if (searchInput) {
+    searchInput.addEventListener('input', window.filterProductsByName);
+    searchInput.addEventListener('search', window.filterProductsByName);
+  }
   document.querySelectorAll('.modal-overlay, .reader-overlay').forEach(m => {
     try{ _modalObserver.observe(m, { attributes: true, attributeFilter: ['class'] }); }catch(e){}
   });
