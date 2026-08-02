@@ -1,41 +1,74 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Testimoni | LapakStore88</title>
-
-<link rel="stylesheet" href="style.css">
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Testimoni - LapakStore88</title>
+  <link rel="icon" href="https://i.ibb.co/qY1y2j8h/image.png">
+  <link rel="stylesheet" href="assets/styles-ui.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
+  <header class="header">
+    <div class="container">
+      <div class="logo-area">
+        <img src="https://i.ibb.co/qY1y2j8h/image.png" class="nav-logo" alt="Logo">
+        <div class="logo">LapakStore88</div>
+      </div>
+      <nav class="navbar">
+        <a href="index.html">Home</a>
+        <a href="produk.html">Produk</a>
+        <a href="novel.html">Novel Gratis</a>
+        <a href="kontak.html">Pembayaran</a>
+      </nav>
+    </div>
+  </header>
 
-<div class="container page">
+  <main style="padding-top:120px">
+    <section class="catalog-section">
+      <div class="catalog-header">
+        <span class="catalog-badge">⭐ Testimoni</span>
+        <h2 class="glow-text">Apa Kata Pembeli Kami</h2>
+        <div class="title-divider"></div>
+        <p class="catalog-subtitle">Beberapa ulasan pelanggan yang puas menggunakan layanan LapakStore88.</p>
+      </div>
 
-<h1>Testimoni Pelanggan</h1>
+      <div class="container">
+        <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px;margin-top:28px">
 
-<div class="cards">
+          <div class="ui-card">
+            <div style="display:flex;gap:12px;align-items:center">
+              <div style="width:56px;height:56px;border-radius:12px;background:rgba(255,255,255,0.02);display:flex;align-items:center;justify-content:center">JD</div>
+              <div>
+                <div style="font-weight:700">Joko D.</div>
+                <div style="color:var(--muted);font-size:0.9rem">Pembelian: Netflix • 1 Bulan</div>
+              </div>
+            </div>
+            <p style="margin-top:12px;color:var(--muted)">Pelayanan cepat, akun aktif langsung. Sangat memuaskan!</p>
+          </div>
 
-<div class="card">
-<img src="assets/testimoni/testi1.jpg">
-<p>Pelayanan cepat dan aman.</p>
-</div>
+          <div class="ui-card">
+            <div style="display:flex;gap:12px;align-items:center">
+              <div style="width:56px;height:56px;border-radius:12px;background:rgba(255,255,255,0.02);display:flex;align-items:center;justify-content:center">AM</div>
+              <div>
+                <div style="font-weight:700">Anisa M.</div>
+                <div style="color:var(--muted);font-size:0.9rem">Pembelian: Spotify • 3 Bulan</div>
+              </div>
+            </div>
+            <p style="margin-top:12px;color:var(--muted)">Harga terjangkau & support responsif. Recomended!</p>
+          </div>
 
-<div class="card">
-<img src="assets/testimoni/testi2.jpg">
-<p>Sudah langganan berkali-kali.</p>
-</div>
+        </div>
+      </div>
+    </section>
+  </main>
 
-<div class="card">
-<img src="assets/testimoni/testi3.jpg">
-<p>Recommended banget.</p>
-</div>
+  <footer class="footer">
+    <p>&copy; 2026 LapakStore88</p>
+  </footer>
 
-</div>
-
-</div>
-
+  <script src="script.js"></script>
 </body>
 </html>

@@ -5,9 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pembayaran & Kontak Resmi - LapakStore88</title>
-    <link rel="icon" type="image/png" href="https://i.ibb.co/7Jtv7WJs/image.png">
-    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="https://i.ibb.co/qY1y2j8h/image.png">
+    <link rel="stylesheet" href="assets/styles-ui.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
@@ -15,7 +16,7 @@
     <header class="header">
         <div class="container">
             <div class="logo-area">
-                <img src="https://i.ibb.co/7Jtv7WJs/image.png" class="nav-logo" alt="Logo">
+                <img src="https://i.ibb.co/qY1y2j8h/image.png" class="nav-logo" alt="Logo">
                 <div class="logo">LapakStore88</div>
             </div>
 
@@ -33,59 +34,45 @@
     </header>
 
     <div id="adminBadgePanel" class="admin-badge-bar" style="display: none;">
-        <span>🔐 Mode Administrator Aktif</span>
+        <span><i class="fa-solid fa-shield-halved"></i> Mode Administrator Aktif</span>
         <button onclick="logoutAdmin()">Keluar Mode Admin</button>
     </div>
 
-    <section id="info-lapak" class="section compact-section" style="margin-top: 100px; min-height: 65vh;">
-        <div class="compact-container">
-            <div class="compact-box">
-                <h3>QRIS Pembayaran Resmi</h3>
-                <p>Silakan scan kode QRIS di bawah ini untuk melakukan transaksi aman otomatis.</p>
-                <div class="qris-wrapper">
-                    <img src="https://i.ibb.co/4wPGPjBr/image.png" class="qris-img" alt="QRIS LapakStore88">
+    <section id="info-lapak" class="catalog-section" style="padding-top:120px; padding-bottom:60px;">
+        <div class="container">
+            <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;align-items:start">
+                <div class="ui-card">
+                    <h3>QRIS Pembayaran Resmi</h3>
+                    <p>Silakan scan kode QRIS di bawah ini untuk melakukan transaksi aman otomatis.</p>
+                    <div style="display:flex;align-items:center;justify-content:center;padding:18px">
+                        <img src="https://i.ibb.co/4wPGPjBr/image.png" loading="lazy" alt="QRIS LapakStore88" style="max-width:260px;width:100%;border-radius:12px;box-shadow:0 8px 18px rgba(0,0,0,0.6)">
+                    </div>
                 </div>
-            </div>
 
-            <div class="compact-box balancing-box">
-                <h3>Hubungi Admin Toko</h3>
-                <p>Punya pertanyaan atau butuh klaim garansi kilat? Hubungi kami melalui saluran di bawah:</p>
-                <div class="contact-list">
-                    <a href="https://wa.me/6285180572575" target="_blank" class="contact-item wa-item">
-                        <span class="icon">💬</span>
-                        <div class="contact-text">
-                            <strong>WhatsApp CS Utama</strong>
-                            <span>+62 851-8057-2575 (Fast Response)</span>
-                        </div>
-                    </a>
-                    <div class="contact-item jam-item">
-                        <span class="icon">⏰</span>
-                        <div class="contact-text">
-                            <strong>Jam Operasional Toko</strong>
-                            <span>Setiap Hari (09.00 - 23.00 WIB)</span>
+                <div class="ui-card">
+                    <h3>Hubungi Admin Toko</h3>
+                    <p>Punya pertanyaan atau butuh klaim garansi kilat? Hubungi kami melalui saluran di bawah:</p>
+                    <div style="display:flex;flex-direction:column;gap:12px;margin-top:12px">
+                        <a class="ui-card" href="https://wa.me/6285180572575" style="display:flex;align-items:center;gap:12px;padding:12px;text-decoration:none;color:inherit;">
+                            <div style="width:48px;height:48px;border-radius:10px;background:rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center"><i class="fa-brands fa-whatsapp" style="color:var(--accent)"></i></div>
+                            <div>
+                                <div style="font-weight:700">WhatsApp CS Utama</div>
+                                <div style="color:var(--muted);font-size:0.95rem">+62 851-8057-2575 (Fast Response)</div>
+                            </div>
+                        </a>
+
+                        <div class="ui-card" style="display:flex;align-items:center;gap:12px;padding:12px">
+                            <div style="width:48px;height:48px;border-radius:10px;background:rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center"><i class="fa-solid fa-clock" style="color:var(--gold)"></i></div>
+                            <div>
+                                <div style="font-weight:700">Jam Operasional Toko</div>
+                                <div style="color:var(--muted);font-size:0.95rem">Setiap Hari (09.00 - 23.00 WIB)</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
-    <div id="loginModal" class="modal-overlay">
-        <div class="modal-box small-modal">
-            <span class="close-btn" onclick="closeLoginModal()">&times;</span>
-            <h3>Login Admin Lapak</h3>
-            <div class="form-group">
-                <label>Username</label>
-                <input type="text" id="usernameInput" class="form-control" placeholder="Masukkan username admin">
-            </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" id="passwordInput" class="form-control" placeholder="Masukkan password admin">
-            </div>
-            <p id="loginError" class="error-msg" style="display: none;">❌ Username atau Password salah!</p>
-            <button class="btn-admin-submit" onclick="processLogin()">Masuk Sistem</button>
-        </div>
-    </div>
 
     <footer class="footer">
         <p>&copy; 2026 LapakStore88. All Rights Reserved.</p>
