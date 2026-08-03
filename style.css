@@ -69,29 +69,6 @@ body {
     display: none;
 }
 
-/* ================= ADMIN BAR ================= */
-.admin-badge-bar {
-    background: #ff9800;
-    color: #000;
-    padding: 8px 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 13px;
-    font-weight: 600;
-    position: fixed;
-    top: 61px;
-    width: 100%;
-    z-index: 999;
-}
-.admin-badge-bar button {
-    background: #000;
-    color: #fff;
-    border: none;
-    padding: 3px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-}
 
 /* ================= HERO BACKGROUND VIDEO ================= */
 .hero {
@@ -394,25 +371,6 @@ h1 {
     cursor: pointer;
     font-family: 'Poppins', sans-serif;
 }
-.small-modal { max-width: 350px; }
-.form-group { margin-bottom: 12px; text-align: left;}
-.form-group label { display: block; font-size: 12px; color: #a0aec0; margin-bottom: 4px; }
-.form-control {
-    width: 100%;
-    background: #071930;
-    border: 1px solid rgba(255,255,255,0.1);
-    padding: 10px;
-    border-radius: 8px;
-    color: #fff;
-    font-family: 'Poppins', sans-serif;
-}
-.form-control:focus { border-color: #ffd700; outline: none; }
-.error-msg { color: #ff0022; font-size: 11px; margin-bottom: 8px; }
-.btn-admin-submit {
-    width: 100%; background: #ffd700; color: #000; padding: 10px;
-    border: none; border-radius: 8px; font-weight: 600; cursor: pointer;
-}
-
 .footer {
     padding: 20px;
     background: #02101f;
@@ -816,11 +774,6 @@ h1 {
     margin: -10px auto 15px auto;
     border: 1px solid rgba(76, 223, 102, 0.2);
 }
-.modal-top-accent.admin-accent {
-    background: rgba(255, 152, 0, 0.1);
-    color: #ff9800;
-    border-color: rgba(255, 152, 0, 0.2);
-}
 .modal-instruction-text {
     color: #a0aec0;
     font-size: 13px;
@@ -836,12 +789,6 @@ h1 {
     padding: 5px;
     margin-bottom: 25px;
 }
-.admin-scroll-box {
-    max-height: 280px;
-    overflow-y: auto;
-    padding: 15px !important;
-}
-
 .modal-footer-premium {
     border-top: 1px solid #1e2d3d;
     padding-top: 20px;
@@ -884,28 +831,6 @@ h1 {
 .btn-whatsapp:hover {
     background-color: #128C7E; /* Warna lebih gelap saat disentuh */
 }
-.btn-admin-save {
-    width: 100%;
-    background: #ff9800;
-    color: #000;
-    border: none;
-    padding: 14px 20px;
-    font-weight: 700;
-    font-size: 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    transition: all 0.2s ease;
-}
-.btn-admin-save:hover {
-    background: #ffa726;
-    box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3);
-    transform: translateY(-2px);
-}
-
 @keyframes bounce {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-3px); }
@@ -2867,4 +2792,3 @@ a.official-contact-card:hover { transform:translateY(-6px); border-color:rgba(34
     .product-page #productGrid { gap: 9px !important; }
     .product-page #productGrid .ui-card { min-height: 230px; }
 }
-
