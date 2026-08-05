@@ -469,6 +469,9 @@
       *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
       .reveal { opacity: 1; transform: none; }
     }
+
+    .joywen-floating-whatsapp{position:fixed;right:22px;bottom:22px;z-index:180;display:inline-flex;align-items:center;gap:9px;min-height:50px;padding:0 17px;border:1px solid rgba(255,255,255,.35);border-radius:999px;color:#fff;background:linear-gradient(135deg,#2bd477,#159b55);box-shadow:0 16px 38px rgba(21,155,85,.28);font-size:11px;font-weight:800;transition:.2s ease}.joywen-floating-whatsapp:hover{transform:translateY(-3px);box-shadow:0 20px 45px rgba(21,155,85,.38)}.joywen-floating-whatsapp i{font-size:19px}@media(max-width:620px){.joywen-floating-whatsapp{right:14px;bottom:14px;width:52px;padding:0;justify-content:center}.joywen-floating-whatsapp span{display:none}}
+
   </style>
 </head>
 <body>
@@ -484,6 +487,7 @@
         <a href="produk.html"><i class="fa-solid fa-store"></i> Produk</a>
         <a href="novel.html"><i class="fa-solid fa-book-open"></i> Novel</a>
         <a href="joywen.html" class="active" aria-current="page"><i class="fa-solid fa-heart"></i> JoyWen</a>
+        <a href="testimoni.html"><i class="fa-solid fa-star"></i> Testimoni</a>
         <a href="kontak.html"><i class="fa-solid fa-wallet"></i> Pembayaran</a>
       </nav>
     </div>
@@ -566,7 +570,7 @@
         <div class="empty-state" id="errorState" hidden>
           <span class="empty-icon"><i class="fa-solid fa-cloud-arrow-down"></i></span>
           <h3>Katalog belum berhasil dimuat</h3>
-          <p id="errorMessage">Pastikan Apps Script sudah memakai kode terbaru dan sheet “PAKET JoyWen” tersedia.</p>
+          <p id="errorMessage">Katalog sedang diperbarui. Silakan coba kembali atau hubungi admin JoyWen melalui WhatsApp.</p>
           <button class="button button-primary" id="retryButton" type="button"><i class="fa-solid fa-rotate"></i> Coba Lagi</button>
         </div>
       </div>
@@ -581,6 +585,9 @@
       </div>
     </section>
   </main>
+
+
+  <a class="joywen-floating-whatsapp" href="https://wa.me/6282285391595?text=Halo%20JoyWen%20Store%2C%20saya%20ingin%20bertanya%20tentang%20produk." target="_blank" rel="noopener noreferrer" aria-label="Chat WhatsApp JoyWen Store"><i class="fa-brands fa-whatsapp"></i><span>Chat JoyWen</span></a>
 
   <footer class="footer">
     <div class="container footer-wrap"><p>© 2026 <strong>JoyWen Store × LapakStore88</strong>. All Rights Reserved.</p><p><i class="fa-solid fa-shield-heart"></i> Partner Store Terpercaya</p></div>
@@ -695,7 +702,7 @@
           let products = normalizeProducts(data?.[CONFIG.dataKey] || data?.productsBySheet?.[CONFIG.sheetName]);
 
           if (!products.length && location.hostname === 'terminal.local') products = normalizeProducts(PREVIEW_PRODUCTS);
-          if (!products.length) throw new Error(`Sheet ${CONFIG.sheetName} kosong atau belum dikirim oleh Apps Script.`);
+          if (!products.length) throw new Error(`Katalog JoyWen belum tersedia.`);
 
           state.products = products;
           buildCategoryFilters();
@@ -710,7 +717,7 @@
           } else {
             elements.grid.innerHTML = '';
             elements.error.hidden = false;
-            elements.errorMessage.textContent = `API sudah terhubung, tetapi data sheet “${CONFIG.sheetName}” belum terbaca. Pastikan code.gs terbaru telah disimpan dan deployment Web App diperbarui ke versi baru.`;
+            elements.errorMessage.textContent = `Katalog sedang diperbarui. Silakan coba lagi atau hubungi admin JoyWen.`;
             elements.count.innerHTML = '<strong>Katalog tidak tersedia</strong>';
           }
         } finally {
