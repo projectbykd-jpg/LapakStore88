@@ -64,7 +64,7 @@ window.renderProducts = function(category = 'all'){
   const notFound = document.getElementById('searchNotFound');
   if (notFound) notFound.style.display = 'none';
 
-  filtered.forEach(p => {
+  filtered.forEach((p, productIndex) => {
     const article = document.createElement('article');
     // Gunakan kedua class agar kartu cocok dengan CSS lama dan UI baru.
     article.className = 'card ui-card';
@@ -84,6 +84,14 @@ window.renderProducts = function(category = 'all'){
       img.src = 'https://img.icons8.com/fluency/512/box.png';
     };
     media.appendChild(img);
+
+    const badgeText = String(p.badge || p.label || (productIndex === 0 ? 'Rekomendasi' : '')).trim();
+    if (badgeText) {
+      const badge = document.createElement('span');
+      badge.className = 'product-card-badge';
+      badge.textContent = badgeText;
+      media.appendChild(badge);
+    }
 
     const body = document.createElement('div');
     body.className = 'ui-card-body';
@@ -112,6 +120,11 @@ window.renderProducts = function(category = 'all'){
 
     body.appendChild(name);
     body.appendChild(meta);
+
+    const assurance = document.createElement('div');
+    assurance.className = 'product-card-assurance';
+    assurance.innerHTML = '<span><i class="fa-solid fa-shield-heart"></i> Garansi sesuai paket</span><span><i class="fa-solid fa-bolt"></i> Pesan via WhatsApp</span>';
+    body.appendChild(assurance);
     body.appendChild(actions);
 
     article.appendChild(media);
@@ -228,6 +241,8 @@ window.checkoutViaWhatsApp = function(){
     `• Produk: ${currentProduct.name}`,
     `• Tipe: ${selected.type} ${selected.desc ? '(' + selected.desc + ')' : ''}`,
     `• Harga: ${formatPrice(selected.price)}`,
+    '',
+    'Mohon konfirmasi ketersediaan dan garansi paket sebelum pembayaran.',
     '',
     'Terima kasih.'
   ];
@@ -441,7 +456,7 @@ window.closeNovelReaderElement = function(){
 
 // Ensure modals on body to avoid stacking/transform issues
 function ensureModalsOnBody(){
-  document.querySelectorAll('.modal-overlay, .reader-overlay, #adminEditModal, #novelReadingContainer').forEach(el => {
+  document.querySelectorAll('.modal-overlay, .reader-overlay, #novelReadingContainer').forEach(el => {
     if(el && el.parentNode !== document.body) document.body.appendChild(el);
   });
 }
