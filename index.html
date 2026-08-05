@@ -824,6 +824,27 @@
       .promo-status { justify-content: flex-end; }
     }
 
+
+    /* Customer trust section + floating WhatsApp */
+    .home-testimonials { padding: 92px 0; border-top: 1px solid var(--line); background: linear-gradient(180deg, rgba(255,255,255,.018), transparent); }
+    .home-testimonial-grid { display: grid; grid-template-columns: 1fr 1fr .88fr; gap: 18px; margin-top: 38px; }
+    .home-testimonial-card, .home-testimonial-cta { min-height: 255px; padding: 28px; border: 1px solid var(--line); border-radius: 22px; background: linear-gradient(145deg, rgba(17,31,49,.94), rgba(8,18,32,.96)); box-shadow: 0 20px 55px rgba(0,0,0,.18); }
+    .testimonial-stars { color: var(--yellow); font-size: 14px; letter-spacing: 4px; }
+    .home-testimonial-card > p { margin: 22px 0 28px; color: #e4ebf4; font-size: 15px; line-height: 1.75; }
+    .home-testimonial-card > div:last-child { display:flex; align-items:center; gap:12px; }
+    .testimonial-avatar { width:43px; height:43px; display:grid; place-items:center; flex:0 0 43px; border-radius:13px; color:#06101d; background:linear-gradient(135deg,#fde047,#f59e0b); font-size:12px; font-weight:900; }
+    .home-testimonial-card strong, .home-testimonial-card small { display:block; }
+    .home-testimonial-card strong { font-size:12px; } .home-testimonial-card small { margin-top:2px; color:var(--muted); font-size:9px; }
+    .home-testimonial-cta { display:flex; flex-direction:column; justify-content:center; background:linear-gradient(145deg,rgba(250,204,21,.11),rgba(12,24,40,.96)); }
+    .testimonial-quote { width:45px; height:45px; display:grid; place-items:center; border-radius:14px; color:var(--yellow); background:rgba(250,204,21,.1); }
+    .home-testimonial-cta h3 { margin-top:18px; font-family:"Poppins",sans-serif; font-size:22px; }
+    .home-testimonial-cta p { margin-top:9px; color:var(--muted); font-size:12px; }
+    .home-testimonial-cta a { margin-top:22px; display:inline-flex; align-items:center; gap:9px; color:var(--yellow); font-size:11px; font-weight:800; }
+    .floating-whatsapp { position:fixed; right:22px; bottom:22px; z-index:1500; display:inline-flex; align-items:center; gap:9px; min-height:50px; padding:0 17px; border:1px solid rgba(255,255,255,.18); border-radius:999px; color:#fff; background:linear-gradient(135deg,#2bd477,#159b55); box-shadow:0 16px 38px rgba(21,155,85,.34); font-size:11px; font-weight:800; transition:transform .2s ease,box-shadow .2s ease; }
+    .floating-whatsapp:hover { transform:translateY(-3px); box-shadow:0 20px 45px rgba(21,155,85,.44); } .floating-whatsapp i{font-size:19px;}
+    @media(max-width:900px){.home-testimonial-grid{grid-template-columns:1fr 1fr}.home-testimonial-cta{grid-column:1/-1;min-height:210px}}
+    @media(max-width:620px){.home-testimonials{padding:65px 0}.home-testimonial-grid{grid-template-columns:1fr}.home-testimonial-cta{grid-column:auto}.floating-whatsapp{right:14px;bottom:14px;padding:0;width:52px;justify-content:center}.floating-whatsapp span{display:none}}
+
   </style>
 </head>
 <body>
@@ -842,6 +863,7 @@
         <a href="index.html" class="nav-link active"><i class="fa-solid fa-house"></i> Home</a>
         <a href="novel.html" class="nav-link"><i class="fa-solid fa-book-open"></i> Novel Gratis</a>
         <a href="joywen.html" class="nav-link"><i class="fa-solid fa-handshake"></i> JoyWen</a>
+        <a href="testimoni.html" class="nav-link"><i class="fa-solid fa-star"></i> Testimoni</a>
         <a href="kontak.html" class="nav-link"><i class="fa-solid fa-wallet"></i> Pembayaran</a>
         <a href="produk.html" class="nav-link nav-product"><i class="fa-solid fa-bag-shopping"></i> Produk</a>
       </nav>
@@ -1036,6 +1058,35 @@
       </div>
     </section>
 
+
+    <section class="home-testimonials" id="testimoni">
+      <div class="container">
+        <div class="section-heading reveal">
+          <span class="eyebrow"><i class="fa-solid fa-star"></i> Cerita pelanggan</span>
+          <h2>Dipilih karena prosesnya mudah.</h2>
+          <p>Ulasan pelanggan membantu pembeli baru berbelanja dengan lebih yakin.</p>
+        </div>
+        <div class="home-testimonial-grid">
+          <article class="home-testimonial-card reveal">
+            <div class="testimonial-stars" aria-label="5 dari 5 bintang">★★★★★</div>
+            <p>“Pelayanan cepat, akun aktif langsung. Sangat memuaskan!”</p>
+            <div><span class="testimonial-avatar">JD</span><span><strong>Joko D.</strong><small>Netflix · 1 bulan</small></span></div>
+          </article>
+          <article class="home-testimonial-card reveal">
+            <div class="testimonial-stars" aria-label="5 dari 5 bintang">★★★★★</div>
+            <p>“Harga terjangkau dan admin responsif saat saya bertanya.”</p>
+            <div><span class="testimonial-avatar">AM</span><span><strong>Anisa M.</strong><small>Spotify · 3 bulan</small></span></div>
+          </article>
+          <article class="home-testimonial-cta reveal">
+            <span class="testimonial-quote"><i class="fa-solid fa-shield-heart"></i></span>
+            <h3>Belanja dengan lebih tenang.</h3>
+            <p>Lihat pengalaman pelanggan lain sebelum memilih paketmu.</p>
+            <a href="testimoni.html">Lihat Semua Testimoni <i class="fa-solid fa-arrow-right"></i></a>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <section class="final-cta">
       <div class="container cta-box reveal">
         <span class="eyebrow">Siap menikmati premium?</span>
@@ -1049,11 +1100,16 @@
     </section>
   </main>
 
+
+  <a class="floating-whatsapp" href="https://wa.me/6285180572575?text=Halo%20LapakStore88%2C%20saya%20ingin%20bertanya%20tentang%20produk." target="_blank" rel="noopener noreferrer" aria-label="Chat WhatsApp LapakStore88">
+    <i class="fa-brands fa-whatsapp"></i><span>Chat Admin</span>
+  </a>
+
   <footer class="site-footer">
     <div class="container footer-inner">
       <a href="index.html" class="brand"><img src="https://i.ibb.co/7Jtv7WJs/image.png" alt="" class="brand-logo"><span class="brand-name">LapakStore<span>88</span></span></a>
       <p class="footer-copy">© 2026 LapakStore88. All rights reserved.</p>
-      <div class="footer-links"><a href="produk.html">Produk</a><a href="novel.html">Novel</a><a href="joywen.html">JoyWen</a><a href="kontak.html">Pembayaran</a></div>
+      <div class="footer-links"><a href="produk.html">Produk</a><a href="testimoni.html">Testimoni</a><a href="novel.html">Novel</a><a href="joywen.html">JoyWen</a><a href="kontak.html">Pembayaran</a></div>
     </div>
   </footer>
 
