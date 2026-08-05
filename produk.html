@@ -8,7 +8,7 @@
     <meta name="description" content="Katalog akun premium LapakStore88 dengan proses pemesanan cepat dan aman.">
     <title>Katalog Produk Premium - LapakStore88</title>
     <link rel="icon" type="image/png" href="https://i.ibb.co/qY1y2j8h/image.png">
-    <link rel="stylesheet" href="style.css?v=20260802-banner-premium">
+    <link rel="stylesheet" href="style.css?v=20260805-customer-trust">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -17,10 +17,10 @@
 
     <header class="header">
         <div class="container">
-            <div class="logo-area">
+            <a class="logo-area" href="index.html" aria-label="LapakStore88 Home">
                 <img src="https://i.ibb.co/qY1y2j8h/image.png" class="nav-logo" alt="Logo LapakStore88">
                 <div class="logo">LapakStore88</div>
-            </div>
+            </a>
 
             <input type="checkbox" id="menu-bar">
             <label for="menu-bar" class="menu-icon" aria-label="Buka menu navigasi">
@@ -32,18 +32,11 @@
                 <a href="produk.html" class="active"><i class="fa-solid fa-gem"></i> Produk</a>
                 <a href="novel.html"><i class="fa-solid fa-book-open"></i> Novel Gratis</a>
                 <a href="joywen.html"><i class="fa-solid fa-handshake"></i> JoyWen Store</a>
+                <a href="testimoni.html"><i class="fa-solid fa-star"></i> Testimoni</a>
                 <a href="kontak.html"><i class="fa-solid fa-wallet"></i> Pembayaran</a>
             </nav>
         </div>
     </header>
-
-    <div id="adminBadgePanel" class="admin-badge-bar" style="display: none;">
-        <span><i class="fa-solid fa-shield-halved"></i> Mode Administrator Aktif</span>
-        <button onclick="logoutAdmin()">Keluar Mode Admin</button>
-    </div>
-
-
-
     <section class="product-promo-hero" aria-labelledby="productPromoTitle">
         <div class="product-promo-orb product-promo-orb-one" aria-hidden="true"></div>
         <div class="product-promo-orb product-promo-orb-two" aria-hidden="true"></div>
@@ -69,6 +62,15 @@
                 </div>
             </div>
         </div>
+    </section>
+
+
+    <section class="purchase-assurance" aria-label="Jaminan layanan">
+      <div class="purchase-assurance-inner">
+        <span><i class="fa-solid fa-shield-heart"></i><strong>Garansi sesuai paket</strong><small>Bantuan tersedia selama masa layanan</small></span>
+        <span><i class="fa-solid fa-clock"></i><strong>Proses terjadwal</strong><small>Setiap hari pukul 09.00–23.00 WIB</small></span>
+        <span><i class="fa-brands fa-whatsapp"></i><strong>Pesan langsung</strong><small>Tanpa formulir yang merepotkan</small></span>
+      </div>
     </section>
 
     <section id="produk" class="catalog-section">
@@ -136,30 +138,15 @@
         </div>
     </div>
 
-    <div id="adminEditModal" class="modal-overlay">
-        <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="adminTargetProductName">
-            <button class="close-btn" type="button" onclick="closeAdminModal()" aria-label="Tutup editor admin">&times;</button>
-            <div class="modal-top-accent admin-accent">
-                <i class="fa-solid fa-screwdriver-wrench"></i>
-            </div>
-            <h3 id="adminTargetProductName">Edit Paket</h3>
-            <p class="modal-instruction-text">Ubah konfigurasi teks tipe, durasi hari/bulan, dan harga dasar di bawah:</p>
-            
-            <div id="adminPacketsEditorContainer" class="packet-options-container admin-scroll-box"></div>
-            
-            <div class="modal-footer-premium">
-                <div class="total-price-block"></div>
-                <button class="btn-admin-save" onclick="saveAdminChanges()">
-                    <i class="fa-solid fa-floppy-disk"></i> Simpan Structure Perubahan Data
-                </button>
-            </div>
-        </div>
-    </div>
+
+  <a class="floating-whatsapp" href="https://wa.me/6285180572575?text=Halo%20LapakStore88%2C%20saya%20ingin%20bertanya%20tentang%20produk." target="_blank" rel="noopener noreferrer" aria-label="Chat WhatsApp LapakStore88">
+    <i class="fa-brands fa-whatsapp"></i><span>Chat Admin</span>
+  </a>
 
     <footer class="footer">
         <p>&copy; 2026 <span>LapakStore88</span>. All Rights Reserved.</p>
     </footer>
 
-    <script src="script.js?v=20260802-banner-premium"></script>
+    <script src="script.js?v=20260805-customer-trust"></script>
 </body>
 </html>
