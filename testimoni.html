@@ -1,74 +1,37 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Testimoni - LapakStore88</title>
-  <link rel="icon" href="https://i.ibb.co/qY1y2j8h/image.png">
-  <link rel="stylesheet" href="assets/styles-ui.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#050b14">
+  <meta name="description" content="Testimoni pelanggan LapakStore88 setelah membeli aplikasi premium.">
+  <title>Testimoni Pelanggan — LapakStore88</title>
+  <link rel="icon" type="image/png" href="https://i.ibb.co/7Jtv7WJs/image.png">
+  <link rel="stylesheet" href="style.css?v=20260805-customer-trust">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-
-<body>
+<body class="testimonial-page">
   <header class="header">
     <div class="container">
-      <div class="logo-area">
-        <img src="https://i.ibb.co/qY1y2j8h/image.png" class="nav-logo" alt="Logo">
-        <div class="logo">LapakStore88</div>
-      </div>
-      <nav class="navbar">
-        <a href="index.html">Home</a>
-        <a href="produk.html">Produk</a>
-        <a href="novel.html">Novel Gratis</a>
-        <a href="kontak.html">Pembayaran</a>
+      <a class="logo-area" href="index.html" aria-label="LapakStore88 Home"><img src="https://i.ibb.co/7Jtv7WJs/image.png" class="nav-logo" alt="Logo LapakStore88"><div class="logo">LapakStore88</div></a>
+      <input type="checkbox" id="menu-bar"><label for="menu-bar" class="menu-icon" aria-label="Buka menu navigasi"><span></span><span></span><span></span></label>
+      <nav class="navbar" aria-label="Navigasi utama">
+        <a href="index.html"><i class="fa-solid fa-house"></i> Home</a><a href="produk.html"><i class="fa-solid fa-gem"></i> Produk</a><a href="novel.html"><i class="fa-solid fa-book-open"></i> Novel Gratis</a><a href="joywen.html"><i class="fa-solid fa-handshake"></i> JoyWen Store</a><a href="testimoni.html" class="active" aria-current="page"><i class="fa-solid fa-star"></i> Testimoni</a><a href="kontak.html"><i class="fa-solid fa-wallet"></i> Pembayaran</a>
       </nav>
     </div>
   </header>
-
-  <main style="padding-top:120px">
-    <section class="catalog-section">
-      <div class="catalog-header">
-        <span class="catalog-badge">⭐ Testimoni</span>
-        <h2 class="glow-text">Apa Kata Pembeli Kami</h2>
-        <div class="title-divider"></div>
-        <p class="catalog-subtitle">Beberapa ulasan pelanggan yang puas menggunakan layanan LapakStore88.</p>
-      </div>
-
-      <div class="container">
-        <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px;margin-top:28px">
-
-          <div class="ui-card">
-            <div style="display:flex;gap:12px;align-items:center">
-              <div style="width:56px;height:56px;border-radius:12px;background:rgba(255,255,255,0.02);display:flex;align-items:center;justify-content:center">JD</div>
-              <div>
-                <div style="font-weight:700">Joko D.</div>
-                <div style="color:var(--muted);font-size:0.9rem">Pembelian: Netflix • 1 Bulan</div>
-              </div>
-            </div>
-            <p style="margin-top:12px;color:var(--muted)">Pelayanan cepat, akun aktif langsung. Sangat memuaskan!</p>
-          </div>
-
-          <div class="ui-card">
-            <div style="display:flex;gap:12px;align-items:center">
-              <div style="width:56px;height:56px;border-radius:12px;background:rgba(255,255,255,0.02);display:flex;align-items:center;justify-content:center">AM</div>
-              <div>
-                <div style="font-weight:700">Anisa M.</div>
-                <div style="color:var(--muted);font-size:0.9rem">Pembelian: Spotify • 3 Bulan</div>
-              </div>
-            </div>
-            <p style="margin-top:12px;color:var(--muted)">Harga terjangkau & support responsif. Recomended!</p>
-          </div>
-
-        </div>
-      </div>
-    </section>
+  <main>
+    <section class="testimonial-hero"><div class="testimonial-hero-inner"><span class="page-eyebrow"><i class="fa-solid fa-star"></i> Pengalaman pelanggan</span><h1>Kepercayaan dibangun dari <span>pelayanan nyata.</span></h1><p>Lihat pengalaman pelanggan setelah memilih produk digital dan mendapatkan bantuan dari LapakStore88.</p></div></section>
+    <div class="testimonial-summary" aria-label="Ringkasan layanan"><span><strong>Responsif</strong><small>Bantuan melalui WhatsApp</small></span><span><strong>Transparan</strong><small>Paket dan harga ditampilkan jelas</small></span><span><strong>Bergaransi</strong><small>Sesuai ketentuan paket</small></span></div>
+    <section class="testimonial-section"><div class="testimonial-grid">
+      <article class="testimonial-card"><div class="stars" aria-label="5 dari 5 bintang">★★★★★</div><blockquote>“Pelayanan cepat, akun aktif langsung. Sangat memuaskan!”</blockquote><div class="testimonial-person"><span class="avatar">JD</span><span><strong>Joko D.</strong><small>Pembelian Netflix · 1 bulan</small></span></div></article>
+      <article class="testimonial-card"><div class="stars" aria-label="5 dari 5 bintang">★★★★★</div><blockquote>“Harga terjangkau dan support responsif. Proses pemesanannya juga mudah.”</blockquote><div class="testimonial-person"><span class="avatar">AM</span><span><strong>Anisa M.</strong><small>Pembelian Spotify · 3 bulan</small></span></div></article>
+      <article class="testimonial-card testimonial-invite"><div class="stars"><i class="fa-solid fa-comment-dots"></i></div><blockquote>Sudah pernah berbelanja di LapakStore88? Pengalaman jujurmu dapat membantu pelanggan lain memilih dengan lebih yakin.</blockquote><div class="testimonial-person"><span class="avatar"><i class="fa-solid fa-pen"></i></span><span><strong>Kirim pengalamanmu</strong><small>Hubungi admin melalui WhatsApp</small></span></div></article>
+    </div></section>
+    <section class="testimonial-order-cta"><div><h2>Sudah siap memilih paketmu?</h2><p>Lihat katalog, pilih durasi, lalu konfirmasi ketersediaan melalui WhatsApp.</p></div><a href="produk.html"><i class="fa-solid fa-bag-shopping"></i> Lihat Katalog</a></section>
   </main>
-
-  <footer class="footer">
-    <p>&copy; 2026 LapakStore88</p>
-  </footer>
-
-  <script src="script.js"></script>
+  <a class="floating-whatsapp" href="https://wa.me/6285180572575?text=Halo%20LapakStore88%2C%20saya%20ingin%20bertanya%20tentang%20produk." target="_blank" rel="noopener noreferrer" aria-label="Chat WhatsApp LapakStore88"><i class="fa-brands fa-whatsapp"></i><span>Chat Admin</span></a>
+  <footer class="footer"><p>&copy; 2026 <span>LapakStore88</span>. Semua hak dilindungi.</p></footer>
 </body>
 </html>
