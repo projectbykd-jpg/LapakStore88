@@ -46,6 +46,33 @@ function newsFormatDate(iso, short) {
   return d.toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" }) + " WIB";
 }
 
+// "34 Menit yang lalu" dsb -- dihitung dari jam perangkat pengunjung sendiri
+// (Date.now()), aman krn `d` sudah dijangkarkan ke UTC+7 lewat suffix "+07:00"
+// di atas jadi selisihnya benar apa pun zona waktu si pengunjung.
+function newsRelativeTime(d) {
+  const min = Math.floor((Date.now() - d.getTime()) / 60000);
+  if (min < 1) return "Baru saja";
+  if (min < 60) return min + " Menit yang lalu";
+  const hour = Math.floor(min / 60);
+  if (hour < 24) return hour + " Jam yang lalu";
+  const day = Math.floor(hour / 24);
+  if (day < 7) return day + " Hari yang lalu";
+  const week = Math.floor(day / 7);
+  if (week < 5) return week + " Minggu yang lalu";
+  return Math.floor(day / 30) + " Bulan yang lalu";
+}
+
+// Dipakai di kartu postingan (mini-card & row-card): "13 Sep 2026, 34 Menit
+// yang lalu" -- tanggal absolut tetap ditampilkan (bukan cuma relatif) supaya
+// tetap jelas kapan persisnya begitu "menit/jam yang lalu" sudah basi.
+function newsFormatDateCard(iso) {
+  if (!iso) return "";
+  const d = new Date(String(iso).replace(" ", "T") + "+07:00");
+  if (isNaN(d.getTime())) return "";
+  const abs = d.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" });
+  return `${abs}, ${newsRelativeTime(d)}`;
+}
+
 function newsExcerpt(s, max) {
   const t = String(s || "").trim();
   if (t.length <= max) return t;
@@ -147,7 +174,7 @@ function newsRowCardHtml(a, depth) {
         <a href="${newsCategoryUrl(depth, a.category)}" class="news-row-category">${newsEsc(newsCategoryLabel(a.category))}</a>
         <a href="${newsArticleUrl(depth, a.id)}" class="news-row-title">${newsEsc(a.title)}</a>
         <p class="news-row-excerpt">${newsEsc(newsExcerpt(a.excerpt, 130))}</p>
-        <div class="news-row-meta"><span><i class="fa-solid fa-signature"></i> ${newsEsc(a.source)}</span><span><i class="fa-regular fa-clock"></i> ${newsEsc(newsFormatDate(a.posted_at))}</span></div>
+        <div class="news-row-meta"><span><i class="fa-solid fa-signature"></i> ${newsEsc(a.source)}</span><span><i class="fa-regular fa-clock"></i> ${newsEsc(newsFormatDateCard(a.posted_at))}</span></div>
       </div>
     </article>`;
 }
@@ -161,7 +188,7 @@ function newsMiniCardHtml(a, depth) {
         <span class="news-mini-category">${newsEsc(newsCategoryLabel(a.category))}</span>
       </a>
       <a href="${newsArticleUrl(depth, a.id)}" class="news-mini-title">${newsEsc(a.title)}</a>
-      <span class="news-mini-date"><i class="fa-regular fa-clock"></i> ${newsEsc(newsFormatDate(a.posted_at, true))}</span>
+      <span class="news-mini-date"><i class="fa-regular fa-clock"></i> ${newsEsc(newsFormatDateCard(a.posted_at))}</span>
     </article>`;
 }
 
