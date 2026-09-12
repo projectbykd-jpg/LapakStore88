@@ -63,13 +63,23 @@ const NEWS_BRAND_LOGO = "https://i.ibb.co/7Jtv7WJs/image.png";
 // enak dipandang berdampingan dengan kartu yang punya foto asli.
 function newsMediaHtml(imageUrl) {
   if (imageUrl) {
-    return `<img src="${newsEsc(imageUrl)}" alt="" loading="lazy" onerror="this.parentNode.innerHTML=${JSON.stringify(newsPlaceholderHtml())}">`;
+    return `<img src="${newsEsc(imageUrl)}" alt="" loading="lazy" onerror="newsImgFallback(this)">`;
   }
   return newsPlaceholderHtml();
 }
 function newsPlaceholderHtml() {
   return `<div class="news-media-placeholder"><img src="${NEWS_BRAND_LOGO}" alt="LapakStore88" loading="lazy"></div>`;
 }
+// Dipanggil dari atribut onerror inline di atas. Sebelumnya kode menyuntikkan
+// HTML pengganti langsung via JSON.stringify(...) di dalam atribut onerror="" --
+// karena JSON.stringify menghasilkan string berpagar tanda kutip ganda ("...")
+// yang sama dengan pagar atribut onerror itu sendiri, atribut jadi tertutup
+// prematur dan sisa markup-nya bocor jadi teks/tag mentah di halaman (ini
+// penyebab teks berantakan & ikon gambar rusak yang dilaporkan). Fungsi global
+// ini menghindari nesting tanda kutip sama sekali.
+window.newsImgFallback = function (img) {
+  img.parentNode.innerHTML = newsPlaceholderHtml();
+};
 
 async function newsFetchList(opts) {
   opts = opts || {};
