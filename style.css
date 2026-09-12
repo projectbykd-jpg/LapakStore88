@@ -2819,6 +2819,13 @@ a.official-contact-card:hover { transform:translateY(-6px); border-color:rgba(34
 .news-page { min-width: 320px; background: radial-gradient(circle at 10% 10%,rgba(56,189,248,.1),transparent 28rem), radial-gradient(circle at 90% 20%,rgba(250,204,21,.08),transparent 26rem), var(--bg); }
 .news-page .header { position: fixed; }
 
+/* PENTING: "container" (dipakai header di semua halaman situs) sudah didefinisikan
+   display:flex+justify-content:space-between+align-items:center (utk logo+menu).
+   Section baru Berita Terkini JANGAN pakai class itu untuk pembungkus konten biasa
+   -- makanya dipakai class terpisah ini (block murni, bukan flex), supaya heading,
+   carousel, dsb tersusun ke BAWAH seperti seharusnya, bukan sejajar/ketimpa. */
+.news-container { max-width: 1180px; margin: 0 auto; padding: 0 20px; }
+
 /* Sub-nav kategori NEMPEL persis di bawah header (fixed juga), jadi selalu
    kelihatan di semua halaman Berita Terkini -- bukan terkubur di bawah hero. */
 .news-category-nav { position: fixed; top: 76px; left: 0; right: 0; z-index: 950; padding: 12px 0; border-bottom: 1px solid var(--line); background: rgba(5,11,20,.92); backdrop-filter: blur(6px); overflow-x: auto; }
