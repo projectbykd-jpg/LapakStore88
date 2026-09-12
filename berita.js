@@ -16,6 +16,7 @@ const NEWS_CATEGORY_LABELS = {
   otomotif: "Otomotif",
   kesehatan: "Kesehatan",
   lifestyle: "Lifestyle",
+  selebritis: "Selebritis",
 };
 const NEWS_CATEGORY_ICONS = {
   umum: "fa-newspaper",
@@ -28,8 +29,9 @@ const NEWS_CATEGORY_ICONS = {
   otomotif: "fa-car",
   kesehatan: "fa-heart-pulse",
   lifestyle: "fa-mug-hot",
+  selebritis: "fa-crown",
 };
-const NEWS_CATEGORY_ORDER = ["umum", "nasional", "bisnis", "olahraga", "bola", "hiburan", "teknologi", "otomotif", "kesehatan", "lifestyle"];
+const NEWS_CATEGORY_ORDER = ["umum", "nasional", "bisnis", "olahraga", "bola", "hiburan", "teknologi", "otomotif", "kesehatan", "lifestyle", "selebritis"];
 
 function newsEsc(s) {
   return String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
