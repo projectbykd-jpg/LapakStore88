@@ -2869,7 +2869,13 @@ a.official-contact-card:hover { transform:translateY(-6px); border-color:rgba(34
 .news-media-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg,#16233b,#0a1524); }
 .news-media-placeholder img { width: 40%; height: 40%; max-width: 64px; max-height: 64px; object-fit: contain; opacity: .95; filter: drop-shadow(0 4px 10px rgba(0,0,0,.4)); }
 .news-mini-category { position: absolute; left: 8px; top: 8px; padding: 4px 9px; border-radius: 999px; color: #07111f; background: rgba(253,224,71,.94); font-size: 8.5px; font-weight: 900; text-transform: uppercase; }
-.news-mini-title { display: block; flex: 1; padding: 10px 12px 4px; color: #fff; font-size: 12.5px; font-weight: 700; line-height: 1.4; text-decoration: none; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+/* Tinggi TETAP (bukan flex:1) -- flex:1 dulu bikin kartu ini ikut "stretch"
+   setinggi kartu tetangga di baris yang sama (default align-items:stretch di
+   flex row/grid), jadi kartu berjudul pendek kena ruang kosong gede & kartu
+   berjudul panjang (3 baris penuh) kelihatan jauh lebih "besar" -- baris tidak
+   rata. Tinggi tetap = tinggi kartu jadi konsisten, tidak tergantung tetangga
+   ataupun panjang judul. (12.5px x 1.4 line-height x 3 baris + padding). */
+.news-mini-title { display: block; height: 68px; padding: 10px 12px 4px; color: #fff; font-size: 12.5px; font-weight: 700; line-height: 1.4; text-decoration: none; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .news-mini-title:hover { color: var(--brand); }
 .news-mini-date { display: flex; align-items: center; gap: 5px; padding: 0 12px 12px; color: #7f8ea2; font-size: 9.5px; }
 
