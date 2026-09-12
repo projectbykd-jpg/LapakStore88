@@ -2915,6 +2915,18 @@ a.official-contact-card:hover { transform:translateY(-6px); border-color:rgba(34
 .news-article-body p { margin: 0 0 18px; }
 .news-article-body img { width: 100%; height: auto; margin: 6px 0 22px; border-radius: 16px; }
 .news-article-body a { color: var(--cyan); }
+/* Artikel LAMA (diproses sebelum kotak promo/atribusi disesuaikan ke tema
+   gelap) masih punya HTML tersimpan dengan warna solid terang (background
+   putih, teks abu gelap) yang dirancang utk halaman Blogger -- override paksa
+   di sini via attribute selector, supaya artikel lama & baru sama-sama kebaca
+   tanpa perlu mengubah data yang sudah tersimpan di database. */
+.news-article-body div[style*="background:#fafafa" i],
+.news-article-body div[style*="background: #fafafa" i] { background: rgba(127,127,127,.1) !important; border-color: rgba(127,127,127,.35) !important; }
+.news-article-body div[style*="background:#fafafa" i] p,
+.news-article-body div[style*="background: #fafafa" i] p,
+.news-article-body p[style*="color:#666" i] { color: #dbe4f0 !important; }
+.news-article-body div[style*="background:#fafafa" i] strong,
+.news-article-body div[style*="background: #fafafa" i] strong { color: #fff !important; }
 
 .news-related-section { display: flex; flex-direction: column; gap: 0; }
 
