@@ -33,74 +33,51 @@
     </div>
   </header>
 
+  <nav class="news-category-nav" aria-label="Kategori berita">
+    <div class="news-category-nav-shell">
+      <a href="berita/umum/" class="news-category-chip"><i class="fa-solid fa-newspaper"></i> Umum</a>
+      <a href="berita/nasional/" class="news-category-chip"><i class="fa-solid fa-flag"></i> Nasional</a>
+      <a href="berita/bisnis/" class="news-category-chip"><i class="fa-solid fa-chart-line"></i> Bisnis</a>
+      <a href="berita/olahraga/" class="news-category-chip"><i class="fa-solid fa-futbol"></i> Olahraga</a>
+      <a href="berita/hiburan/" class="news-category-chip"><i class="fa-solid fa-clapperboard"></i> Hiburan</a>
+      <a href="berita/teknologi/" class="news-category-chip"><i class="fa-solid fa-microchip"></i> Teknologi</a>
+      <a href="berita/otomotif/" class="news-category-chip"><i class="fa-solid fa-car"></i> Otomotif</a>
+      <a href="berita/kesehatan/" class="news-category-chip"><i class="fa-solid fa-heart-pulse"></i> Kesehatan</a>
+      <a href="berita/lifestyle/" class="news-category-chip"><i class="fa-solid fa-mug-hot"></i> Lifestyle</a>
+    </div>
+  </nav>
+
   <main>
-    <section class="novel-hero news-hero">
-      <div class="novel-orb novel-orb-one" aria-hidden="true"></div>
-      <div class="novel-orb novel-orb-two" aria-hidden="true"></div>
-      <div class="container novel-hero-grid">
-        <div class="novel-hero-copy">
+    <section class="news-hero-compact">
+      <div class="container news-hero-compact-inner">
+        <div>
           <span class="page-eyebrow"><i class="fa-solid fa-bolt"></i> Update tiap hari</span>
-          <h1>Berita terkini, <span>ringkas & mudah dibaca.</span></h1>
-          <p>Kumpulan berita pilihan dari berbagai sumber terpercaya, ditulis ulang ringkas supaya cepat dibaca di sela-sela aktivitasmu.</p>
-          <div class="novel-hero-actions">
-            <a href="#terbaru" class="page-button page-button-primary"><i class="fa-solid fa-newspaper"></i> Baca Berita Terbaru</a>
-            <a href="produk.html" class="page-button page-button-soft"><i class="fa-solid fa-gem"></i> Lihat Produk Premium</a>
-          </div>
-          <div class="novel-trust">
-            <span><i class="fa-solid fa-circle-check"></i> Gratis dibaca</span>
-            <span><i class="fa-solid fa-circle-check"></i> Kategori lengkap</span>
-            <span><i class="fa-solid fa-circle-check"></i> Nyaman di HP</span>
-          </div>
+          <h1>Berita terkini, ringkas &amp; mudah dibaca.</h1>
         </div>
-        <div class="novel-visual" aria-hidden="true">
-          <div class="novel-book-card news-hero-card">
-            <span class="novel-book-icon"><i class="fa-solid fa-newspaper"></i></span>
-            <span class="novel-book-kicker">LapakStore88 News Hub</span>
-            <strong>Berita hari ini, tanpa ribet.</strong>
-            <div class="novel-book-meta">
-              <span><i class="fa-solid fa-layer-group"></i> 9 kategori</span>
-              <span><i class="fa-solid fa-mobile-screen-button"></i> Tampilan nyaman</span>
-            </div>
+        <p>Kumpulan berita pilihan dari berbagai sumber terpercaya, ditulis ulang ringkas supaya cepat dibaca di sela-sela aktivitasmu.</p>
+      </div>
+    </section>
+
+    <section class="news-carousel-section" aria-label="Berita terbaru">
+      <div class="container">
+        <div class="news-home-section-head">
+          <h2><i class="fa-solid fa-fire-flame-curved"></i> Terbaru</h2>
+        </div>
+        <div id="newsCarouselWrap" class="news-carousel-wrap">
+          <button id="newsCarouselPrev" type="button" class="news-carousel-arrow prev" aria-label="Sebelumnya"><i class="fa-solid fa-chevron-left"></i></button>
+          <div id="newsCarouselTrack" class="news-carousel-track" aria-live="polite">
+            <div class="novel-loading-card"><i class="fa-solid fa-spinner fa-spin"></i><span>Memuat berita...</span></div>
           </div>
-          <span class="novel-floating-badge"><i class="fa-solid fa-signal"></i> Update berkala</span>
+          <button id="newsCarouselNext" type="button" class="news-carousel-arrow next" aria-label="Berikutnya"><i class="fa-solid fa-chevron-right"></i></button>
         </div>
       </div>
     </section>
 
-    <section class="news-category-nav" aria-label="Kategori berita">
-      <div class="container news-category-nav-shell">
-        <a href="berita/umum/" class="news-category-chip"><i class="fa-solid fa-newspaper"></i> Umum</a>
-        <a href="berita/nasional/" class="news-category-chip"><i class="fa-solid fa-flag"></i> Nasional</a>
-        <a href="berita/bisnis/" class="news-category-chip"><i class="fa-solid fa-chart-line"></i> Bisnis</a>
-        <a href="berita/olahraga/" class="news-category-chip"><i class="fa-solid fa-futbol"></i> Olahraga</a>
-        <a href="berita/hiburan/" class="news-category-chip"><i class="fa-solid fa-clapperboard"></i> Hiburan</a>
-        <a href="berita/teknologi/" class="news-category-chip"><i class="fa-solid fa-microchip"></i> Teknologi</a>
-        <a href="berita/otomotif/" class="news-category-chip"><i class="fa-solid fa-car"></i> Otomotif</a>
-        <a href="berita/kesehatan/" class="news-category-chip"><i class="fa-solid fa-heart-pulse"></i> Kesehatan</a>
-        <a href="berita/lifestyle/" class="news-category-chip"><i class="fa-solid fa-mug-hot"></i> Lifestyle</a>
-      </div>
-    </section>
-
-    <section id="terbaru" class="novel-library news-library">
-      <div class="container novel-library-shell">
-        <div class="novel-section-heading">
-          <span class="page-eyebrow"><i class="fa-solid fa-fire-flame-curved"></i> Terbaru</span>
-          <h2>Berita paling baru</h2>
-          <p>Gabungan artikel terbaru dari semua kategori. Pilih kategori di atas untuk melihat lebih banyak.</p>
-        </div>
-        <div id="newsLandingGrid" class="grid-news-layout" aria-live="polite">
-          <div class="novel-loading-card"><i class="fa-solid fa-spinner fa-spin"></i><span>Memuat berita...</span></div>
-        </div>
-      </div>
-    </section>
+    <div id="newsCategorySections" class="container news-home-sections" aria-live="polite"></div>
   </main>
 
-  <a class="floating-whatsapp" href="https://wa.me/6285180572575?text=Halo%20LapakStore88%2C%20saya%20ingin%20bertanya%20tentang%20produk." target="_blank" rel="noopener noreferrer" aria-label="Chat WhatsApp LapakStore88">
-    <i class="fa-brands fa-whatsapp"></i><span>Chat Admin</span>
-  </a>
-
   <footer class="footer"><p>&copy; 2026 <span>LapakStore88</span>. Semua hak dilindungi.</p></footer>
-  <script src="berita.js?v=1"></script>
+  <script src="berita.js?v=2"></script>
   <script>document.addEventListener('DOMContentLoaded', newsInitLanding);</script>
 </body>
 </html>
