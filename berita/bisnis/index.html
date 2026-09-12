@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#050b14">
+  <meta name="description" content="Berita Bisnis terkini dari LapakStore88 — ringkas, mudah dibaca, update berkala.">
+  <title>Berita Bisnis — LapakStore88</title>
+  <link rel="icon" type="image/png" href="https://i.ibb.co/7Jtv7WJs/image.png">
+  <link rel="stylesheet" href="../../style.css?v=20260805-customer-trust">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="news-page">
+  <header class="header">
+    <div class="container">
+      <a class="logo-area" href="../../index.html" aria-label="LapakStore88 Home">
+        <img src="https://i.ibb.co/7Jtv7WJs/image.png" class="nav-logo" alt="Logo LapakStore88">
+        <div class="logo">LapakStore88</div>
+      </a>
+      <input type="checkbox" id="menu-bar">
+      <label for="menu-bar" class="menu-icon" aria-label="Buka menu navigasi">
+        <span></span><span></span><span></span>
+      </label>
+      <nav class="navbar" aria-label="Navigasi utama">
+        <a href="../../index.html"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="../../produk.html"><i class="fa-solid fa-gem"></i> Produk</a>
+        <a href="../../berita.html" class="active" aria-current="page"><i class="fa-solid fa-newspaper"></i> Berita Terkini</a>
+        <a href="../../joywen.html"><i class="fa-solid fa-handshake"></i> JoyWen Store</a>
+        <a href="../../testimoni.html"><i class="fa-solid fa-star"></i> Testimoni</a>
+        <a href="../../kontak.html"><i class="fa-solid fa-wallet"></i> Pembayaran</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="news-category-hero">
+      <div class="container">
+        <nav class="news-breadcrumb" aria-label="Breadcrumb"><a href="../../berita.html">Berita Terkini</a><i class="fa-solid fa-chevron-right"></i><span>Bisnis</span></nav>
+        <span class="page-eyebrow"><i class="fa-solid fa-chart-line"></i> Kategori</span>
+        <h1>Berita Bisnis</h1>
+        <p>Kumpulan berita bisnis terbaru, ditulis ulang ringkas dan mudah dibaca.</p>
+      </div>
+    </section>
+
+    <section class="news-category-nav" aria-label="Kategori lain">
+      <div class="container news-category-nav-shell">
+        <a href="../umum/" class="news-category-chip"><i class="fa-solid fa-newspaper"></i> Umum</a>
+        <a href="../nasional/" class="news-category-chip"><i class="fa-solid fa-flag"></i> Nasional</a>
+        <a href="../bisnis/" class="news-category-chip"><i class="fa-solid fa-chart-line"></i> Bisnis</a>
+        <a href="../olahraga/" class="news-category-chip"><i class="fa-solid fa-futbol"></i> Olahraga</a>
+        <a href="../hiburan/" class="news-category-chip"><i class="fa-solid fa-clapperboard"></i> Hiburan</a>
+        <a href="../teknologi/" class="news-category-chip"><i class="fa-solid fa-microchip"></i> Teknologi</a>
+        <a href="../otomotif/" class="news-category-chip"><i class="fa-solid fa-car"></i> Otomotif</a>
+        <a href="../kesehatan/" class="news-category-chip"><i class="fa-solid fa-heart-pulse"></i> Kesehatan</a>
+        <a href="../lifestyle/" class="news-category-chip"><i class="fa-solid fa-mug-hot"></i> Lifestyle</a>
+      </div>
+    </section>
+
+    <section class="novel-library news-library">
+      <div class="container novel-library-shell">
+        <div id="newsGrid" class="grid-news-layout" aria-live="polite">
+          <div class="novel-loading-card"><i class="fa-solid fa-spinner fa-spin"></i><span>Memuat berita...</span></div>
+        </div>
+        <div class="news-load-more-wrap">
+          <button id="newsLoadMore" type="button" class="page-button page-button-soft" style="display:none">Muat Lebih Banyak <i class="fa-solid fa-chevron-down"></i></button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <a class="floating-whatsapp" href="https://wa.me/6285180572575?text=Halo%20LapakStore88%2C%20saya%20ingin%20bertanya%20tentang%20produk." target="_blank" rel="noopener noreferrer" aria-label="Chat WhatsApp LapakStore88">
+    <i class="fa-brands fa-whatsapp"></i><span>Chat Admin</span>
+  </a>
+
+  <footer class="footer"><p>&copy; 2026 <span>LapakStore88</span>. Semua hak dilindungi.</p></footer>
+  <script src="../../berita.js?v=1"></script>
+  <script>document.addEventListener('DOMContentLoaded', () => newsInitCategoryPage('bisnis'));</script>
+</body>
+</html>
