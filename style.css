@@ -2863,6 +2863,11 @@ a.official-contact-card:hover { transform:translateY(-6px); border-color:rgba(34
 .news-mini-card:hover { transform: translateY(-4px); border-color: rgba(250,204,21,.35); }
 .news-mini-media { position: relative; display: block; aspect-ratio: 16/10; background: linear-gradient(135deg,#132640,#0a1524); }
 .news-mini-media img { width: 100%; height: 100%; object-fit: cover; }
+/* Artikel tanpa foto -- placeholder BERMEREK (logo LapakStore88 di gradasi
+   senada situs) menggantikan ikon generik supaya tidak "merusak pemandangan"
+   berdampingan dgn kartu yang punya foto asli. */
+.news-media-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg,#16233b,#0a1524); }
+.news-media-placeholder img { width: 40%; height: 40%; max-width: 64px; max-height: 64px; object-fit: contain; opacity: .95; filter: drop-shadow(0 4px 10px rgba(0,0,0,.4)); }
 .news-mini-category { position: absolute; left: 8px; top: 8px; padding: 4px 9px; border-radius: 999px; color: #07111f; background: rgba(253,224,71,.94); font-size: 8.5px; font-weight: 900; text-transform: uppercase; }
 .news-mini-title { display: block; flex: 1; padding: 10px 12px 4px; color: #fff; font-size: 12.5px; font-weight: 700; line-height: 1.4; text-decoration: none; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .news-mini-title:hover { color: var(--brand); }
@@ -2945,6 +2950,8 @@ a.official-contact-card:hover { transform:translateY(-6px); border-color:rgba(34
 .news-sidebar-archive { display: flex; flex-direction: column; gap: 10px; }
 .news-sidebar-archive-item { display: grid; grid-template-columns: 52px minmax(0,1fr); gap: 10px; align-items: center; text-decoration: none; }
 .news-sidebar-archive-item img { width: 52px; height: 52px; border-radius: 10px; object-fit: cover; background: #132640; }
+.news-sidebar-archive-item .news-media-placeholder { width: 52px; height: 52px; border-radius: 10px; }
+.news-sidebar-archive-item .news-media-placeholder img { width: 55%; height: 55%; max-width: 26px; max-height: 26px; }
 .news-sidebar-archive-item span { color: #dbe4f0; font-size: 11.5px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .news-sidebar-archive-item:hover span { color: var(--brand); }
 

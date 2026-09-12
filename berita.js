@@ -10,6 +10,7 @@ const NEWS_CATEGORY_LABELS = {
   nasional: "Nasional",
   bisnis: "Bisnis",
   olahraga: "Olahraga",
+  bola: "Bola",
   hiburan: "Hiburan",
   teknologi: "Teknologi",
   otomotif: "Otomotif",
@@ -20,14 +21,15 @@ const NEWS_CATEGORY_ICONS = {
   umum: "fa-newspaper",
   nasional: "fa-flag",
   bisnis: "fa-chart-line",
-  olahraga: "fa-futbol",
+  olahraga: "fa-person-running",
+  bola: "fa-futbol",
   hiburan: "fa-clapperboard",
   teknologi: "fa-microchip",
   otomotif: "fa-car",
   kesehatan: "fa-heart-pulse",
   lifestyle: "fa-mug-hot",
 };
-const NEWS_CATEGORY_ORDER = ["umum", "nasional", "bisnis", "olahraga", "hiburan", "teknologi", "otomotif", "kesehatan", "lifestyle"];
+const NEWS_CATEGORY_ORDER = ["umum", "nasional", "bisnis", "olahraga", "bola", "hiburan", "teknologi", "otomotif", "kesehatan", "lifestyle"];
 
 function newsEsc(s) {
   return String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -54,7 +56,20 @@ function newsCategoryLabel(cat) {
 function newsCategoryIcon(cat) {
   return NEWS_CATEGORY_ICONS[cat] || NEWS_CATEGORY_ICONS.umum;
 }
-const NEWS_FALLBACK_IMG = "https://img.icons8.com/fluency/512/news.png";
+const NEWS_BRAND_LOGO = "https://i.ibb.co/7Jtv7WJs/image.png";
+
+// Placeholder BERMEREK (bukan ikon generik yang norak) buat artikel tanpa foto --
+// gradasi gelap+emas senada situs + logo LapakStore88 di tengah, supaya tetap
+// enak dipandang berdampingan dengan kartu yang punya foto asli.
+function newsMediaHtml(imageUrl) {
+  if (imageUrl) {
+    return `<img src="${newsEsc(imageUrl)}" alt="" loading="lazy" onerror="this.parentNode.innerHTML=${JSON.stringify(newsPlaceholderHtml())}">`;
+  }
+  return newsPlaceholderHtml();
+}
+function newsPlaceholderHtml() {
+  return `<div class="news-media-placeholder"><img src="${NEWS_BRAND_LOGO}" alt="LapakStore88" loading="lazy"></div>`;
+}
 
 async function newsFetchList(opts) {
   opts = opts || {};
@@ -111,11 +126,10 @@ function newsCategoryUrl(depth, cat) {
 // Kartu gaya "list situs berita profesional": thumbnail kecil di kiri,
 // judul+ringkasan+meta di kanan, satu baris penuh (bukan kotak grid).
 function newsRowCardHtml(a, depth) {
-  const img = a.image_url || NEWS_FALLBACK_IMG;
   return `
     <article class="news-row">
       <a href="${newsArticleUrl(depth, a.id)}" class="news-row-media">
-        <img src="${newsEsc(img)}" alt="" loading="lazy" onerror="this.onerror=null;this.src='${NEWS_FALLBACK_IMG}'">
+        ${newsMediaHtml(a.image_url)}
       </a>
       <div class="news-row-body">
         <a href="${newsCategoryUrl(depth, a.category)}" class="news-row-category">${newsEsc(newsCategoryLabel(a.category))}</a>
@@ -128,11 +142,10 @@ function newsRowCardHtml(a, depth) {
 
 // Kartu carousel/related: potret, ringkas, buat dipakai berjejer.
 function newsMiniCardHtml(a, depth) {
-  const img = a.image_url || NEWS_FALLBACK_IMG;
   return `
     <article class="news-mini-card">
       <a href="${newsArticleUrl(depth, a.id)}" class="news-mini-media">
-        <img src="${newsEsc(img)}" alt="" loading="lazy" onerror="this.onerror=null;this.src='${NEWS_FALLBACK_IMG}'">
+        ${newsMediaHtml(a.image_url)}
         <span class="news-mini-category">${newsEsc(newsCategoryLabel(a.category))}</span>
       </a>
       <a href="${newsArticleUrl(depth, a.id)}" class="news-mini-title">${newsEsc(a.title)}</a>
@@ -344,7 +357,7 @@ async function newsInitSidebar(depth, category) {
             .map(
               (a) => `
             <a href="${newsArticleUrl(depth, a.id)}" class="news-sidebar-archive-item">
-              <img src="${newsEsc(a.image_url || NEWS_FALLBACK_IMG)}" alt="" loading="lazy" onerror="this.onerror=null;this.src='${NEWS_FALLBACK_IMG}'">
+              ${newsMediaHtml(a.image_url)}
               <span>${newsEsc(a.title)}</span>
             </a>`,
             )
