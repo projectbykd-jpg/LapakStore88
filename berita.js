@@ -95,10 +95,12 @@ async function newsFetchRandom(category, limit) {
   }
 }
 
-// `depth` = berapa level folder halaman ini dari root ("" di root, "../" di
-// /berita/<kategori>/, "../../" di /berita/artikel/) -- dipakai supaya satu
-// fungsi render kartu bisa dipakai ulang di landing, kategori, & sidebar
-// artikel tanpa link-nya salah folder.
+// `depth` = berapa level folder halaman ini dari root ("" di root/berita.html;
+// "../../" di /berita/<kategori>/ MAUPUN /berita/artikel/ -- keduanya SAMA
+// dalamnya, 2 folder dari root) -- dipakai supaya satu fungsi render kartu
+// bisa dipakai ulang di landing, kategori, & sidebar artikel tanpa link-nya
+// salah folder (dulu ke-tulis "../" doang utk kategori -> hasilnya
+// /berita/berita/artikel/, dobel "berita").
 function newsArticleUrl(depth, id) {
   return `${depth}berita/artikel/?id=${id}`;
 }
@@ -218,7 +220,7 @@ async function newsInitCategoryPage(category) {
       if (!data.articles.length && page === 1) {
         grid.innerHTML = `<div class="news-empty-state"><i class="fa-solid fa-inbox"></i><h3>Belum ada berita di kategori ini</h3><p>Coba cek kategori lain atau kembali lagi nanti.</p></div>`;
       } else {
-        grid.insertAdjacentHTML("beforeend", data.articles.map((a) => newsRowCardHtml(a, "../")).join(""));
+        grid.insertAdjacentHTML("beforeend", data.articles.map((a) => newsRowCardHtml(a, "../../")).join(""));
         loaded += data.articles.length;
       }
     } catch (e) {
@@ -239,7 +241,7 @@ async function newsInitCategoryPage(category) {
     });
   }
   loadPage(false);
-  newsInitSidebar("../", category);
+  newsInitSidebar("../../", category);
 }
 
 // ---------------------------------------------------------------------------
