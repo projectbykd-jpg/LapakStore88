@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://lokalstore88.online/sitemap.xml
+Sitemap: https://lokalstore88.online/sitemap-news.xml

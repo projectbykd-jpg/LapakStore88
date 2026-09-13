@@ -87,6 +87,56 @@ function newsCategoryIcon(cat) {
 }
 const NEWS_BRAND_LOGO = "https://i.ibb.co/7Jtv7WJs/image.png";
 
+// Pasang/timpa satu <meta> di <head> lewat atribut penanda (name/property) --
+// bikin baru kalau belum ada, update kalau sudah ada. Dipakai buat SEO per-
+// artikel (description/keywords/Open Graph/Twitter Card) yang sebelumnya statis
+// sama untuk semua halaman artikel -- sekarang beda-beda sesuai isi artikelnya.
+function newsSetMeta(attr, key, content) {
+  if (!content) return;
+  let el = document.querySelector(`meta[${attr}="${key}"]`);
+  if (!el) {
+    el = document.createElement("meta");
+    el.setAttribute(attr, key);
+    document.head.appendChild(el);
+  }
+  el.setAttribute("content", content);
+}
+
+// Dipanggil setelah data artikel berhasil di-fetch (newsInitArticlePage).
+// Mengisi <title>, meta description/keywords, Open Graph & Twitter Card, canonical
+// link, dan JSON-LD -- supaya tiap URL artikel beda title/description/gambar
+// di hasil pencarian & preview share, bukan generik sama semua kayak sebelumnya.
+function newsSetSeoTags(a) {
+  const title = `${a.title} — LapakStore88`;
+  const desc = newsExcerpt(a.meta_description || a.title, 160);
+  const image = a.image_url || NEWS_BRAND_LOGO;
+  const canonicalUrl = `https://lokalstore88.online/berita/artikel/?id=${a.id}`;
+
+  document.title = title;
+  const metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) metaDesc.setAttribute("content", desc);
+  if (a.keywords) newsSetMeta("name", "keywords", a.keywords);
+
+  let canonical = document.querySelector('link[rel="canonical"]');
+  if (!canonical) {
+    canonical = document.createElement("link");
+    canonical.setAttribute("rel", "canonical");
+    document.head.appendChild(canonical);
+  }
+  canonical.setAttribute("href", canonicalUrl);
+
+  newsSetMeta("property", "og:type", "article");
+  newsSetMeta("property", "og:title", title);
+  newsSetMeta("property", "og:description", desc);
+  newsSetMeta("property", "og:image", image);
+  newsSetMeta("property", "og:url", canonicalUrl);
+  newsSetMeta("property", "og:site_name", "LapakStore88");
+  newsSetMeta("name", "twitter:card", "summary_large_image");
+  newsSetMeta("name", "twitter:title", title);
+  newsSetMeta("name", "twitter:description", desc);
+  newsSetMeta("name", "twitter:image", image);
+}
+
 // Placeholder BERMEREK (bukan ikon generik yang norak) buat artikel tanpa foto --
 // gradasi gelap+emas senada situs + logo LapakStore88 di tengah, supaya tetap
 // enak dipandang berdampingan dengan kartu yang punya foto asli.
@@ -314,9 +364,7 @@ async function newsInitArticlePage() {
       return;
     }
     const a = data.article;
-    document.title = a.title + " — LapakStore88";
-    const metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc) metaDesc.setAttribute("content", newsExcerpt(a.title, 155));
+    newsSetSeoTags(a);
     const catUrl = newsCategoryUrl("../../", a.category);
     box.innerHTML = `
       <div class="news-article-eyebrow"><a href="${catUrl}" class="news-article-cat"><i class="fa-solid ${newsCategoryIcon(a.category)}"></i> ${newsEsc(newsCategoryLabel(a.category))}</a><span><i class="fa-regular fa-clock"></i> ${newsEsc(newsFormatDate(a.posted_at))}</span></div>

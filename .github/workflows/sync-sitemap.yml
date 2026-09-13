@@ -1,0 +1,32 @@
+name: Sync sitemap-news.xml
+
+# Situs ini statis (GitHub Pages) -- artikel berita datang dari panel-worker
+# (Cloudflare Worker terpisah) yang isinya terus bertambah lewat cron. Supaya
+# Google bisa nemu artikel baru tanpa nunggu backlink/crawl manual, sitemap
+# khusus berita ini disinkron otomatis dari endpoint publik worker tiap 3 jam.
+on:
+  schedule:
+    - cron: "15 */3 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch sitemap dari panel-worker
+        run: curl -fsSL "https://panel-worker.projectbykd.workers.dev/public/news-sitemap.xml" -o sitemap-news.xml
+      - name: Commit kalau ada perubahan
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if ! git diff --quiet -- sitemap-news.xml; then
+            git add sitemap-news.xml
+            git commit -m "chore: sync sitemap-news.xml"
+            git push
+          else
+            echo "Tidak ada perubahan."
+          fi
