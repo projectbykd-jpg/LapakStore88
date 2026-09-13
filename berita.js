@@ -85,7 +85,7 @@ function newsCategoryLabel(cat) {
 function newsCategoryIcon(cat) {
   return NEWS_CATEGORY_ICONS[cat] || NEWS_CATEGORY_ICONS.umum;
 }
-const NEWS_BRAND_LOGO = "https://i.ibb.co/7Jtv7WJs/image.png";
+const NEWS_BRAND_LOGO = "https://i.ibb.co/N6QjSXMW/cf486a22-b7cc-4e19-9b24-1b3515f697b6.png";
 
 // Pasang/timpa satu <meta> di <head> lewat atribut penanda (name/property) --
 // bikin baru kalau belum ada, update kalau sudah ada. Dipakai buat SEO per-
