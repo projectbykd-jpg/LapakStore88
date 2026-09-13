@@ -2852,7 +2852,15 @@ a.official-contact-card:hover { transform:translateY(-6px); border-color:rgba(34
 .news-see-all:hover { color: var(--brand); }
 
 .news-carousel-wrap { position: relative; max-width: 1180px; margin: 0 auto; }
-.news-carousel-track { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x proximity; padding: 4px 2px 10px; scrollbar-width: none; }
+/* align-items:flex-start -- default flex/grid row itu "stretch" (semua kartu
+   diregangkan setinggi kartu paling tinggi di baris yang sama). Sebelumnya
+   sudah dikasih tinggi TETAP di .news-mini-title (biar tidak beda-beda per
+   judul), tapi kartu tetap keregangan oleh baris & ruang sisanya nongol jadi
+   spasi kosong gede di bawah tanggal (bukan lagi di judul, tapi tetap
+   kelihatan "kartu ini kok kosong besar"). flex-start = tiap kartu berdiri
+   setinggi kontennya sendiri (yang sekarang sudah konsisten), tidak lagi
+   ikut-ikutan tetangganya. */
+.news-carousel-track { display: flex; align-items: flex-start; gap: 14px; overflow-x: auto; scroll-snap-type: x proximity; padding: 4px 2px 10px; scrollbar-width: none; }
 .news-carousel-track::-webkit-scrollbar { display: none; }
 .news-carousel-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 2; width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; color: #fff; background: rgba(5,11,20,.85); cursor: pointer; }
 .news-carousel-arrow:hover { border-color: rgba(250,204,21,.4); color: var(--brand); }
@@ -2880,7 +2888,7 @@ a.official-contact-card:hover { transform:translateY(-6px); border-color:rgba(34
 .news-mini-date { display: flex; align-items: center; gap: 5px; padding: 0 12px 12px; color: #7f8ea2; font-size: 9.5px; }
 
 .news-home-sections { padding: 8px 20px 50px; display: flex; flex-direction: column; gap: 34px; }
-.grid-news-mini { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 14px; }
+.grid-news-mini { display: grid; align-items: flex-start; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 14px; }
 
 .news-empty-state { grid-column: 1/-1; min-height: 180px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 30px; border: 1px dashed rgba(148,163,184,.2); border-radius: 18px; color: var(--muted); background: rgba(255,255,255,.02); text-align: center; }
 .news-empty-state i { color: #facc15; font-size: 30px; }
