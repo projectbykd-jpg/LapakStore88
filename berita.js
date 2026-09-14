@@ -199,6 +199,20 @@ async function newsFetchRandom(category, limit) {
   }
 }
 
+// Terpopuler BENERAN -- diurut backend dari jumlah pembaca asli (kolom views,
+// naik tiap artikel dibuka), bukan sekadar daftar artikel terbaru yang dilabeli
+// "populer" asal-asalan.
+async function newsFetchPopular(category, limit) {
+  try {
+    const params = new URLSearchParams({ popular: "1", limit: String(limit || 5) });
+    if (category) params.set("category", category);
+    const res = await fetch(`${NEWS_API_BASE}/public/news?${params.toString()}`);
+    return await res.json();
+  } catch (e) {
+    return { success: false, articles: [] };
+  }
+}
+
 // `depth` = berapa level folder halaman ini dari root ("" di root/berita.html;
 // "../../" di /berita/<kategori>/ MAUPUN /berita/artikel/ -- keduanya SAMA
 // dalamnya, 2 folder dari root) -- dipakai supaya satu fungsi render kartu
@@ -242,6 +256,31 @@ function newsMiniCardHtml(a, depth) {
     </article>`;
 }
 
+// Kartu hero besar di beranda (gaya portal berita: foto besar + judul tebal
+// menimpa gradasi di bagian bawah) -- artikel terbaru paling atas, biar
+// pengunjung langsung lihat berita paling anyar begitu buka situs.
+function newsHeroCardHtml(a, depth) {
+  return `
+    <a href="${newsArticleUrl(depth, a.id)}" class="news-hero-card">
+      <div class="news-hero-media">${newsMediaHtml(a.image_url)}</div>
+      <div class="news-hero-overlay">
+        <span class="news-hero-category">${newsEsc(newsCategoryLabel(a.category))}</span>
+        <h2 class="news-hero-title">${newsEsc(a.title)}</h2>
+        <span class="news-hero-meta"><i class="fa-regular fa-clock"></i> ${newsEsc(newsFormatDateCard(a.posted_at))}</span>
+      </div>
+    </a>`;
+}
+
+// Baris headline kecil di samping/bawah hero -- 4 artikel terbaru berikutnya,
+// judul saja tanpa foto (padat, khas tata letak "headline list" portal berita).
+function newsHeadlineRowHtml(a, depth) {
+  return `
+    <a href="${newsArticleUrl(depth, a.id)}" class="news-headline-item">
+      <span class="news-headline-cat">${newsEsc(newsCategoryLabel(a.category))}</span>
+      <span class="news-headline-title">${newsEsc(a.title)}</span>
+    </a>`;
+}
+
 function newsSkeletonHtml(n) {
   return `<div class="novel-loading-card"><i class="fa-solid fa-spinner fa-spin"></i><span>Memuat berita...</span></div>`;
 }
@@ -251,6 +290,20 @@ function newsSkeletonHtml(n) {
 // kosong otomatis dilewati, jadi tidak ada seksi kosong yang kelihatan jelek).
 // ---------------------------------------------------------------------------
 async function newsInitLanding() {
+  const heroHost = document.getElementById("newsHero");
+  if (heroHost) {
+    const heroData = await newsFetchList({ page: 1, pageSize: 6 });
+    if (heroData.success && heroData.articles.length) {
+      const [top, ...rest] = heroData.articles;
+      const headlines = rest.slice(0, 4);
+      heroHost.innerHTML = `
+        ${newsHeroCardHtml(top, "")}
+        <div class="news-headline-list">${headlines.map((a) => newsHeadlineRowHtml(a, "")).join("")}</div>`;
+    } else {
+      heroHost.closest(".news-hero-section")?.remove();
+    }
+  }
+
   const track = document.getElementById("newsCarouselTrack");
   if (track) {
     const data = await newsFetchList({ page: 1, pageSize: 10 });
@@ -374,9 +427,30 @@ async function newsInitArticlePage() {
 
     newsInitSidebar("../../", a.category);
     newsInitRelated("../../", a.category, Number(a.id));
+    newsInjectBacaJuga("../../", a.category, Number(a.id));
   } catch (e) {
     box.innerHTML = `<div class="news-empty-state"><i class="fa-solid fa-triangle-exclamation"></i><h3>Gagal memuat artikel</h3><p>Coba muat ulang halaman beberapa saat lagi.</p></div>`;
   }
+}
+
+// Kotak "Baca Juga" disisip DI TENGAH badan artikel (bukan cuma di akhir
+// seperti "Berita Lainnya") -- pola umum portal berita, sekaligus internal
+// link tambahan yang alami (bukan cuma keyword/backlink yang sudah ada).
+async function newsInjectBacaJuga(depth, category, excludeId) {
+  const body = document.querySelector("#newsArticleBox .news-article-body");
+  if (!body) return;
+  const paras = body.querySelectorAll("p");
+  if (paras.length < 3) return; // artikel terlalu pendek, jangan dipaksa disisip
+  const data = await newsFetchList({ category, page: 1, pageSize: 5 });
+  const pick = (data.success ? data.articles : []).find((a) => Number(a.id) !== excludeId);
+  if (!pick) return;
+  const box = document.createElement("div");
+  box.className = "news-baca-juga";
+  box.innerHTML = `
+    <span class="news-baca-juga-label"><i class="fa-solid fa-bookmark"></i> Baca Juga</span>
+    <a href="${newsArticleUrl(depth, pick.id)}">${newsEsc(pick.title)}</a>`;
+  const anchor = paras[Math.min(2, paras.length - 1)];
+  anchor.insertAdjacentElement("afterend", box);
 }
 
 // "Berita Lainnya" di akhir halaman artikel -- kategori sama, artikel ini dikecualikan.
@@ -398,9 +472,9 @@ async function newsInitSidebar(depth, category) {
   const host = document.getElementById("newsSidebar");
   if (!host) return;
 
-  const [bannerData, latestData, randomData] = await Promise.all([
+  const [bannerData, popularData, randomData] = await Promise.all([
     newsFetchBanner(),
-    newsFetchList({ page: 1, pageSize: 5 }),
+    newsFetchPopular("", 5),
     newsFetchRandom(category, 6),
   ]);
 
@@ -415,13 +489,13 @@ async function newsInitSidebar(depth, category) {
       </a>`;
   }
 
-  const latest = latestData.success ? latestData.articles : [];
-  if (latest.length) {
+  const popular = popularData.success ? popularData.articles : [];
+  if (popular.length) {
     html += `
       <div class="news-sidebar-box">
-        <div class="news-sidebar-title"><i class="fa-solid fa-fire-flame-curved"></i> Berita Lainnya</div>
+        <div class="news-sidebar-title"><i class="fa-solid fa-fire-flame-curved"></i> Terpopuler</div>
         <div class="news-sidebar-list">
-          ${latest
+          ${popular
             .map(
               (a, i) => `
             <a href="${newsArticleUrl(depth, a.id)}" class="news-sidebar-item">
