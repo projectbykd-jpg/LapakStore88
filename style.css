@@ -2839,7 +2839,7 @@ a.official-contact-card:hover { transform:translateY(-6px); border-color:rgba(34
 /* Konten mulai setelah header (76px) + sub-nav (~46px) supaya tidak ketutup. */
 .news-page main { padding-top: 132px; }
 
-.news-hero-compact { padding: 0 20px 26px; border-bottom: 1px solid var(--line); }
+.news-hero-compact { padding: 16px 20px 26px; border-bottom: 1px solid var(--line); }
 .news-hero-compact-inner { max-width: 1180px; margin: 0 auto; }
 .news-hero-compact-inner h1 { margin: 12px 0 8px; color: #fff; font-size: clamp(1.6rem,3.2vw,2.4rem); line-height: 1.2; letter-spacing: -.8px; max-width: 720px; }
 .news-hero-compact-inner p { max-width: 620px; color: var(--muted); font-size: 13px; }
@@ -3017,7 +3017,7 @@ a.official-contact-card:hover { transform:translateY(-6px); border-color:rgba(34
   .news-page main { padding-top: 112px; }
   .news-category-nav { top: 66px; padding: 10px 0; }
   .news-layout { padding: 14px 14px 50px; }
-  .news-hero-compact { padding: 0 14px 20px; }
+  .news-hero-compact { padding: 14px 14px 20px; }
   .news-carousel-section { padding: 22px 14px 6px; }
   .news-home-sections { padding: 6px 14px 40px; }
   .news-row { grid-template-columns: 1fr; }
