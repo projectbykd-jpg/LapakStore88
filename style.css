@@ -3024,3 +3024,36 @@ a.official-contact-card:hover { transform:translateY(-6px); border-color:rgba(34
   .news-row-media { aspect-ratio: 16/9; }
   .news-article-box { padding: 20px 16px; border-radius: 18px; }
 }
+
+/* ================= BRAND LOGO ala tema Blogger -- nama dua warna + tagline ================= */
+.logo.lapak-brand {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: 1;
+    color: inherit;
+    text-shadow: none;
+    letter-spacing: normal;
+}
+.logo.lapak-brand::after { content: none; }
+.lapak-brand-row { display: flex; align-items: center; font-size: 19px; font-weight: 800; letter-spacing: -.4px; }
+.brand-lapak { color: #f8fafc; }
+.brand-store88 {
+    background: linear-gradient(135deg, #fde047 0%, #f59e0b 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+.lapak-brand-tagline {
+    margin-top: 3px;
+    color: #94a3b8;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+@media (max-width: 680px) {
+  .lapak-brand-row { font-size: 16px; }
+  .lapak-brand-tagline { font-size: 6.5px; letter-spacing: 1px; }
+}
