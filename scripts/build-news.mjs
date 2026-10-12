@@ -306,7 +306,25 @@ function writeIfChanged(path, content) {
 	return true;
 }
 
+/** Cek kesehatan endpoint yang dipakai halaman (landing, sidebar, banner) -- hanya dicatat di log workflow, tidak menggagalkan. */
+async function probe() {
+	for (const q of ["page=1&pageSize=6", "banner=1", "popular=1&limit=5", "random=1&limit=6"]) {
+		const t = Date.now();
+		try {
+			const ctl = new AbortController();
+			const timer = setTimeout(() => ctl.abort(), 25000);
+			const r = await fetch(`${API}/public/news?${q}`, { signal: ctl.signal, headers: { origin: SITE } });
+			const txt = await r.text();
+			clearTimeout(timer);
+			console.log(`[cek] /public/news?${q} -> HTTP ${r.status} ${Date.now() - t} ms, cors=${r.headers.get("access-control-allow-origin")}, ${txt.slice(0, 160).replace(/\s+/g, " ")}`);
+		} catch (e) {
+			console.log(`[cek] /public/news?${q} -> GAGAL setelah ${Date.now() - t} ms: ${e.name === "AbortError" ? "tidak menjawab 25 dtk" : e.message}`);
+		}
+	}
+}
+
 export async function main() {
+	await probe();
 	const arts = await fetchAll();
 	if (!arts.length) {
 		console.log("Tidak ada artikel dari endpoint -- tidak mengubah apa pun (jaga-jaga endpoint bermasalah).");
