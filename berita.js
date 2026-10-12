@@ -219,8 +219,11 @@ async function newsFetchPopular(category, limit) {
 // bisa dipakai ulang di landing, kategori, & sidebar artikel tanpa link-nya
 // salah folder (dulu ke-tulis "../" doang utk kategori -> hasilnya
 // /berita/berita/artikel/, dobel "berita").
+// Artikel kini punya halaman STATIS sendiri (/berita/baca/<id>/, dibuat GitHub Action tiap 30 menit -- lihat
+// scripts/build-news.mjs). Artikel yang baru tayang & belum dibuatkan halamannya ditangani 404.html (dialihkan ke
+// tampilan dinamis lama /berita/artikel/?id=), jadi tautan tidak pernah buntu.
 function newsArticleUrl(depth, id) {
-  return `${depth}berita/artikel/?id=${id}`;
+  return `${depth}berita/baca/${id}/`;
 }
 function newsCategoryUrl(depth, cat) {
   return `${depth}berita/${encodeURIComponent(cat || "umum")}/`;
@@ -406,6 +409,18 @@ async function newsInitArticlePage() {
   const box = document.getElementById("newsArticleBox");
   if (!box) return;
   const id = new URLSearchParams(location.search).get("id");
+  // Sudah ada halaman statisnya? Pindah ke sana (judul/gambar tampil benar saat dibagikan & terbaca mesin pencari).
+  if (id && /^\d+$/.test(id)) {
+    try {
+      const head = await fetch(`/berita/baca/${id}/`, { method: "HEAD" });
+      if (head.ok) {
+        location.replace(`/berita/baca/${id}/`);
+        return;
+      }
+    } catch (e) {
+      /* lanjut tampil dinamis */
+    }
+  }
   if (!id) {
     box.innerHTML = `<div class="news-empty-state"><i class="fa-solid fa-circle-question"></i><h3>Artikel tidak ditemukan</h3><p>Link tidak lengkap. <a href="../../berita.html">Kembali ke Berita Terkini</a></p></div>`;
     return;
@@ -529,3 +544,54 @@ async function newsInitSidebar(depth, category) {
 
   host.innerHTML = html || `<div class="news-sidebar-box"><div class="news-sidebar-title"><i class="fa-solid fa-box-archive"></i> Arsip</div><p class="news-sidebar-empty">Belum ada artikel lain.</p></div>`;
 }
+
+
+// ---------------------------------------------------------------------------
+// Halaman artikel STATIS (berita/baca/<id>/index.html, dibuat scripts/build-news.mjs): isi sudah ada di HTML, JS hanya
+// menambah bagian hidup (sidebar terpopuler/arsip, "Baca Juga"), menghitung pembaca, bilah progres baca, dan tombol salin tautan.
+// ---------------------------------------------------------------------------
+function newsInitStaticArticle(id, category) {
+  // hitung pembaca (endpoint yang sama dengan tampilan dinamis -- kolom views tetap terisi untuk "Terpopuler")
+  try {
+    fetch(`${NEWS_API_BASE}/public/news?id=${encodeURIComponent(id)}`, { keepalive: true }).catch(() => {});
+  } catch (e) {}
+  newsInitSidebar("/", category);
+  newsInjectBacaJuga("/", category, Number(id));
+
+  const bar = document.getElementById("newsProgress");
+  const box = document.getElementById("newsArticleBox");
+  if (bar && box) {
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const r = box.getBoundingClientRect();
+      const total = Math.max(1, r.height - window.innerHeight * 0.6);
+      const done = Math.min(1, Math.max(0, -r.top / total));
+      bar.style.transform = `scaleX(${done})`;
+    };
+    window.addEventListener("scroll", () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    }, { passive: true });
+    update();
+  }
+  document.querySelectorAll(".news-copy-link").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const url = btn.getAttribute("data-url") || location.href;
+      try {
+        await navigator.clipboard.writeText(url);
+        btn.classList.add("is-done");
+        btn.innerHTML = '<i class="fa-solid fa-check"></i>';
+        setTimeout(() => {
+          btn.classList.remove("is-done");
+          btn.innerHTML = '<i class="fa-solid fa-link"></i>';
+        }, 1600);
+      } catch (e) {
+        prompt("Salin tautan ini:", url);
+      }
+    });
+  });
+}
+window.newsInitStaticArticle = newsInitStaticArticle;
