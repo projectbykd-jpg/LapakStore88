@@ -245,7 +245,7 @@ export function articlePage(a, related, prevNext) {
     </div>
   </main>
 ${footerHtml()}
-  <script src="/berita.js?v=4"></script>
+  <script src="/berita.js?v=5"></script>
   <script>document.addEventListener('DOMContentLoaded', function () { newsInitStaticArticle(${a.id}, ${JSON.stringify(cat)}); });</script>
 </body>
 </html>
@@ -306,25 +306,51 @@ function writeIfChanged(path, content) {
 	return true;
 }
 
-/** Cek kesehatan endpoint yang dipakai halaman (landing, sidebar, banner) -- hanya dicatat di log workflow, tidak menggagalkan. */
-async function probe() {
-	for (const q of ["page=1&pageSize=6", "banner=1", "popular=1&limit=5", "random=1&limit=6"]) {
-		const t = Date.now();
-		try {
-			const ctl = new AbortController();
-			const timer = setTimeout(() => ctl.abort(), 25000);
-			const r = await fetch(`${API}/public/news?${q}`, { signal: ctl.signal, headers: { origin: SITE } });
-			const txt = await r.text();
-			clearTimeout(timer);
-			console.log(`[cek] /public/news?${q} -> HTTP ${r.status} ${Date.now() - t} ms, cors=${r.headers.get("access-control-allow-origin")}, ${txt.slice(0, 160).replace(/\s+/g, " ")}`);
-		} catch (e) {
-			console.log(`[cek] /public/news?${q} -> GAGAL setelah ${Date.now() - t} ms: ${e.name === "AbortError" ? "tidak menjawab 25 dtk" : e.message}`);
-		}
+/** Ambil JSON endpoint publik (batas waktu 25 dtk) + catat kesehatannya di log workflow. Tidak pernah melempar galat. */
+async function getPublic(q) {
+	const t = Date.now();
+	try {
+		const ctl = new AbortController();
+		const timer = setTimeout(() => ctl.abort(), 25000);
+		const r = await fetch(`${API}/public/news?${q}`, { signal: ctl.signal, headers: { origin: SITE } });
+		const txt = await r.text();
+		clearTimeout(timer);
+		console.log(`[cek] /public/news?${q} -> HTTP ${r.status} ${Date.now() - t} ms, cors=${r.headers.get("access-control-allow-origin")}`);
+		return r.ok ? JSON.parse(txt) : null;
+	} catch (e) {
+		console.log(`[cek] /public/news?${q} -> GAGAL setelah ${Date.now() - t} ms: ${e.name === "AbortError" ? "tidak menjawab 25 dtk" : e.message}`);
+		return null;
 	}
 }
 
+const SNAP_PER_LIST = 12;
+const snapItem = (a) => ({
+	id: Number(a.id),
+	title: String(a.title || ""),
+	excerpt: cut(a.excerpt || plain(a.rewritten_html), 180),
+	image_url: String(a.image_url || ""),
+	category: catOf(a.category),
+	source: String(a.source || ""),
+	posted_at: String(a.posted_at || ""),
+});
+
+/** Cadangan data untuk halaman (berita/data/home.json, satu domain dengan situs): dipakai berita.js bila API panel di
+ *  workers.dev tidak terjangkau dari jaringan pembaca (sebagian ISP memblokir/menggantung domain *.workers.dev). Tanpa
+ *  stempel waktu supaya file hanya berubah bila isinya berubah. */
+export function snapshotJson(arts, popular, banner) {
+	const categories = {};
+	for (const a of arts) {
+		const c = catOf(a.category);
+		const list = (categories[c] ||= []);
+		if (list.length < SNAP_PER_LIST) list.push(snapItem(a));
+	}
+	const pop = Array.isArray(popular) && popular.length ? popular : arts.slice(0, 5);
+	const b = banner && banner.image ? { image: String(banner.image), url: String(banner.url || ""), text: String(banner.text || "") } : null;
+	return JSON.stringify({ latest: arts.slice(0, SNAP_PER_LIST).map(snapItem), categories, popular: pop.slice(0, 8).map(snapItem), banner: b });
+}
+
 export async function main() {
-	await probe();
+	const [, bannerData, popularData] = await Promise.all([getPublic("page=1&pageSize=6"), getPublic("banner=1"), getPublic("popular=1&limit=8")]);
 	const arts = await fetchAll();
 	if (!arts.length) {
 		console.log("Tidak ada artikel dari endpoint -- tidak mengubah apa pun (jaga-jaga endpoint bermasalah).");
@@ -359,6 +385,7 @@ export async function main() {
 		}
 	}
 	writeIfChanged(join(ROOT, "sitemap-news.xml"), sitemapXml(arts));
+	writeIfChanged(join(ROOT, "berita", "data", "home.json"), snapshotJson(arts, popularData?.articles, bannerData?.banner));
 	// indeks statis di halaman daftar
 	const landing = join(ROOT, "berita.html");
 	writeIfChanged(landing, injectIndex(readFileSync(landing, "utf8"), indexList(arts.slice(0, 40), "Indeks Berita Terbaru")));
