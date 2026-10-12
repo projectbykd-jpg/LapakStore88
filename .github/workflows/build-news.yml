@@ -1,0 +1,41 @@
+name: Build halaman berita statis
+
+# Situs ini statis (GitHub Pages). Artikel berita datang dari panel-worker (Cloudflare Worker). Workflow ini membuat
+# halaman statis per artikel (/berita/baca/<id>/), indeks tautan di halaman daftar, dan sitemap-news.xml -- supaya judul &
+# gambar artikel tampil saat dibagikan dan isi terbaca mesin pencari tanpa menjalankan JavaScript.
+# Menggantikan workflow lama "Sync sitemap-news.xml".
+on:
+  schedule:
+    - cron: "7,37 * * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-news
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Bangun halaman berita
+        run: node scripts/build-news.mjs
+      - name: Commit kalau ada perubahan
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A berita sitemap-news.xml berita.html
+          if git diff --cached --quiet; then
+            echo "Tidak ada perubahan."
+          else
+            git commit -q -m "chore: perbarui halaman berita statis"
+            git pull -q --rebase origin "${GITHUB_REF_NAME}" || true
+            git push -q
+          fi

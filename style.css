@@ -3057,3 +3057,6 @@ a.official-contact-card:hover { transform:translateY(-6px); border-color:rgba(34
   .lapak-brand-row { font-size: 16px; }
   .lapak-brand-tagline { font-size: 6.5px; letter-spacing: 1px; }
 }
+
+/* tautan Tentang & Kebijakan Privasi di footer halaman toko */
+.footer-mini-links{margin-top:8px;font-size:12px;color:#94a3b8}.footer-mini-links a{color:#cbd5e1;text-decoration:none}.footer-mini-links a:hover{color:#facc15}
