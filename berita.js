@@ -160,57 +160,118 @@ window.newsImgFallback = function (img) {
   img.parentNode.innerHTML = newsPlaceholderHtml();
 };
 
-async function newsFetchList(opts) {
-  opts = opts || {};
-  const params = new URLSearchParams();
-  if (opts.category) params.set("category", opts.category);
-  params.set("page", String(opts.page || 1));
-  params.set("pageSize", String(opts.pageSize || NEWS_PAGE_SIZE));
+// API panel ada di *.workers.dev. Sebagian ISP memblokir domain itu dengan cara MENGGANTUNG koneksi (tidak gagal, tidak
+// menjawab) -- dulu fetch tanpa batas waktu membuat "Memuat berita utama..." berputar selamanya dan sidebar (banner,
+// terpopuler, arsip) kosong. Sekarang: tiap panggilan dibatasi NEWS_API_TIMEOUT_MS; begitu sekali gagal, sisa halaman
+// langsung memakai cadangan /berita/data/home.json (satu domain dengan situs, diperbarui GitHub Action tiap 30 menit --
+// scripts/build-news.mjs) tanpa menunggu lagi.
+const NEWS_API_TIMEOUT_MS = 4000;
+let newsApiDown = false;
+let newsSnapPromise = null;
+const newsInFlight = new Set();
+
+function newsSnapshot() {
+  if (!newsSnapPromise) {
+    newsSnapPromise = fetch("/berita/data/home.json")
+      .then((r) => (r.ok ? r.json() : null))
+      .catch(() => null);
+  }
+  return newsSnapPromise;
+}
+
+async function newsApiJson(query, timeoutMs) {
+  if (newsApiDown) throw new Error("API tidak terjangkau");
+  const ctl = typeof AbortController === "function" ? new AbortController() : null;
+  const timer = ctl ? setTimeout(() => ctl.abort(), timeoutMs || NEWS_API_TIMEOUT_MS) : null;
+  if (ctl) newsInFlight.add(ctl);
   try {
-    const res = await fetch(`${NEWS_API_BASE}/public/news?${params.toString()}`);
+    const res = await fetch(`${NEWS_API_BASE}/public/news?${query}`, ctl ? { signal: ctl.signal } : undefined);
+    if (!res.ok) throw new Error("HTTP " + res.status);
     return await res.json();
   } catch (e) {
-    return { success: false, articles: [], total: 0 };
+    newsApiDown = true;
+    newsInFlight.forEach((c) => c.abort()); // panggilan lain yang masih menunggu ikut beralih ke cadangan
+    throw e;
+  } finally {
+    if (timer) clearTimeout(timer);
+    if (ctl) newsInFlight.delete(ctl);
   }
 }
 
+function newsShuffle(list) {
+  const a = list.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+async function newsFetchList(opts) {
+  opts = opts || {};
+  const page = opts.page || 1;
+  const pageSize = opts.pageSize || NEWS_PAGE_SIZE;
+  const params = new URLSearchParams();
+  if (opts.category) params.set("category", opts.category);
+  params.set("page", String(page));
+  params.set("pageSize", String(pageSize));
+  try {
+    const data = await newsApiJson(params.toString());
+    if (data && data.success) return data;
+  } catch (e) {
+    /* pakai cadangan */
+  }
+  const snap = await newsSnapshot();
+  const all = (snap && (opts.category ? (snap.categories || {})[opts.category] : snap.latest)) || [];
+  if (!snap) return { success: false, articles: [], total: 0 };
+  return { success: true, articles: all.slice((page - 1) * pageSize, page * pageSize), total: all.length };
+}
+
 async function newsFetchDetail(id) {
-  const res = await fetch(`${NEWS_API_BASE}/public/news?id=${encodeURIComponent(id)}`);
-  return res.json();
+  return newsApiJson(`id=${encodeURIComponent(id)}`);
 }
 
 async function newsFetchBanner() {
   try {
-    const res = await fetch(`${NEWS_API_BASE}/public/news?banner=1`);
-    return await res.json();
+    const data = await newsApiJson("banner=1");
+    if (data && data.success) return data;
   } catch (e) {
-    return { success: false, banner: null };
+    /* pakai cadangan */
   }
+  const snap = await newsSnapshot();
+  return { success: !!(snap && snap.banner), banner: snap ? snap.banner : null };
 }
 
 async function newsFetchRandom(category, limit) {
+  limit = limit || 6;
   try {
-    const params = new URLSearchParams({ random: "1", limit: String(limit || 6) });
+    const params = new URLSearchParams({ random: "1", limit: String(limit) });
     if (category) params.set("category", category);
-    const res = await fetch(`${NEWS_API_BASE}/public/news?${params.toString()}`);
-    return await res.json();
+    const data = await newsApiJson(params.toString(), 6000); // acak memang lebih lambat dari daftar biasa
+    if (data && data.success) return data;
   } catch (e) {
-    return { success: false, articles: [] };
+    /* pakai cadangan */
   }
+  const snap = await newsSnapshot();
+  const pool = (snap && ((category && (snap.categories || {})[category]) || snap.latest)) || [];
+  return { success: !!snap, articles: newsShuffle(pool).slice(0, limit) };
 }
 
 // Terpopuler BENERAN -- diurut backend dari jumlah pembaca asli (kolom views,
 // naik tiap artikel dibuka), bukan sekadar daftar artikel terbaru yang dilabeli
-// "populer" asal-asalan.
+// "populer" asal-asalan. Cadangannya: daftar terpopuler saat halaman statis terakhir dibuat.
 async function newsFetchPopular(category, limit) {
+  limit = limit || 5;
   try {
-    const params = new URLSearchParams({ popular: "1", limit: String(limit || 5) });
+    const params = new URLSearchParams({ popular: "1", limit: String(limit) });
     if (category) params.set("category", category);
-    const res = await fetch(`${NEWS_API_BASE}/public/news?${params.toString()}`);
-    return await res.json();
+    const data = await newsApiJson(params.toString());
+    if (data && data.success) return data;
   } catch (e) {
-    return { success: false, articles: [] };
+    /* pakai cadangan */
   }
+  const snap = await newsSnapshot();
+  return { success: !!snap, articles: ((snap && snap.popular) || []).slice(0, limit) };
 }
 
 // `depth` = berapa level folder halaman ini dari root ("" di root/berita.html;
@@ -444,7 +505,7 @@ async function newsInitArticlePage() {
     newsInitRelated("../../", a.category, Number(a.id));
     newsInjectBacaJuga("../../", a.category, Number(a.id));
   } catch (e) {
-    box.innerHTML = `<div class="news-empty-state"><i class="fa-solid fa-triangle-exclamation"></i><h3>Gagal memuat artikel</h3><p>Coba muat ulang halaman beberapa saat lagi.</p></div>`;
+    box.innerHTML = `<div class="news-empty-state"><i class="fa-solid fa-triangle-exclamation"></i><h3>Artikel belum bisa dimuat</h3><p>Halaman permanennya sedang disiapkan (paling lama 30 menit). Coba lagi sebentar lagi, atau <a href="/berita.html">lihat berita lainnya</a>.</p></div>`;
   }
 }
 
@@ -554,7 +615,9 @@ function newsInitStaticArticle(id, category) {
   // hitung pembaca (endpoint yang sama dengan tampilan dinamis -- kolom views tetap terisi untuk "Terpopuler")
   try {
     fetch(`${NEWS_API_BASE}/public/news?id=${encodeURIComponent(id)}`, { keepalive: true }).catch(() => {});
-  } catch (e) {}
+  } catch (e) {
+    /* abaikan */
+  }
   newsInitSidebar("/", category);
   newsInjectBacaJuga("/", category, Number(id));
 
